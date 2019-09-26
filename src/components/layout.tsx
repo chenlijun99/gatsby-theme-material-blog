@@ -1,51 +1,53 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
+import React, { useState } from "react";
 
-import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import { CssBaseline, Box, Container, Fab } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-import Header from "./header"
-import "./layout.css"
+import Footer from "./footer";
+import Header from "./header";
+import ScrollTop from "./scrollTop";
+import Sidenav from "./sidenav";
 
-interface Props {
-  children?: any
-}
+const useStyles = makeStyles(theme => ({
+  toolbar: theme.mixins.toolbar,
+  sidenavDesktopDrawer: {
+    marginTop: theme.mixins.toolbar.minHeight,
+  },
+}));
 
-const Layout = ({ children }: Props) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
+const Layout: React.FC = ({ children }) => {
+  const classes = useStyles();
+
+  const backToTopAnchor = React.createRef<HTMLDivElement>();
+
+  const [sidenavOpen, setSidenavOpen] = useState(true);
 
   return (
-    <>
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0px 1.0875rem 1.45rem`,
-          paddingTop: 0,
-        }}
-      >
-        <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
-      </div>
-    </>
-  )
-}
+    <Box>
+      <CssBaseline />
+      <Header onToggleMainSidenav={() => setSidenavOpen(!sidenavOpen)} />
+      <Box display="flex" flexDirection="row">
+        <Sidenav
+          open={sidenavOpen}
+          onOpenStatusChange={open => setSidenavOpen(open)}
+          classes={{
+            desktopDrawer: classes.sidenavDesktopDrawer,
+          }}
+        />
+        <Box component="div" flexGrow={1}>
+          <div ref={backToTopAnchor} />
+          <Container component="main">{children}</Container>
+          <Footer />
+        </Box>
+      </Box>
+      <ScrollTop anchorRef={backToTopAnchor}>
+        <Fab color="secondary" size="small" aria-label="scroll back to top">
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollTop>
+    </Box>
+  );
+};
 
-export default Layout
+export default Layout;
