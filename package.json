@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "free-easy-blog",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "My knowledge base",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Lijun Chen <chenlijun1999@gmail.com>",
   "dependencies": {
     "gatsby": "^2.15.26",
     "gatsby-image": "^2.2.21",
@@ -35,9 +35,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/free-easy/free-easy.github.io"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/free-easy/free-easy.github.io/issues"
   }
 }
