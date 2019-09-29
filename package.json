@@ -1,7 +1,6 @@
 {
-  "name": "free-easy-blog",
-  "private": true,
-  "description": "My knowledge base",
+  "name": "gatsby-theme-material-blog",
+  "description": "Material Design blog theme built with Material-UI",
   "version": "0.1.0",
   "author": "Lijun Chen <chenlijun1999@gmail.com>",
   "dependencies": {
@@ -39,7 +38,12 @@
     "typescript": "^3.6.3"
   },
   "keywords": [
-    "gatsby"
+    "react",
+    "gatsby",
+    "blog",
+    "knowledge base",
+    "material-ui",
+    "material design"
   ],
   "license": "MIT",
   "scripts": {
@@ -54,9 +58,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/free-easy/free-easy.github.io"
+    "url": "https://github.com/free-easy/gatsby-theme-material-blog"
   },
   "bugs": {
-    "url": "https://github.com/free-easy/free-easy.github.io/issues"
+    "url": "https://github.com/free-easy/gatsby-theme-material-blog/issues"
   }
 }
