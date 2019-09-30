@@ -27,6 +27,7 @@
     "react-helmet": "^5.2.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.7.0",
     "@types/node": "^12.7.8",
     "@types/react": "^16.9.3",
     "@types/react-dom": "^16.9.1",
@@ -37,8 +38,11 @@
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.14.3",
+    "graphql": "^14.5.8",
     "prettier": "^1.18.2",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "@graphql-codegen/typescript": "1.7.0",
+    "@graphql-codegen/typescript-operations": "1.7.0"
   },
   "keywords": [
     "react",
@@ -57,7 +61,8 @@
     "serve": "gatsby serve -H 0.0.0.0 --port 8000",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
     "type-check": "tsc --noEmit",
-    "lint": "eslint --ext .tsx src/"
+    "lint": "eslint --ext .tsx src/",
+    "generate-graphql-types": "graphql-codegen --config codegen.yml"
   },
   "repository": {
     "type": "git",

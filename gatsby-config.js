@@ -1,6 +1,6 @@
 module.exports = themeOptions => {
-  themeOptions.contentPath = themeOptions.contentPath || 'content/posts';
-  themeOptions.basePath = themeOptions.basePath || '/';
+  themeOptions.contentPath = themeOptions.contentPath || "content/posts";
+  themeOptions.basePath = themeOptions.basePath || "/";
   return {
     siteMetadata: {
       title: `Knowledge Base`,
@@ -34,8 +34,8 @@ module.exports = themeOptions => {
               resolve: `gatsby-remark-katex`,
               options: {
                 // Add any KaTeX options from https://github.com/KaTeX/KaTeX/blob/master/docs/options.md here
-                strict: `ignore`
-              }
+                strict: `ignore`,
+              },
             },
             `gatsby-remark-smartypants`,
             `gatsby-remark-prismjs`,
@@ -44,5 +44,5 @@ module.exports = themeOptions => {
       },
       `gatsby-plugin-material-ui`,
     ],
-  }
+  };
 };
