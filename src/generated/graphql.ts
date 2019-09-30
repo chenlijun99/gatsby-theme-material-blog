@@ -404,6 +404,7 @@ export type File = Node & {
   internal: Internal,
   childImageSharp?: Maybe<ImageSharp>,
   childMarkdownRemark?: Maybe<MarkdownRemark>,
+  childJavascriptFrontmatter?: Maybe<JavascriptFrontmatter>,
 };
 
 
@@ -705,8 +706,8 @@ export enum FileFieldsEnum {
   ChildImageSharpInternalType = 'childImageSharp___internal___type',
   ChildMarkdownRemarkId = 'childMarkdownRemark___id',
   ChildMarkdownRemarkFrontmatterTitle = 'childMarkdownRemark___frontmatter___title',
-  ChildMarkdownRemarkFrontmatterPath = 'childMarkdownRemark___frontmatter___path',
-  ChildMarkdownRemarkFrontmatterDate = 'childMarkdownRemark___frontmatter___date',
+  ChildMarkdownRemarkFrontmatterName = 'childMarkdownRemark___frontmatter___name',
+  ChildMarkdownRemarkFrontmatterOpen = 'childMarkdownRemark___frontmatter___open',
   ChildMarkdownRemarkExcerpt = 'childMarkdownRemark___excerpt',
   ChildMarkdownRemarkRawMarkdownBody = 'childMarkdownRemark___rawMarkdownBody',
   ChildMarkdownRemarkFileAbsolutePath = 'childMarkdownRemark___fileAbsolutePath',
@@ -757,7 +758,125 @@ export enum FileFieldsEnum {
   ChildMarkdownRemarkInternalIgnoreType = 'childMarkdownRemark___internal___ignoreType',
   ChildMarkdownRemarkInternalMediaType = 'childMarkdownRemark___internal___mediaType',
   ChildMarkdownRemarkInternalOwner = 'childMarkdownRemark___internal___owner',
-  ChildMarkdownRemarkInternalType = 'childMarkdownRemark___internal___type'
+  ChildMarkdownRemarkInternalType = 'childMarkdownRemark___internal___type',
+  ChildJavascriptFrontmatterId = 'childJavascriptFrontmatter___id',
+  ChildJavascriptFrontmatterParentId = 'childJavascriptFrontmatter___parent___id',
+  ChildJavascriptFrontmatterParentParentId = 'childJavascriptFrontmatter___parent___parent___id',
+  ChildJavascriptFrontmatterParentParentChildren = 'childJavascriptFrontmatter___parent___parent___children',
+  ChildJavascriptFrontmatterParentChildren = 'childJavascriptFrontmatter___parent___children',
+  ChildJavascriptFrontmatterParentChildrenId = 'childJavascriptFrontmatter___parent___children___id',
+  ChildJavascriptFrontmatterParentChildrenChildren = 'childJavascriptFrontmatter___parent___children___children',
+  ChildJavascriptFrontmatterParentInternalContent = 'childJavascriptFrontmatter___parent___internal___content',
+  ChildJavascriptFrontmatterParentInternalContentDigest = 'childJavascriptFrontmatter___parent___internal___contentDigest',
+  ChildJavascriptFrontmatterParentInternalDescription = 'childJavascriptFrontmatter___parent___internal___description',
+  ChildJavascriptFrontmatterParentInternalFieldOwners = 'childJavascriptFrontmatter___parent___internal___fieldOwners',
+  ChildJavascriptFrontmatterParentInternalIgnoreType = 'childJavascriptFrontmatter___parent___internal___ignoreType',
+  ChildJavascriptFrontmatterParentInternalMediaType = 'childJavascriptFrontmatter___parent___internal___mediaType',
+  ChildJavascriptFrontmatterParentInternalOwner = 'childJavascriptFrontmatter___parent___internal___owner',
+  ChildJavascriptFrontmatterParentInternalType = 'childJavascriptFrontmatter___parent___internal___type',
+  ChildJavascriptFrontmatterChildren = 'childJavascriptFrontmatter___children',
+  ChildJavascriptFrontmatterChildrenId = 'childJavascriptFrontmatter___children___id',
+  ChildJavascriptFrontmatterChildrenParentId = 'childJavascriptFrontmatter___children___parent___id',
+  ChildJavascriptFrontmatterChildrenParentChildren = 'childJavascriptFrontmatter___children___parent___children',
+  ChildJavascriptFrontmatterChildrenChildren = 'childJavascriptFrontmatter___children___children',
+  ChildJavascriptFrontmatterChildrenChildrenId = 'childJavascriptFrontmatter___children___children___id',
+  ChildJavascriptFrontmatterChildrenChildrenChildren = 'childJavascriptFrontmatter___children___children___children',
+  ChildJavascriptFrontmatterChildrenInternalContent = 'childJavascriptFrontmatter___children___internal___content',
+  ChildJavascriptFrontmatterChildrenInternalContentDigest = 'childJavascriptFrontmatter___children___internal___contentDigest',
+  ChildJavascriptFrontmatterChildrenInternalDescription = 'childJavascriptFrontmatter___children___internal___description',
+  ChildJavascriptFrontmatterChildrenInternalFieldOwners = 'childJavascriptFrontmatter___children___internal___fieldOwners',
+  ChildJavascriptFrontmatterChildrenInternalIgnoreType = 'childJavascriptFrontmatter___children___internal___ignoreType',
+  ChildJavascriptFrontmatterChildrenInternalMediaType = 'childJavascriptFrontmatter___children___internal___mediaType',
+  ChildJavascriptFrontmatterChildrenInternalOwner = 'childJavascriptFrontmatter___children___internal___owner',
+  ChildJavascriptFrontmatterChildrenInternalType = 'childJavascriptFrontmatter___children___internal___type',
+  ChildJavascriptFrontmatterInternalContent = 'childJavascriptFrontmatter___internal___content',
+  ChildJavascriptFrontmatterInternalContentDigest = 'childJavascriptFrontmatter___internal___contentDigest',
+  ChildJavascriptFrontmatterInternalDescription = 'childJavascriptFrontmatter___internal___description',
+  ChildJavascriptFrontmatterInternalFieldOwners = 'childJavascriptFrontmatter___internal___fieldOwners',
+  ChildJavascriptFrontmatterInternalIgnoreType = 'childJavascriptFrontmatter___internal___ignoreType',
+  ChildJavascriptFrontmatterInternalMediaType = 'childJavascriptFrontmatter___internal___mediaType',
+  ChildJavascriptFrontmatterInternalOwner = 'childJavascriptFrontmatter___internal___owner',
+  ChildJavascriptFrontmatterInternalType = 'childJavascriptFrontmatter___internal___type',
+  ChildJavascriptFrontmatterNodeId = 'childJavascriptFrontmatter___node___id',
+  ChildJavascriptFrontmatterNodeChildren = 'childJavascriptFrontmatter___node___children',
+  ChildJavascriptFrontmatterNodeInternalContentDigest = 'childJavascriptFrontmatter___node___internal___contentDigest',
+  ChildJavascriptFrontmatterNodeInternalType = 'childJavascriptFrontmatter___node___internal___type',
+  ChildJavascriptFrontmatterNodeInternalMediaType = 'childJavascriptFrontmatter___node___internal___mediaType',
+  ChildJavascriptFrontmatterNodeInternalDescription = 'childJavascriptFrontmatter___node___internal___description',
+  ChildJavascriptFrontmatterNodeInternalCounter = 'childJavascriptFrontmatter___node___internal___counter',
+  ChildJavascriptFrontmatterNodeInternalOwner = 'childJavascriptFrontmatter___node___internal___owner',
+  ChildJavascriptFrontmatterNodeSourceInstanceName = 'childJavascriptFrontmatter___node___sourceInstanceName',
+  ChildJavascriptFrontmatterNodeAbsolutePath = 'childJavascriptFrontmatter___node___absolutePath',
+  ChildJavascriptFrontmatterNodeRelativePath = 'childJavascriptFrontmatter___node___relativePath',
+  ChildJavascriptFrontmatterNodeExtension = 'childJavascriptFrontmatter___node___extension',
+  ChildJavascriptFrontmatterNodeSize = 'childJavascriptFrontmatter___node___size',
+  ChildJavascriptFrontmatterNodePrettySize = 'childJavascriptFrontmatter___node___prettySize',
+  ChildJavascriptFrontmatterNodeModifiedTime = 'childJavascriptFrontmatter___node___modifiedTime',
+  ChildJavascriptFrontmatterNodeAccessTime = 'childJavascriptFrontmatter___node___accessTime',
+  ChildJavascriptFrontmatterNodeChangeTime = 'childJavascriptFrontmatter___node___changeTime',
+  ChildJavascriptFrontmatterNodeBirthTime = 'childJavascriptFrontmatter___node___birthTime',
+  ChildJavascriptFrontmatterNodeRoot = 'childJavascriptFrontmatter___node___root',
+  ChildJavascriptFrontmatterNodeDir = 'childJavascriptFrontmatter___node___dir',
+  ChildJavascriptFrontmatterNodeBaseBirthtime = 'childJavascriptFrontmatter___node___base___birthtime',
+  ChildJavascriptFrontmatterNodeBaseBirthtimeMs = 'childJavascriptFrontmatter___node___base___birthtimeMs',
+  ChildJavascriptFrontmatterNodeBaseSourceInstanceName = 'childJavascriptFrontmatter___node___base___sourceInstanceName',
+  ChildJavascriptFrontmatterNodeBaseAbsolutePath = 'childJavascriptFrontmatter___node___base___absolutePath',
+  ChildJavascriptFrontmatterNodeBaseRelativePath = 'childJavascriptFrontmatter___node___base___relativePath',
+  ChildJavascriptFrontmatterNodeBaseExtension = 'childJavascriptFrontmatter___node___base___extension',
+  ChildJavascriptFrontmatterNodeBaseSize = 'childJavascriptFrontmatter___node___base___size',
+  ChildJavascriptFrontmatterNodeBasePrettySize = 'childJavascriptFrontmatter___node___base___prettySize',
+  ChildJavascriptFrontmatterNodeBaseModifiedTime = 'childJavascriptFrontmatter___node___base___modifiedTime',
+  ChildJavascriptFrontmatterNodeBaseAccessTime = 'childJavascriptFrontmatter___node___base___accessTime',
+  ChildJavascriptFrontmatterNodeBaseChangeTime = 'childJavascriptFrontmatter___node___base___changeTime',
+  ChildJavascriptFrontmatterNodeBaseBirthTime = 'childJavascriptFrontmatter___node___base___birthTime',
+  ChildJavascriptFrontmatterNodeBaseRoot = 'childJavascriptFrontmatter___node___base___root',
+  ChildJavascriptFrontmatterNodeBaseDir = 'childJavascriptFrontmatter___node___base___dir',
+  ChildJavascriptFrontmatterNodeBaseBase = 'childJavascriptFrontmatter___node___base___base',
+  ChildJavascriptFrontmatterNodeBaseExt = 'childJavascriptFrontmatter___node___base___ext',
+  ChildJavascriptFrontmatterNodeBaseName = 'childJavascriptFrontmatter___node___base___name',
+  ChildJavascriptFrontmatterNodeBaseRelativeDirectory = 'childJavascriptFrontmatter___node___base___relativeDirectory',
+  ChildJavascriptFrontmatterNodeBaseDev = 'childJavascriptFrontmatter___node___base___dev',
+  ChildJavascriptFrontmatterNodeBaseMode = 'childJavascriptFrontmatter___node___base___mode',
+  ChildJavascriptFrontmatterNodeBaseNlink = 'childJavascriptFrontmatter___node___base___nlink',
+  ChildJavascriptFrontmatterNodeBaseUid = 'childJavascriptFrontmatter___node___base___uid',
+  ChildJavascriptFrontmatterNodeBaseGid = 'childJavascriptFrontmatter___node___base___gid',
+  ChildJavascriptFrontmatterNodeBaseRdev = 'childJavascriptFrontmatter___node___base___rdev',
+  ChildJavascriptFrontmatterNodeBaseBlksize = 'childJavascriptFrontmatter___node___base___blksize',
+  ChildJavascriptFrontmatterNodeBaseIno = 'childJavascriptFrontmatter___node___base___ino',
+  ChildJavascriptFrontmatterNodeBaseBlocks = 'childJavascriptFrontmatter___node___base___blocks',
+  ChildJavascriptFrontmatterNodeBaseAtimeMs = 'childJavascriptFrontmatter___node___base___atimeMs',
+  ChildJavascriptFrontmatterNodeBaseMtimeMs = 'childJavascriptFrontmatter___node___base___mtimeMs',
+  ChildJavascriptFrontmatterNodeBaseCtimeMs = 'childJavascriptFrontmatter___node___base___ctimeMs',
+  ChildJavascriptFrontmatterNodeBaseAtime = 'childJavascriptFrontmatter___node___base___atime',
+  ChildJavascriptFrontmatterNodeBaseMtime = 'childJavascriptFrontmatter___node___base___mtime',
+  ChildJavascriptFrontmatterNodeBaseCtime = 'childJavascriptFrontmatter___node___base___ctime',
+  ChildJavascriptFrontmatterNodeBasePublicUrl = 'childJavascriptFrontmatter___node___base___publicURL',
+  ChildJavascriptFrontmatterNodeBaseId = 'childJavascriptFrontmatter___node___base___id',
+  ChildJavascriptFrontmatterNodeBaseChildren = 'childJavascriptFrontmatter___node___base___children',
+  ChildJavascriptFrontmatterNodeExt = 'childJavascriptFrontmatter___node___ext',
+  ChildJavascriptFrontmatterNodeName = 'childJavascriptFrontmatter___node___name',
+  ChildJavascriptFrontmatterNodeRelativeDirectory = 'childJavascriptFrontmatter___node___relativeDirectory',
+  ChildJavascriptFrontmatterNodeDev = 'childJavascriptFrontmatter___node___dev',
+  ChildJavascriptFrontmatterNodeMode = 'childJavascriptFrontmatter___node___mode',
+  ChildJavascriptFrontmatterNodeNlink = 'childJavascriptFrontmatter___node___nlink',
+  ChildJavascriptFrontmatterNodeUid = 'childJavascriptFrontmatter___node___uid',
+  ChildJavascriptFrontmatterNodeGid = 'childJavascriptFrontmatter___node___gid',
+  ChildJavascriptFrontmatterNodeRdev = 'childJavascriptFrontmatter___node___rdev',
+  ChildJavascriptFrontmatterNodeBlksize = 'childJavascriptFrontmatter___node___blksize',
+  ChildJavascriptFrontmatterNodeIno = 'childJavascriptFrontmatter___node___ino',
+  ChildJavascriptFrontmatterNodeBlocks = 'childJavascriptFrontmatter___node___blocks',
+  ChildJavascriptFrontmatterNodeAtimeMs = 'childJavascriptFrontmatter___node___atimeMs',
+  ChildJavascriptFrontmatterNodeMtimeMs = 'childJavascriptFrontmatter___node___mtimeMs',
+  ChildJavascriptFrontmatterNodeCtimeMs = 'childJavascriptFrontmatter___node___ctimeMs',
+  ChildJavascriptFrontmatterNodeBirthtimeMs = 'childJavascriptFrontmatter___node___birthtimeMs',
+  ChildJavascriptFrontmatterNodeAtime = 'childJavascriptFrontmatter___node___atime',
+  ChildJavascriptFrontmatterNodeMtime = 'childJavascriptFrontmatter___node___mtime',
+  ChildJavascriptFrontmatterNodeCtime = 'childJavascriptFrontmatter___node___ctime',
+  ChildJavascriptFrontmatterNodeBirthtime = 'childJavascriptFrontmatter___node___birthtime',
+  ChildJavascriptFrontmatterFrontmatterName = 'childJavascriptFrontmatter___frontmatter___name',
+  ChildJavascriptFrontmatterFrontmatterOpen = 'childJavascriptFrontmatter___frontmatter___open',
+  ChildJavascriptFrontmatterFrontmatterError = 'childJavascriptFrontmatter___frontmatter___error',
+  ChildJavascriptFrontmatterFileAbsolutePath = 'childJavascriptFrontmatter___fileAbsolutePath'
 }
 
 export type FileFilterInput = {
@@ -801,6 +920,7 @@ export type FileFilterInput = {
   internal?: Maybe<InternalFilterInput>,
   childImageSharp?: Maybe<ImageSharpFilterInput>,
   childMarkdownRemark?: Maybe<MarkdownRemarkFilterInput>,
+  childJavascriptFrontmatter?: Maybe<JavascriptFrontmatterFilterInput>,
 };
 
 export type FileGroupConnection = {
@@ -1355,6 +1475,443 @@ export type IntQueryOperatorInput = {
   nin?: Maybe<Array<Maybe<Scalars['Int']>>>,
 };
 
+export type JavascriptFrontmatter = Node & {
+   __typename?: 'JavascriptFrontmatter',
+  id: Scalars['ID'],
+  parent?: Maybe<Node>,
+  children: Array<Node>,
+  internal: Internal,
+  node?: Maybe<JavascriptFrontmatterNode>,
+  frontmatter?: Maybe<JavascriptFrontmatterFrontmatter>,
+  fileAbsolutePath?: Maybe<Scalars['String']>,
+};
+
+export type JavascriptFrontmatterConnection = {
+   __typename?: 'JavascriptFrontmatterConnection',
+  totalCount: Scalars['Int'],
+  edges: Array<JavascriptFrontmatterEdge>,
+  nodes: Array<JavascriptFrontmatter>,
+  pageInfo: PageInfo,
+  distinct: Array<Scalars['String']>,
+  group: Array<JavascriptFrontmatterGroupConnection>,
+};
+
+
+export type JavascriptFrontmatterConnectionDistinctArgs = {
+  field: JavascriptFrontmatterFieldsEnum
+};
+
+
+export type JavascriptFrontmatterConnectionGroupArgs = {
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>,
+  field: JavascriptFrontmatterFieldsEnum
+};
+
+export type JavascriptFrontmatterEdge = {
+   __typename?: 'JavascriptFrontmatterEdge',
+  next?: Maybe<JavascriptFrontmatter>,
+  node: JavascriptFrontmatter,
+  previous?: Maybe<JavascriptFrontmatter>,
+};
+
+export enum JavascriptFrontmatterFieldsEnum {
+  Id = 'id',
+  ParentId = 'parent___id',
+  ParentParentId = 'parent___parent___id',
+  ParentParentParentId = 'parent___parent___parent___id',
+  ParentParentParentChildren = 'parent___parent___parent___children',
+  ParentParentChildren = 'parent___parent___children',
+  ParentParentChildrenId = 'parent___parent___children___id',
+  ParentParentChildrenChildren = 'parent___parent___children___children',
+  ParentParentInternalContent = 'parent___parent___internal___content',
+  ParentParentInternalContentDigest = 'parent___parent___internal___contentDigest',
+  ParentParentInternalDescription = 'parent___parent___internal___description',
+  ParentParentInternalFieldOwners = 'parent___parent___internal___fieldOwners',
+  ParentParentInternalIgnoreType = 'parent___parent___internal___ignoreType',
+  ParentParentInternalMediaType = 'parent___parent___internal___mediaType',
+  ParentParentInternalOwner = 'parent___parent___internal___owner',
+  ParentParentInternalType = 'parent___parent___internal___type',
+  ParentChildren = 'parent___children',
+  ParentChildrenId = 'parent___children___id',
+  ParentChildrenParentId = 'parent___children___parent___id',
+  ParentChildrenParentChildren = 'parent___children___parent___children',
+  ParentChildrenChildren = 'parent___children___children',
+  ParentChildrenChildrenId = 'parent___children___children___id',
+  ParentChildrenChildrenChildren = 'parent___children___children___children',
+  ParentChildrenInternalContent = 'parent___children___internal___content',
+  ParentChildrenInternalContentDigest = 'parent___children___internal___contentDigest',
+  ParentChildrenInternalDescription = 'parent___children___internal___description',
+  ParentChildrenInternalFieldOwners = 'parent___children___internal___fieldOwners',
+  ParentChildrenInternalIgnoreType = 'parent___children___internal___ignoreType',
+  ParentChildrenInternalMediaType = 'parent___children___internal___mediaType',
+  ParentChildrenInternalOwner = 'parent___children___internal___owner',
+  ParentChildrenInternalType = 'parent___children___internal___type',
+  ParentInternalContent = 'parent___internal___content',
+  ParentInternalContentDigest = 'parent___internal___contentDigest',
+  ParentInternalDescription = 'parent___internal___description',
+  ParentInternalFieldOwners = 'parent___internal___fieldOwners',
+  ParentInternalIgnoreType = 'parent___internal___ignoreType',
+  ParentInternalMediaType = 'parent___internal___mediaType',
+  ParentInternalOwner = 'parent___internal___owner',
+  ParentInternalType = 'parent___internal___type',
+  Children = 'children',
+  ChildrenId = 'children___id',
+  ChildrenParentId = 'children___parent___id',
+  ChildrenParentParentId = 'children___parent___parent___id',
+  ChildrenParentParentChildren = 'children___parent___parent___children',
+  ChildrenParentChildren = 'children___parent___children',
+  ChildrenParentChildrenId = 'children___parent___children___id',
+  ChildrenParentChildrenChildren = 'children___parent___children___children',
+  ChildrenParentInternalContent = 'children___parent___internal___content',
+  ChildrenParentInternalContentDigest = 'children___parent___internal___contentDigest',
+  ChildrenParentInternalDescription = 'children___parent___internal___description',
+  ChildrenParentInternalFieldOwners = 'children___parent___internal___fieldOwners',
+  ChildrenParentInternalIgnoreType = 'children___parent___internal___ignoreType',
+  ChildrenParentInternalMediaType = 'children___parent___internal___mediaType',
+  ChildrenParentInternalOwner = 'children___parent___internal___owner',
+  ChildrenParentInternalType = 'children___parent___internal___type',
+  ChildrenChildren = 'children___children',
+  ChildrenChildrenId = 'children___children___id',
+  ChildrenChildrenParentId = 'children___children___parent___id',
+  ChildrenChildrenParentChildren = 'children___children___parent___children',
+  ChildrenChildrenChildren = 'children___children___children',
+  ChildrenChildrenChildrenId = 'children___children___children___id',
+  ChildrenChildrenChildrenChildren = 'children___children___children___children',
+  ChildrenChildrenInternalContent = 'children___children___internal___content',
+  ChildrenChildrenInternalContentDigest = 'children___children___internal___contentDigest',
+  ChildrenChildrenInternalDescription = 'children___children___internal___description',
+  ChildrenChildrenInternalFieldOwners = 'children___children___internal___fieldOwners',
+  ChildrenChildrenInternalIgnoreType = 'children___children___internal___ignoreType',
+  ChildrenChildrenInternalMediaType = 'children___children___internal___mediaType',
+  ChildrenChildrenInternalOwner = 'children___children___internal___owner',
+  ChildrenChildrenInternalType = 'children___children___internal___type',
+  ChildrenInternalContent = 'children___internal___content',
+  ChildrenInternalContentDigest = 'children___internal___contentDigest',
+  ChildrenInternalDescription = 'children___internal___description',
+  ChildrenInternalFieldOwners = 'children___internal___fieldOwners',
+  ChildrenInternalIgnoreType = 'children___internal___ignoreType',
+  ChildrenInternalMediaType = 'children___internal___mediaType',
+  ChildrenInternalOwner = 'children___internal___owner',
+  ChildrenInternalType = 'children___internal___type',
+  InternalContent = 'internal___content',
+  InternalContentDigest = 'internal___contentDigest',
+  InternalDescription = 'internal___description',
+  InternalFieldOwners = 'internal___fieldOwners',
+  InternalIgnoreType = 'internal___ignoreType',
+  InternalMediaType = 'internal___mediaType',
+  InternalOwner = 'internal___owner',
+  InternalType = 'internal___type',
+  NodeId = 'node___id',
+  NodeChildren = 'node___children',
+  NodeInternalContentDigest = 'node___internal___contentDigest',
+  NodeInternalType = 'node___internal___type',
+  NodeInternalMediaType = 'node___internal___mediaType',
+  NodeInternalDescription = 'node___internal___description',
+  NodeInternalCounter = 'node___internal___counter',
+  NodeInternalOwner = 'node___internal___owner',
+  NodeSourceInstanceName = 'node___sourceInstanceName',
+  NodeAbsolutePath = 'node___absolutePath',
+  NodeRelativePath = 'node___relativePath',
+  NodeExtension = 'node___extension',
+  NodeSize = 'node___size',
+  NodePrettySize = 'node___prettySize',
+  NodeModifiedTime = 'node___modifiedTime',
+  NodeAccessTime = 'node___accessTime',
+  NodeChangeTime = 'node___changeTime',
+  NodeBirthTime = 'node___birthTime',
+  NodeRoot = 'node___root',
+  NodeDir = 'node___dir',
+  NodeBaseBirthtime = 'node___base___birthtime',
+  NodeBaseBirthtimeMs = 'node___base___birthtimeMs',
+  NodeBaseSourceInstanceName = 'node___base___sourceInstanceName',
+  NodeBaseAbsolutePath = 'node___base___absolutePath',
+  NodeBaseRelativePath = 'node___base___relativePath',
+  NodeBaseExtension = 'node___base___extension',
+  NodeBaseSize = 'node___base___size',
+  NodeBasePrettySize = 'node___base___prettySize',
+  NodeBaseModifiedTime = 'node___base___modifiedTime',
+  NodeBaseAccessTime = 'node___base___accessTime',
+  NodeBaseChangeTime = 'node___base___changeTime',
+  NodeBaseBirthTime = 'node___base___birthTime',
+  NodeBaseRoot = 'node___base___root',
+  NodeBaseDir = 'node___base___dir',
+  NodeBaseBase = 'node___base___base',
+  NodeBaseExt = 'node___base___ext',
+  NodeBaseName = 'node___base___name',
+  NodeBaseRelativeDirectory = 'node___base___relativeDirectory',
+  NodeBaseDev = 'node___base___dev',
+  NodeBaseMode = 'node___base___mode',
+  NodeBaseNlink = 'node___base___nlink',
+  NodeBaseUid = 'node___base___uid',
+  NodeBaseGid = 'node___base___gid',
+  NodeBaseRdev = 'node___base___rdev',
+  NodeBaseBlksize = 'node___base___blksize',
+  NodeBaseIno = 'node___base___ino',
+  NodeBaseBlocks = 'node___base___blocks',
+  NodeBaseAtimeMs = 'node___base___atimeMs',
+  NodeBaseMtimeMs = 'node___base___mtimeMs',
+  NodeBaseCtimeMs = 'node___base___ctimeMs',
+  NodeBaseAtime = 'node___base___atime',
+  NodeBaseMtime = 'node___base___mtime',
+  NodeBaseCtime = 'node___base___ctime',
+  NodeBasePublicUrl = 'node___base___publicURL',
+  NodeBaseId = 'node___base___id',
+  NodeBaseParentId = 'node___base___parent___id',
+  NodeBaseParentChildren = 'node___base___parent___children',
+  NodeBaseChildren = 'node___base___children',
+  NodeBaseChildrenId = 'node___base___children___id',
+  NodeBaseChildrenChildren = 'node___base___children___children',
+  NodeBaseInternalContent = 'node___base___internal___content',
+  NodeBaseInternalContentDigest = 'node___base___internal___contentDigest',
+  NodeBaseInternalDescription = 'node___base___internal___description',
+  NodeBaseInternalFieldOwners = 'node___base___internal___fieldOwners',
+  NodeBaseInternalIgnoreType = 'node___base___internal___ignoreType',
+  NodeBaseInternalMediaType = 'node___base___internal___mediaType',
+  NodeBaseInternalOwner = 'node___base___internal___owner',
+  NodeBaseInternalType = 'node___base___internal___type',
+  NodeBaseChildImageSharpId = 'node___base___childImageSharp___id',
+  NodeBaseChildImageSharpChildren = 'node___base___childImageSharp___children',
+  NodeBaseChildMarkdownRemarkId = 'node___base___childMarkdownRemark___id',
+  NodeBaseChildMarkdownRemarkExcerpt = 'node___base___childMarkdownRemark___excerpt',
+  NodeBaseChildMarkdownRemarkRawMarkdownBody = 'node___base___childMarkdownRemark___rawMarkdownBody',
+  NodeBaseChildMarkdownRemarkFileAbsolutePath = 'node___base___childMarkdownRemark___fileAbsolutePath',
+  NodeBaseChildMarkdownRemarkHtml = 'node___base___childMarkdownRemark___html',
+  NodeBaseChildMarkdownRemarkHtmlAst = 'node___base___childMarkdownRemark___htmlAst',
+  NodeBaseChildMarkdownRemarkExcerptAst = 'node___base___childMarkdownRemark___excerptAst',
+  NodeBaseChildMarkdownRemarkHeadings = 'node___base___childMarkdownRemark___headings',
+  NodeBaseChildMarkdownRemarkTimeToRead = 'node___base___childMarkdownRemark___timeToRead',
+  NodeBaseChildMarkdownRemarkTableOfContents = 'node___base___childMarkdownRemark___tableOfContents',
+  NodeBaseChildMarkdownRemarkChildren = 'node___base___childMarkdownRemark___children',
+  NodeBaseChildJavascriptFrontmatterId = 'node___base___childJavascriptFrontmatter___id',
+  NodeBaseChildJavascriptFrontmatterChildren = 'node___base___childJavascriptFrontmatter___children',
+  NodeBaseChildJavascriptFrontmatterFileAbsolutePath = 'node___base___childJavascriptFrontmatter___fileAbsolutePath',
+  NodeExt = 'node___ext',
+  NodeName = 'node___name',
+  NodeRelativeDirectory = 'node___relativeDirectory',
+  NodeDev = 'node___dev',
+  NodeMode = 'node___mode',
+  NodeNlink = 'node___nlink',
+  NodeUid = 'node___uid',
+  NodeGid = 'node___gid',
+  NodeRdev = 'node___rdev',
+  NodeBlksize = 'node___blksize',
+  NodeIno = 'node___ino',
+  NodeBlocks = 'node___blocks',
+  NodeAtimeMs = 'node___atimeMs',
+  NodeMtimeMs = 'node___mtimeMs',
+  NodeCtimeMs = 'node___ctimeMs',
+  NodeBirthtimeMs = 'node___birthtimeMs',
+  NodeAtime = 'node___atime',
+  NodeMtime = 'node___mtime',
+  NodeCtime = 'node___ctime',
+  NodeBirthtime = 'node___birthtime',
+  FrontmatterName = 'frontmatter___name',
+  FrontmatterOpen = 'frontmatter___open',
+  FrontmatterError = 'frontmatter___error',
+  FileAbsolutePath = 'fileAbsolutePath'
+}
+
+export type JavascriptFrontmatterFilterInput = {
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>,
+  node?: Maybe<JavascriptFrontmatterNodeFilterInput>,
+  frontmatter?: Maybe<JavascriptFrontmatterFrontmatterFilterInput>,
+  fileAbsolutePath?: Maybe<StringQueryOperatorInput>,
+};
+
+export type JavascriptFrontmatterFrontmatter = {
+   __typename?: 'JavascriptFrontmatterFrontmatter',
+  name?: Maybe<Scalars['String']>,
+  open?: Maybe<Scalars['Boolean']>,
+  error?: Maybe<Scalars['Boolean']>,
+};
+
+export type JavascriptFrontmatterFrontmatterFilterInput = {
+  name?: Maybe<StringQueryOperatorInput>,
+  open?: Maybe<BooleanQueryOperatorInput>,
+  error?: Maybe<BooleanQueryOperatorInput>,
+};
+
+export type JavascriptFrontmatterGroupConnection = {
+   __typename?: 'JavascriptFrontmatterGroupConnection',
+  totalCount: Scalars['Int'],
+  edges: Array<JavascriptFrontmatterEdge>,
+  nodes: Array<JavascriptFrontmatter>,
+  pageInfo: PageInfo,
+  field: Scalars['String'],
+  fieldValue?: Maybe<Scalars['String']>,
+};
+
+export type JavascriptFrontmatterNode = {
+   __typename?: 'JavascriptFrontmatterNode',
+  id?: Maybe<Scalars['String']>,
+  children?: Maybe<Array<Maybe<Scalars['String']>>>,
+  internal?: Maybe<JavascriptFrontmatterNodeInternal>,
+  sourceInstanceName?: Maybe<Scalars['String']>,
+  absolutePath?: Maybe<Scalars['String']>,
+  relativePath?: Maybe<Scalars['String']>,
+  extension?: Maybe<Scalars['String']>,
+  size?: Maybe<Scalars['Int']>,
+  prettySize?: Maybe<Scalars['String']>,
+  modifiedTime?: Maybe<Scalars['Date']>,
+  accessTime?: Maybe<Scalars['Date']>,
+  changeTime?: Maybe<Scalars['Date']>,
+  birthTime?: Maybe<Scalars['Date']>,
+  root?: Maybe<Scalars['String']>,
+  dir?: Maybe<Scalars['String']>,
+  base?: Maybe<File>,
+  ext?: Maybe<Scalars['String']>,
+  name?: Maybe<Scalars['String']>,
+  relativeDirectory?: Maybe<Scalars['String']>,
+  dev?: Maybe<Scalars['Int']>,
+  mode?: Maybe<Scalars['Int']>,
+  nlink?: Maybe<Scalars['Int']>,
+  uid?: Maybe<Scalars['Int']>,
+  gid?: Maybe<Scalars['Int']>,
+  rdev?: Maybe<Scalars['Int']>,
+  blksize?: Maybe<Scalars['Int']>,
+  ino?: Maybe<Scalars['Int']>,
+  blocks?: Maybe<Scalars['Int']>,
+  atimeMs?: Maybe<Scalars['Float']>,
+  mtimeMs?: Maybe<Scalars['Float']>,
+  ctimeMs?: Maybe<Scalars['Float']>,
+  birthtimeMs?: Maybe<Scalars['Float']>,
+  atime?: Maybe<Scalars['Date']>,
+  mtime?: Maybe<Scalars['Date']>,
+  ctime?: Maybe<Scalars['Date']>,
+  birthtime?: Maybe<Scalars['Date']>,
+};
+
+
+export type JavascriptFrontmatterNodeModifiedTimeArgs = {
+  formatString?: Maybe<Scalars['String']>,
+  fromNow?: Maybe<Scalars['Boolean']>,
+  difference?: Maybe<Scalars['String']>,
+  locale?: Maybe<Scalars['String']>
+};
+
+
+export type JavascriptFrontmatterNodeAccessTimeArgs = {
+  formatString?: Maybe<Scalars['String']>,
+  fromNow?: Maybe<Scalars['Boolean']>,
+  difference?: Maybe<Scalars['String']>,
+  locale?: Maybe<Scalars['String']>
+};
+
+
+export type JavascriptFrontmatterNodeChangeTimeArgs = {
+  formatString?: Maybe<Scalars['String']>,
+  fromNow?: Maybe<Scalars['Boolean']>,
+  difference?: Maybe<Scalars['String']>,
+  locale?: Maybe<Scalars['String']>
+};
+
+
+export type JavascriptFrontmatterNodeBirthTimeArgs = {
+  formatString?: Maybe<Scalars['String']>,
+  fromNow?: Maybe<Scalars['Boolean']>,
+  difference?: Maybe<Scalars['String']>,
+  locale?: Maybe<Scalars['String']>
+};
+
+
+export type JavascriptFrontmatterNodeAtimeArgs = {
+  formatString?: Maybe<Scalars['String']>,
+  fromNow?: Maybe<Scalars['Boolean']>,
+  difference?: Maybe<Scalars['String']>,
+  locale?: Maybe<Scalars['String']>
+};
+
+
+export type JavascriptFrontmatterNodeMtimeArgs = {
+  formatString?: Maybe<Scalars['String']>,
+  fromNow?: Maybe<Scalars['Boolean']>,
+  difference?: Maybe<Scalars['String']>,
+  locale?: Maybe<Scalars['String']>
+};
+
+
+export type JavascriptFrontmatterNodeCtimeArgs = {
+  formatString?: Maybe<Scalars['String']>,
+  fromNow?: Maybe<Scalars['Boolean']>,
+  difference?: Maybe<Scalars['String']>,
+  locale?: Maybe<Scalars['String']>
+};
+
+
+export type JavascriptFrontmatterNodeBirthtimeArgs = {
+  formatString?: Maybe<Scalars['String']>,
+  fromNow?: Maybe<Scalars['Boolean']>,
+  difference?: Maybe<Scalars['String']>,
+  locale?: Maybe<Scalars['String']>
+};
+
+export type JavascriptFrontmatterNodeFilterInput = {
+  id?: Maybe<StringQueryOperatorInput>,
+  children?: Maybe<StringQueryOperatorInput>,
+  internal?: Maybe<JavascriptFrontmatterNodeInternalFilterInput>,
+  sourceInstanceName?: Maybe<StringQueryOperatorInput>,
+  absolutePath?: Maybe<StringQueryOperatorInput>,
+  relativePath?: Maybe<StringQueryOperatorInput>,
+  extension?: Maybe<StringQueryOperatorInput>,
+  size?: Maybe<IntQueryOperatorInput>,
+  prettySize?: Maybe<StringQueryOperatorInput>,
+  modifiedTime?: Maybe<DateQueryOperatorInput>,
+  accessTime?: Maybe<DateQueryOperatorInput>,
+  changeTime?: Maybe<DateQueryOperatorInput>,
+  birthTime?: Maybe<DateQueryOperatorInput>,
+  root?: Maybe<StringQueryOperatorInput>,
+  dir?: Maybe<StringQueryOperatorInput>,
+  base?: Maybe<FileFilterInput>,
+  ext?: Maybe<StringQueryOperatorInput>,
+  name?: Maybe<StringQueryOperatorInput>,
+  relativeDirectory?: Maybe<StringQueryOperatorInput>,
+  dev?: Maybe<IntQueryOperatorInput>,
+  mode?: Maybe<IntQueryOperatorInput>,
+  nlink?: Maybe<IntQueryOperatorInput>,
+  uid?: Maybe<IntQueryOperatorInput>,
+  gid?: Maybe<IntQueryOperatorInput>,
+  rdev?: Maybe<IntQueryOperatorInput>,
+  blksize?: Maybe<IntQueryOperatorInput>,
+  ino?: Maybe<IntQueryOperatorInput>,
+  blocks?: Maybe<IntQueryOperatorInput>,
+  atimeMs?: Maybe<FloatQueryOperatorInput>,
+  mtimeMs?: Maybe<FloatQueryOperatorInput>,
+  ctimeMs?: Maybe<FloatQueryOperatorInput>,
+  birthtimeMs?: Maybe<FloatQueryOperatorInput>,
+  atime?: Maybe<DateQueryOperatorInput>,
+  mtime?: Maybe<DateQueryOperatorInput>,
+  ctime?: Maybe<DateQueryOperatorInput>,
+  birthtime?: Maybe<DateQueryOperatorInput>,
+};
+
+export type JavascriptFrontmatterNodeInternal = {
+   __typename?: 'JavascriptFrontmatterNodeInternal',
+  contentDigest?: Maybe<Scalars['String']>,
+  type?: Maybe<Scalars['String']>,
+  mediaType?: Maybe<Scalars['String']>,
+  description?: Maybe<Scalars['String']>,
+  counter?: Maybe<Scalars['Int']>,
+  owner?: Maybe<Scalars['String']>,
+};
+
+export type JavascriptFrontmatterNodeInternalFilterInput = {
+  contentDigest?: Maybe<StringQueryOperatorInput>,
+  type?: Maybe<StringQueryOperatorInput>,
+  mediaType?: Maybe<StringQueryOperatorInput>,
+  description?: Maybe<StringQueryOperatorInput>,
+  counter?: Maybe<IntQueryOperatorInput>,
+  owner?: Maybe<StringQueryOperatorInput>,
+};
+
+export type JavascriptFrontmatterSortInput = {
+  fields?: Maybe<Array<Maybe<JavascriptFrontmatterFieldsEnum>>>,
+  order?: Maybe<Array<Maybe<SortOrderEnum>>>,
+};
+
 
 export type JsonQueryOperatorInput = {
   eq?: Maybe<Scalars['JSON']>,
@@ -1471,8 +2028,8 @@ export type MarkdownRemarkEdge = {
 export enum MarkdownRemarkFieldsEnum {
   Id = 'id',
   FrontmatterTitle = 'frontmatter___title',
-  FrontmatterPath = 'frontmatter___path',
-  FrontmatterDate = 'frontmatter___date',
+  FrontmatterName = 'frontmatter___name',
+  FrontmatterOpen = 'frontmatter___open',
   Excerpt = 'excerpt',
   RawMarkdownBody = 'rawMarkdownBody',
   FileAbsolutePath = 'fileAbsolutePath',
@@ -1595,22 +2152,14 @@ export type MarkdownRemarkFilterInput = {
 export type MarkdownRemarkFrontmatter = {
    __typename?: 'MarkdownRemarkFrontmatter',
   title?: Maybe<Scalars['String']>,
-  path?: Maybe<Scalars['String']>,
-  date?: Maybe<Scalars['Date']>,
-};
-
-
-export type MarkdownRemarkFrontmatterDateArgs = {
-  formatString?: Maybe<Scalars['String']>,
-  fromNow?: Maybe<Scalars['Boolean']>,
-  difference?: Maybe<Scalars['String']>,
-  locale?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>,
+  open?: Maybe<Scalars['Boolean']>,
 };
 
 export type MarkdownRemarkFrontmatterFilterInput = {
   title?: Maybe<StringQueryOperatorInput>,
-  path?: Maybe<StringQueryOperatorInput>,
-  date?: Maybe<DateQueryOperatorInput>,
+  name?: Maybe<StringQueryOperatorInput>,
+  open?: Maybe<BooleanQueryOperatorInput>,
 };
 
 export type MarkdownRemarkGroupConnection = {
@@ -1639,6 +2188,160 @@ export type MarkdownWordCountFilterInput = {
   paragraphs?: Maybe<IntQueryOperatorInput>,
   sentences?: Maybe<IntQueryOperatorInput>,
   words?: Maybe<IntQueryOperatorInput>,
+};
+
+export type MaterialBlogThemeOptions = Node & {
+   __typename?: 'MaterialBlogThemeOptions',
+  basePath: Scalars['String'],
+  contentPath: Scalars['String'],
+  id: Scalars['ID'],
+  parent?: Maybe<Node>,
+  children: Array<Node>,
+  internal: Internal,
+};
+
+export type MaterialBlogThemeOptionsConnection = {
+   __typename?: 'MaterialBlogThemeOptionsConnection',
+  totalCount: Scalars['Int'],
+  edges: Array<MaterialBlogThemeOptionsEdge>,
+  nodes: Array<MaterialBlogThemeOptions>,
+  pageInfo: PageInfo,
+  distinct: Array<Scalars['String']>,
+  group: Array<MaterialBlogThemeOptionsGroupConnection>,
+};
+
+
+export type MaterialBlogThemeOptionsConnectionDistinctArgs = {
+  field: MaterialBlogThemeOptionsFieldsEnum
+};
+
+
+export type MaterialBlogThemeOptionsConnectionGroupArgs = {
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>,
+  field: MaterialBlogThemeOptionsFieldsEnum
+};
+
+export type MaterialBlogThemeOptionsEdge = {
+   __typename?: 'MaterialBlogThemeOptionsEdge',
+  next?: Maybe<MaterialBlogThemeOptions>,
+  node: MaterialBlogThemeOptions,
+  previous?: Maybe<MaterialBlogThemeOptions>,
+};
+
+export enum MaterialBlogThemeOptionsFieldsEnum {
+  BasePath = 'basePath',
+  ContentPath = 'contentPath',
+  Id = 'id',
+  ParentId = 'parent___id',
+  ParentParentId = 'parent___parent___id',
+  ParentParentParentId = 'parent___parent___parent___id',
+  ParentParentParentChildren = 'parent___parent___parent___children',
+  ParentParentChildren = 'parent___parent___children',
+  ParentParentChildrenId = 'parent___parent___children___id',
+  ParentParentChildrenChildren = 'parent___parent___children___children',
+  ParentParentInternalContent = 'parent___parent___internal___content',
+  ParentParentInternalContentDigest = 'parent___parent___internal___contentDigest',
+  ParentParentInternalDescription = 'parent___parent___internal___description',
+  ParentParentInternalFieldOwners = 'parent___parent___internal___fieldOwners',
+  ParentParentInternalIgnoreType = 'parent___parent___internal___ignoreType',
+  ParentParentInternalMediaType = 'parent___parent___internal___mediaType',
+  ParentParentInternalOwner = 'parent___parent___internal___owner',
+  ParentParentInternalType = 'parent___parent___internal___type',
+  ParentChildren = 'parent___children',
+  ParentChildrenId = 'parent___children___id',
+  ParentChildrenParentId = 'parent___children___parent___id',
+  ParentChildrenParentChildren = 'parent___children___parent___children',
+  ParentChildrenChildren = 'parent___children___children',
+  ParentChildrenChildrenId = 'parent___children___children___id',
+  ParentChildrenChildrenChildren = 'parent___children___children___children',
+  ParentChildrenInternalContent = 'parent___children___internal___content',
+  ParentChildrenInternalContentDigest = 'parent___children___internal___contentDigest',
+  ParentChildrenInternalDescription = 'parent___children___internal___description',
+  ParentChildrenInternalFieldOwners = 'parent___children___internal___fieldOwners',
+  ParentChildrenInternalIgnoreType = 'parent___children___internal___ignoreType',
+  ParentChildrenInternalMediaType = 'parent___children___internal___mediaType',
+  ParentChildrenInternalOwner = 'parent___children___internal___owner',
+  ParentChildrenInternalType = 'parent___children___internal___type',
+  ParentInternalContent = 'parent___internal___content',
+  ParentInternalContentDigest = 'parent___internal___contentDigest',
+  ParentInternalDescription = 'parent___internal___description',
+  ParentInternalFieldOwners = 'parent___internal___fieldOwners',
+  ParentInternalIgnoreType = 'parent___internal___ignoreType',
+  ParentInternalMediaType = 'parent___internal___mediaType',
+  ParentInternalOwner = 'parent___internal___owner',
+  ParentInternalType = 'parent___internal___type',
+  Children = 'children',
+  ChildrenId = 'children___id',
+  ChildrenParentId = 'children___parent___id',
+  ChildrenParentParentId = 'children___parent___parent___id',
+  ChildrenParentParentChildren = 'children___parent___parent___children',
+  ChildrenParentChildren = 'children___parent___children',
+  ChildrenParentChildrenId = 'children___parent___children___id',
+  ChildrenParentChildrenChildren = 'children___parent___children___children',
+  ChildrenParentInternalContent = 'children___parent___internal___content',
+  ChildrenParentInternalContentDigest = 'children___parent___internal___contentDigest',
+  ChildrenParentInternalDescription = 'children___parent___internal___description',
+  ChildrenParentInternalFieldOwners = 'children___parent___internal___fieldOwners',
+  ChildrenParentInternalIgnoreType = 'children___parent___internal___ignoreType',
+  ChildrenParentInternalMediaType = 'children___parent___internal___mediaType',
+  ChildrenParentInternalOwner = 'children___parent___internal___owner',
+  ChildrenParentInternalType = 'children___parent___internal___type',
+  ChildrenChildren = 'children___children',
+  ChildrenChildrenId = 'children___children___id',
+  ChildrenChildrenParentId = 'children___children___parent___id',
+  ChildrenChildrenParentChildren = 'children___children___parent___children',
+  ChildrenChildrenChildren = 'children___children___children',
+  ChildrenChildrenChildrenId = 'children___children___children___id',
+  ChildrenChildrenChildrenChildren = 'children___children___children___children',
+  ChildrenChildrenInternalContent = 'children___children___internal___content',
+  ChildrenChildrenInternalContentDigest = 'children___children___internal___contentDigest',
+  ChildrenChildrenInternalDescription = 'children___children___internal___description',
+  ChildrenChildrenInternalFieldOwners = 'children___children___internal___fieldOwners',
+  ChildrenChildrenInternalIgnoreType = 'children___children___internal___ignoreType',
+  ChildrenChildrenInternalMediaType = 'children___children___internal___mediaType',
+  ChildrenChildrenInternalOwner = 'children___children___internal___owner',
+  ChildrenChildrenInternalType = 'children___children___internal___type',
+  ChildrenInternalContent = 'children___internal___content',
+  ChildrenInternalContentDigest = 'children___internal___contentDigest',
+  ChildrenInternalDescription = 'children___internal___description',
+  ChildrenInternalFieldOwners = 'children___internal___fieldOwners',
+  ChildrenInternalIgnoreType = 'children___internal___ignoreType',
+  ChildrenInternalMediaType = 'children___internal___mediaType',
+  ChildrenInternalOwner = 'children___internal___owner',
+  ChildrenInternalType = 'children___internal___type',
+  InternalContent = 'internal___content',
+  InternalContentDigest = 'internal___contentDigest',
+  InternalDescription = 'internal___description',
+  InternalFieldOwners = 'internal___fieldOwners',
+  InternalIgnoreType = 'internal___ignoreType',
+  InternalMediaType = 'internal___mediaType',
+  InternalOwner = 'internal___owner',
+  InternalType = 'internal___type'
+}
+
+export type MaterialBlogThemeOptionsFilterInput = {
+  basePath?: Maybe<StringQueryOperatorInput>,
+  contentPath?: Maybe<StringQueryOperatorInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>,
+};
+
+export type MaterialBlogThemeOptionsGroupConnection = {
+   __typename?: 'MaterialBlogThemeOptionsGroupConnection',
+  totalCount: Scalars['Int'],
+  edges: Array<MaterialBlogThemeOptionsEdge>,
+  nodes: Array<MaterialBlogThemeOptions>,
+  pageInfo: PageInfo,
+  field: Scalars['String'],
+  fieldValue?: Maybe<Scalars['String']>,
+};
+
+export type MaterialBlogThemeOptionsSortInput = {
+  fields?: Maybe<Array<Maybe<MaterialBlogThemeOptionsFieldsEnum>>>,
+  order?: Maybe<Array<Maybe<SortOrderEnum>>>,
 };
 
 /** Node Interface */
@@ -1699,6 +2402,8 @@ export type Query = {
   allImageSharp: ImageSharpConnection,
   markdownRemark?: Maybe<MarkdownRemark>,
   allMarkdownRemark: MarkdownRemarkConnection,
+  materialBlogThemeOptions?: Maybe<MaterialBlogThemeOptions>,
+  allMaterialBlogThemeOptions: MaterialBlogThemeOptionsConnection,
   sitePage?: Maybe<SitePage>,
   allSitePage: SitePageConnection,
   sitePlugin?: Maybe<SitePlugin>,
@@ -1707,6 +2412,8 @@ export type Query = {
   allSite: SiteConnection,
   directory?: Maybe<Directory>,
   allDirectory: DirectoryConnection,
+  javascriptFrontmatter?: Maybe<JavascriptFrontmatter>,
+  allJavascriptFrontmatter: JavascriptFrontmatterConnection,
 };
 
 
@@ -1750,7 +2457,8 @@ export type QueryFileArgs = {
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
   childImageSharp?: Maybe<ImageSharpFilterInput>,
-  childMarkdownRemark?: Maybe<MarkdownRemarkFilterInput>
+  childMarkdownRemark?: Maybe<MarkdownRemarkFilterInput>,
+  childJavascriptFrontmatter?: Maybe<JavascriptFrontmatterFilterInput>
 };
 
 
@@ -1811,6 +2519,24 @@ export type QueryAllMarkdownRemarkArgs = {
 };
 
 
+export type QueryMaterialBlogThemeOptionsArgs = {
+  basePath?: Maybe<StringQueryOperatorInput>,
+  contentPath?: Maybe<StringQueryOperatorInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>
+};
+
+
+export type QueryAllMaterialBlogThemeOptionsArgs = {
+  filter?: Maybe<MaterialBlogThemeOptionsFilterInput>,
+  sort?: Maybe<MaterialBlogThemeOptionsSortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
 export type QuerySitePageArgs = {
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
@@ -1821,6 +2547,7 @@ export type QuerySitePageArgs = {
   component?: Maybe<StringQueryOperatorInput>,
   componentChunkName?: Maybe<StringQueryOperatorInput>,
   isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
+  context?: Maybe<SitePageContextFilterInput>,
   pluginCreator?: Maybe<SitePluginFilterInput>,
   pluginCreatorId?: Maybe<StringQueryOperatorInput>,
   componentPath?: Maybe<StringQueryOperatorInput>
@@ -1926,6 +2653,25 @@ export type QueryDirectoryArgs = {
 export type QueryAllDirectoryArgs = {
   filter?: Maybe<DirectoryFilterInput>,
   sort?: Maybe<DirectorySortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+export type QueryJavascriptFrontmatterArgs = {
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>,
+  node?: Maybe<JavascriptFrontmatterNodeFilterInput>,
+  frontmatter?: Maybe<JavascriptFrontmatterFrontmatterFilterInput>,
+  fileAbsolutePath?: Maybe<StringQueryOperatorInput>
+};
+
+
+export type QueryAllJavascriptFrontmatterArgs = {
+  filter?: Maybe<JavascriptFrontmatterFilterInput>,
+  sort?: Maybe<JavascriptFrontmatterSortInput>,
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>
 };
@@ -2112,6 +2858,7 @@ export type SitePage = Node & {
   component?: Maybe<Scalars['String']>,
   componentChunkName?: Maybe<Scalars['String']>,
   isCreatedByStatefulCreatePages?: Maybe<Scalars['Boolean']>,
+  context?: Maybe<SitePageContext>,
   pluginCreator?: Maybe<SitePlugin>,
   pluginCreatorId?: Maybe<Scalars['String']>,
   componentPath?: Maybe<Scalars['String']>,
@@ -2137,6 +2884,15 @@ export type SitePageConnectionGroupArgs = {
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>,
   field: SitePageFieldsEnum
+};
+
+export type SitePageContext = {
+   __typename?: 'SitePageContext',
+  id?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextFilterInput = {
+  id?: Maybe<StringQueryOperatorInput>,
 };
 
 export type SitePageEdge = {
@@ -2238,6 +2994,7 @@ export enum SitePageFieldsEnum {
   Component = 'component',
   ComponentChunkName = 'componentChunkName',
   IsCreatedByStatefulCreatePages = 'isCreatedByStatefulCreatePages',
+  ContextId = 'context___id',
   PluginCreatorId = 'pluginCreator___id',
   PluginCreatorParentId = 'pluginCreator___parent___id',
   PluginCreatorParentParentId = 'pluginCreator___parent___parent___id',
@@ -2288,6 +3045,7 @@ export enum SitePageFieldsEnum {
   PluginCreatorPluginOptionsName = 'pluginCreator___pluginOptions___name',
   PluginCreatorPluginOptionsPath = 'pluginCreator___pluginOptions___path',
   PluginCreatorPluginOptionsStrict = 'pluginCreator___pluginOptions___strict',
+  PluginCreatorPluginOptionsComponent = 'pluginCreator___pluginOptions___component',
   PluginCreatorPluginOptionsShortName = 'pluginCreator___pluginOptions___short_name',
   PluginCreatorPluginOptionsStartUrl = 'pluginCreator___pluginOptions___start_url',
   PluginCreatorPluginOptionsBackgroundColor = 'pluginCreator___pluginOptions___background_color',
@@ -2328,6 +3086,7 @@ export type SitePageFilterInput = {
   component?: Maybe<StringQueryOperatorInput>,
   componentChunkName?: Maybe<StringQueryOperatorInput>,
   isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
+  context?: Maybe<SitePageContextFilterInput>,
   pluginCreator?: Maybe<SitePluginFilterInput>,
   pluginCreatorId?: Maybe<StringQueryOperatorInput>,
   componentPath?: Maybe<StringQueryOperatorInput>,
@@ -2494,6 +3253,7 @@ export enum SitePluginFieldsEnum {
   PluginOptionsName = 'pluginOptions___name',
   PluginOptionsPath = 'pluginOptions___path',
   PluginOptionsStrict = 'pluginOptions___strict',
+  PluginOptionsComponent = 'pluginOptions___component',
   PluginOptionsShortName = 'pluginOptions___short_name',
   PluginOptionsStartUrl = 'pluginOptions___start_url',
   PluginOptionsBackgroundColor = 'pluginOptions___background_color',
@@ -2624,6 +3384,7 @@ export type SitePluginPluginOptions = {
   name?: Maybe<Scalars['String']>,
   path?: Maybe<Scalars['String']>,
   strict?: Maybe<Scalars['String']>,
+  component?: Maybe<Scalars['String']>,
   short_name?: Maybe<Scalars['String']>,
   start_url?: Maybe<Scalars['String']>,
   background_color?: Maybe<Scalars['String']>,
@@ -2638,6 +3399,7 @@ export type SitePluginPluginOptionsFilterInput = {
   name?: Maybe<StringQueryOperatorInput>,
   path?: Maybe<StringQueryOperatorInput>,
   strict?: Maybe<StringQueryOperatorInput>,
+  component?: Maybe<StringQueryOperatorInput>,
   short_name?: Maybe<StringQueryOperatorInput>,
   start_url?: Maybe<StringQueryOperatorInput>,
   background_color?: Maybe<StringQueryOperatorInput>,
@@ -2851,24 +3613,43 @@ export type Unnamed_1_Query = (
   )> }
 );
 
+export type NavMenuPostsQueryVariables = {};
+
+
+export type NavMenuPostsQuery = (
+  { __typename?: 'Query' }
+  & { allFile: (
+    { __typename?: 'FileConnection' }
+    & { edges: Array<(
+      { __typename?: 'FileEdge' }
+      & { node: (
+        { __typename?: 'File' }
+        & Pick<File, 'relativePath' | 'name' | 'base' | 'extension'>
+        & { childMarkdownRemark: Maybe<(
+          { __typename?: 'MarkdownRemark' }
+          & { headings: Maybe<Array<Maybe<(
+            { __typename?: 'MarkdownHeading' }
+            & Pick<MarkdownHeading, 'value'>
+          )>>>, frontmatter: Maybe<(
+            { __typename?: 'MarkdownRemarkFrontmatter' }
+            & Pick<MarkdownRemarkFrontmatter, 'title' | 'name' | 'open'>
+          )> }
+        )>, childJavascriptFrontmatter: Maybe<(
+          { __typename?: 'JavascriptFrontmatter' }
+          & { frontmatter: Maybe<(
+            { __typename?: 'JavascriptFrontmatterFrontmatter' }
+            & Pick<JavascriptFrontmatterFrontmatter, 'name' | 'open'>
+          )> }
+        )> }
+      ) }
+    )> }
+  ) }
+);
+
 export type Unnamed_2_QueryVariables = {};
 
 
 export type Unnamed_2_Query = (
-  { __typename?: 'Query' }
-  & { site: Maybe<(
-    { __typename?: 'Site' }
-    & { siteMetadata: Maybe<(
-      { __typename?: 'SiteSiteMetadata' }
-      & Pick<SiteSiteMetadata, 'title'>
-    )> }
-  )> }
-);
-
-export type Unnamed_3_QueryVariables = {};
-
-
-export type Unnamed_3_Query = (
   { __typename?: 'Query' }
   & { site: Maybe<(
     { __typename?: 'Site' }
@@ -2879,19 +3660,26 @@ export type Unnamed_3_Query = (
   )> }
 );
 
-export type Unnamed_4_QueryVariables = {
-  path: Scalars['String']
+export type ThemeOptionsQueryVariables = {};
+
+
+export type ThemeOptionsQuery = (
+  { __typename?: 'Query' }
+  & { materialBlogThemeOptions: Maybe<(
+    { __typename?: 'MaterialBlogThemeOptions' }
+    & Pick<MaterialBlogThemeOptions, 'basePath' | 'contentPath'>
+  )> }
+);
+
+export type MarkdownPostQueryVariables = {
+  id: Scalars['String']
 };
 
 
-export type Unnamed_4_Query = (
+export type MarkdownPostQuery = (
   { __typename?: 'Query' }
   & { markdownRemark: Maybe<(
     { __typename?: 'MarkdownRemark' }
     & Pick<MarkdownRemark, 'html'>
-    & { frontmatter: Maybe<(
-      { __typename?: 'MarkdownRemarkFrontmatter' }
-      & Pick<MarkdownRemarkFrontmatter, 'date' | 'path' | 'title'>
-    )> }
   )> }
 );

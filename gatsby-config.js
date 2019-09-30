@@ -1,6 +1,8 @@
+const getThemeOptions = require("./src/utils/getThemeOptions");
+
 module.exports = themeOptions => {
-  themeOptions.contentPath = themeOptions.contentPath || "content/posts";
-  themeOptions.basePath = themeOptions.basePath || "/";
+  themeOptions = getThemeOptions(themeOptions);
+
   return {
     siteMetadata: {
       title: `Knowledge Base`,
@@ -22,10 +24,11 @@ module.exports = themeOptions => {
       {
         resolve: `gatsby-source-filesystem`,
         options: {
-          name: themeOptions.contentPath,
+          name: `posts`,
           path: themeOptions.contentPath,
         },
       },
+      "gatsby-transformer-javascript-frontmatter",
       {
         resolve: `gatsby-transformer-remark`,
         options: {
@@ -40,6 +43,12 @@ module.exports = themeOptions => {
             `gatsby-remark-smartypants`,
             `gatsby-remark-prismjs`,
           ],
+        },
+      },
+      {
+        resolve: `gatsby-plugin-layout`,
+        options: {
+          component: require.resolve(`./src/components/layout.tsx`),
         },
       },
       `gatsby-plugin-material-ui`,
