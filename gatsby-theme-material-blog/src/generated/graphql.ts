@@ -2194,6 +2194,7 @@ export type MaterialBlogThemeOptions = Node & {
    __typename?: 'MaterialBlogThemeOptions',
   basePath: Scalars['String'],
   contentPath: Scalars['String'],
+  coverImg: Scalars['String'],
   id: Scalars['ID'],
   parent?: Maybe<Node>,
   children: Array<Node>,
@@ -2232,6 +2233,7 @@ export type MaterialBlogThemeOptionsEdge = {
 export enum MaterialBlogThemeOptionsFieldsEnum {
   BasePath = 'basePath',
   ContentPath = 'contentPath',
+  CoverImg = 'coverImg',
   Id = 'id',
   ParentId = 'parent___id',
   ParentParentId = 'parent___parent___id',
@@ -2323,6 +2325,7 @@ export enum MaterialBlogThemeOptionsFieldsEnum {
 export type MaterialBlogThemeOptionsFilterInput = {
   basePath?: Maybe<StringQueryOperatorInput>,
   contentPath?: Maybe<StringQueryOperatorInput>,
+  coverImg?: Maybe<StringQueryOperatorInput>,
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
@@ -2522,6 +2525,7 @@ export type QueryAllMarkdownRemarkArgs = {
 export type QueryMaterialBlogThemeOptionsArgs = {
   basePath?: Maybe<StringQueryOperatorInput>,
   contentPath?: Maybe<StringQueryOperatorInput>,
+  coverImg?: Maybe<StringQueryOperatorInput>,
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
@@ -3061,6 +3065,7 @@ export enum SitePageFieldsEnum {
   PluginCreatorPackageJsonDescription = 'pluginCreator___packageJson___description',
   PluginCreatorPackageJsonVersion = 'pluginCreator___packageJson___version',
   PluginCreatorPackageJsonMain = 'pluginCreator___packageJson___main',
+  PluginCreatorPackageJsonAuthor = 'pluginCreator___packageJson___author',
   PluginCreatorPackageJsonLicense = 'pluginCreator___packageJson___license',
   PluginCreatorPackageJsonDependencies = 'pluginCreator___packageJson___dependencies',
   PluginCreatorPackageJsonDependenciesName = 'pluginCreator___packageJson___dependencies___name',
@@ -3269,6 +3274,7 @@ export enum SitePluginFieldsEnum {
   PackageJsonDescription = 'packageJson___description',
   PackageJsonVersion = 'packageJson___version',
   PackageJsonMain = 'packageJson___main',
+  PackageJsonAuthor = 'packageJson___author',
   PackageJsonLicense = 'packageJson___license',
   PackageJsonDependencies = 'packageJson___dependencies',
   PackageJsonDependenciesName = 'packageJson___dependencies___name',
@@ -3314,6 +3320,7 @@ export type SitePluginPackageJson = {
   description?: Maybe<Scalars['String']>,
   version?: Maybe<Scalars['String']>,
   main?: Maybe<Scalars['String']>,
+  author?: Maybe<Scalars['String']>,
   license?: Maybe<Scalars['String']>,
   dependencies?: Maybe<Array<Maybe<SitePluginPackageJsonDependencies>>>,
   devDependencies?: Maybe<Array<Maybe<SitePluginPackageJsonDevDependencies>>>,
@@ -3356,6 +3363,7 @@ export type SitePluginPackageJsonFilterInput = {
   description?: Maybe<StringQueryOperatorInput>,
   version?: Maybe<StringQueryOperatorInput>,
   main?: Maybe<StringQueryOperatorInput>,
+  author?: Maybe<StringQueryOperatorInput>,
   license?: Maybe<StringQueryOperatorInput>,
   dependencies?: Maybe<SitePluginPackageJsonDependenciesFilterListInput>,
   devDependencies?: Maybe<SitePluginPackageJsonDevDependenciesFilterListInput>,
@@ -3477,6 +3485,93 @@ export type StringQueryOperatorInput = {
   regex?: Maybe<Scalars['String']>,
   glob?: Maybe<Scalars['String']>,
 };
+export type Unnamed_1_QueryVariables = {};
+
+
+export type Unnamed_1_Query = (
+  { __typename?: 'Query' }
+  & { placeholderImage: Maybe<(
+    { __typename?: 'File' }
+    & { childImageSharp: Maybe<(
+      { __typename?: 'ImageSharp' }
+      & { fluid: Maybe<{ __typename?: 'ImageSharpFluid' }
+        & GatsbyImageSharpFluidFragment
+      > }
+    )> }
+  )> }
+);
+
+export type NavMenuPostsQueryVariables = {};
+
+
+export type NavMenuPostsQuery = (
+  { __typename?: 'Query' }
+  & { allFile: (
+    { __typename?: 'FileConnection' }
+    & { edges: Array<(
+      { __typename?: 'FileEdge' }
+      & { node: (
+        { __typename?: 'File' }
+        & Pick<File, 'relativePath' | 'name' | 'base' | 'extension'>
+        & { childMarkdownRemark: Maybe<(
+          { __typename?: 'MarkdownRemark' }
+          & { headings: Maybe<Array<Maybe<(
+            { __typename?: 'MarkdownHeading' }
+            & Pick<MarkdownHeading, 'value'>
+          )>>>, frontmatter: Maybe<(
+            { __typename?: 'MarkdownRemarkFrontmatter' }
+            & Pick<MarkdownRemarkFrontmatter, 'title' | 'name' | 'open'>
+          )> }
+        )>, childJavascriptFrontmatter: Maybe<(
+          { __typename?: 'JavascriptFrontmatter' }
+          & { frontmatter: Maybe<(
+            { __typename?: 'JavascriptFrontmatterFrontmatter' }
+            & Pick<JavascriptFrontmatterFrontmatter, 'name' | 'open'>
+          )> }
+        )> }
+      ) }
+    )> }
+  ) }
+);
+
+export type Unnamed_2_QueryVariables = {};
+
+
+export type Unnamed_2_Query = (
+  { __typename?: 'Query' }
+  & { site: Maybe<(
+    { __typename?: 'Site' }
+    & { siteMetadata: Maybe<(
+      { __typename?: 'SiteSiteMetadata' }
+      & Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>
+    )> }
+  )> }
+);
+
+export type ThemeOptionsQueryVariables = {};
+
+
+export type ThemeOptionsQuery = (
+  { __typename?: 'Query' }
+  & { materialBlogThemeOptions: Maybe<(
+    { __typename?: 'MaterialBlogThemeOptions' }
+    & Pick<MaterialBlogThemeOptions, 'basePath' | 'contentPath'>
+  )> }
+);
+
+export type MarkdownPostQueryVariables = {
+  id: Scalars['String']
+};
+
+
+export type MarkdownPostQuery = (
+  { __typename?: 'Query' }
+  & { markdownRemark: Maybe<(
+    { __typename?: 'MarkdownRemark' }
+    & Pick<MarkdownRemark, 'html'>
+  )> }
+);
+
 export type GatsbyImageSharpFixedFragment = (
   { __typename?: 'ImageSharpFixed' }
   & Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>
@@ -3595,91 +3690,4 @@ export type GatsbyImageSharpSizes_NoBase64Fragment = (
 export type GatsbyImageSharpSizes_WithWebp_NoBase64Fragment = (
   { __typename?: 'ImageSharpSizes' }
   & Pick<ImageSharpSizes, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>
-);
-
-export type Unnamed_1_QueryVariables = {};
-
-
-export type Unnamed_1_Query = (
-  { __typename?: 'Query' }
-  & { placeholderImage: Maybe<(
-    { __typename?: 'File' }
-    & { childImageSharp: Maybe<(
-      { __typename?: 'ImageSharp' }
-      & { fluid: Maybe<{ __typename?: 'ImageSharpFluid' }
-        & GatsbyImageSharpFluidFragment
-      > }
-    )> }
-  )> }
-);
-
-export type NavMenuPostsQueryVariables = {};
-
-
-export type NavMenuPostsQuery = (
-  { __typename?: 'Query' }
-  & { allFile: (
-    { __typename?: 'FileConnection' }
-    & { edges: Array<(
-      { __typename?: 'FileEdge' }
-      & { node: (
-        { __typename?: 'File' }
-        & Pick<File, 'relativePath' | 'name' | 'base' | 'extension'>
-        & { childMarkdownRemark: Maybe<(
-          { __typename?: 'MarkdownRemark' }
-          & { headings: Maybe<Array<Maybe<(
-            { __typename?: 'MarkdownHeading' }
-            & Pick<MarkdownHeading, 'value'>
-          )>>>, frontmatter: Maybe<(
-            { __typename?: 'MarkdownRemarkFrontmatter' }
-            & Pick<MarkdownRemarkFrontmatter, 'title' | 'name' | 'open'>
-          )> }
-        )>, childJavascriptFrontmatter: Maybe<(
-          { __typename?: 'JavascriptFrontmatter' }
-          & { frontmatter: Maybe<(
-            { __typename?: 'JavascriptFrontmatterFrontmatter' }
-            & Pick<JavascriptFrontmatterFrontmatter, 'name' | 'open'>
-          )> }
-        )> }
-      ) }
-    )> }
-  ) }
-);
-
-export type Unnamed_2_QueryVariables = {};
-
-
-export type Unnamed_2_Query = (
-  { __typename?: 'Query' }
-  & { site: Maybe<(
-    { __typename?: 'Site' }
-    & { siteMetadata: Maybe<(
-      { __typename?: 'SiteSiteMetadata' }
-      & Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>
-    )> }
-  )> }
-);
-
-export type ThemeOptionsQueryVariables = {};
-
-
-export type ThemeOptionsQuery = (
-  { __typename?: 'Query' }
-  & { materialBlogThemeOptions: Maybe<(
-    { __typename?: 'MaterialBlogThemeOptions' }
-    & Pick<MaterialBlogThemeOptions, 'basePath' | 'contentPath'>
-  )> }
-);
-
-export type MarkdownPostQueryVariables = {
-  id: Scalars['String']
-};
-
-
-export type MarkdownPostQuery = (
-  { __typename?: 'Query' }
-  & { markdownRemark: Maybe<(
-    { __typename?: 'MarkdownRemark' }
-    & Pick<MarkdownRemark, 'html'>
-  )> }
 );

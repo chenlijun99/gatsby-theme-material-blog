@@ -4,10 +4,10 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { CssBaseline, Box, Container, Fab } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Footer from "./footer";
-import Header from "./header";
-import ScrollTop from "./scrollTop";
-import Sidenav from "./sidenav";
+import Footer from "./Footer";
+import Header from "./Header";
+import ScrollTop from "./ScrollTop";
+import Sidenav from "./Sidenav";
 
 const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,

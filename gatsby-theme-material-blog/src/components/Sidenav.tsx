@@ -5,7 +5,7 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useMediaQuery } from "@material-ui/core";
 
-import NavMenu from "./navMenu";
+import NavMenu from "./NavMenu";
 
 interface Props {
   open: boolean;

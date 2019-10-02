@@ -48,7 +48,7 @@ module.exports = themeOptions => {
       {
         resolve: `gatsby-plugin-layout`,
         options: {
-          component: require.resolve(`./src/components/layout.tsx`),
+          component: require.resolve(`./src/components/Layout.tsx`),
         },
       },
       `gatsby-plugin-material-ui`,

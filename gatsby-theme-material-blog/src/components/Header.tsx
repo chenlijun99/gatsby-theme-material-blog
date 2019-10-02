@@ -13,7 +13,7 @@ import {
   useTheme,
 } from "@material-ui/core/styles";
 
-import SearchBar from "./searchbar";
+import SearchBar from "./Searchbar";
 
 const HideOnScroll: React.FC = props => {
   const { children } = props;
