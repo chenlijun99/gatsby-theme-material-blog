@@ -16,6 +16,7 @@ import { useStaticQuery, Link, graphql } from "gatsby";
 import { NavMenuPostsQuery } from "../generated/graphql";
 import useThemeOptions from "../hooks/useThemeOptions";
 import { ListSubheader } from "@material-ui/core";
+import { isObject } from "util";
 
 interface FileNode {
   name: string;
@@ -32,7 +33,7 @@ interface DirectoryNode {
 }
 
 function isDirectoryNode(object: unknown): object is DirectoryNode {
-  return !!object.children;
+  return !!(object && (object as DirectoryNode).children);
 }
 
 function selectFirstValidString(
