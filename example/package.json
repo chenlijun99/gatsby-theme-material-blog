@@ -1,0 +1,19 @@
+{
+  "name": "example",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop  -H 0.0.0.0",
+    "start": "npm run develop",
+    "serve": "gatsby serve -H 0.0.0.0 --port 8000"
+  },
+  "dependencies": {
+    "gatsby": "^2.15.28",
+    "gatsby-plugin-manifest": "^2.2.20",
+    "gatsby-plugin-offline": "^3.0.11",
+    "gatsby-theme-material-blog": "^0.0.1",
+    "react": "^16.10.1",
+    "react-dom": "^16.10.1"
+  }
+}

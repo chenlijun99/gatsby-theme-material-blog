@@ -1,78 +1,16 @@
 {
-  "name": "gatsby-theme-material-blog",
-  "description": "Material Design blog theme built with Material-UI",
-  "version": "0.1.0",
-  "author": "Lijun Chen <chenlijun1999@gmail.com>",
-  "dependencies": {
-    "@material-ui/core": "^4.4.3",
-    "@material-ui/icons": "^4.4.3",
-    "@material-ui/styles": "^4.4.3",
-    "@types/lodash": "^4.14.141",
-    "gatsby": "^2.15.26",
-    "gatsby-image": "^2.2.21",
-    "gatsby-plugin-layout": "^1.1.10",
-    "gatsby-plugin-material-ui": "^2.1.6",
-    "gatsby-plugin-react-helmet": "^3.1.8",
-    "gatsby-plugin-sharp": "^2.2.25",
-    "gatsby-plugin-typescript": "^2.1.11",
-    "gatsby-remark-katex": "^3.1.12",
-    "gatsby-remark-prismjs": "^3.3.16",
-    "gatsby-remark-smartypants": "^2.1.11",
-    "gatsby-source-filesystem": "^2.1.28",
-    "gatsby-transformer-javascript-frontmatter": "^2.1.11",
-    "gatsby-transformer-remark": "^2.6.26",
-    "gatsby-transformer-sharp": "^2.2.17",
-    "katex": "^0.11.1",
-    "lodash": "^4.17.15",
-    "prismjs": "^1.17.1",
-    "prop-types": "^15.7.2",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-helmet": "^5.2.1"
-  },
-  "devDependencies": {
-    "@graphql-codegen/cli": "^1.7.0",
-    "@types/node": "^12.7.8",
-    "@types/react": "^16.9.3",
-    "@types/react-dom": "^16.9.1",
-    "@types/react-helmet": "^5.0.10",
-    "@typescript-eslint/eslint-plugin": "^2.3.1",
-    "@typescript-eslint/parser": "^2.3.1",
-    "eslint": "^6.4.0",
-    "eslint-config-prettier": "^6.3.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-react": "^7.14.3",
-    "graphql": "^14.5.8",
-    "prettier": "^1.18.2",
-    "typescript": "^3.6.3",
-    "@graphql-codegen/typescript": "1.7.0",
-    "@graphql-codegen/typescript-operations": "1.7.0"
-  },
-  "keywords": [
-    "react",
-    "gatsby",
-    "blog",
-    "knowledge base",
-    "material-ui",
-    "material design"
-  ],
+  "name": "gatsby-theme-material-blog-workspace",
+  "private": true,
+  "version": "0.0.1",
+  "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop  -H 0.0.0.0",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
-    "serve": "gatsby serve -H 0.0.0.0 --port 8000",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
-    "type-check": "tsc --noEmit",
-    "lint": "eslint --ext .tsx src/",
-    "generate-graphql-types": "graphql-codegen --config codegen.yml"
+    "build": "yarn workspace example build",
+    "serve": "yarn workspace example serve",
+    "start": "yarn run develop",
+    "develop": "yarn workspace example develop",
+    "lint": "yarn workspace gatsby-theme-material-blog lint",
+    "generate-graphql-types": "yarn workspace gatsby-theme-material-blog generate-graphql-types"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/free-easy/gatsby-theme-material-blog"
-  },
-  "bugs": {
-    "url": "https://github.com/free-easy/gatsby-theme-material-blog/issues"
-  }
+  "workspaces": ["gatsby-theme-material-blog", "example"]
 }
