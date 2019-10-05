@@ -201,42 +201,43 @@ function getList(rootNode: RootNode, theme: Theme, level = 0) {
 }
 
 const NavMenu: React.FC = () => {
-  const data = useStaticQuery<NavMenuPostsQuery>(
-    graphql`
-      query NavMenuPosts {
-        allFile(filter: { sourceInstanceName: { eq: "posts" } }) {
-          edges {
-            node {
-              relativePath
-              name
-              base
-              extension
-              childMarkdownRemark {
-                headings(depth: h1) {
-                  value
-                }
-                frontmatter {
-                  title
-                  name
-                  open
-                }
-              }
-              childJavascriptFrontmatter {
-                frontmatter {
-                  name
-                  open
-                }
-              }
-            }
-          }
-        }
-      }
-    `
-  );
-  const rootNode = fillTree(data);
-  const theme = useTheme();
+  //const data = useStaticQuery<NavMenuPostsQuery>(
+  //graphql`
+  //query NavMenuPosts {
+  //allFile(filter: { sourceInstanceName: { eq: "posts" } }) {
+  //edges {
+  //node {
+  //relativePath
+  //name
+  //base
+  //extension
+  //childMarkdownRemark {
+  //headings(depth: h1) {
+  //value
+  //}
+  //frontmatter {
+  //title
+  //name
+  //open
+  //}
+  //}
+  //childJavascriptFrontmatter {
+  //frontmatter {
+  //name
+  //open
+  //}
+  //}
+  //}
+  //}
+  //}
+  //}
+  //`
+  //);
+  //const rootNode = fillTree(data);
+  //const theme = useTheme();
 
-  return getList(rootNode, theme);
+  //return getList(rootNode, theme);
+  return <></>;
 };
 
 export default NavMenu;

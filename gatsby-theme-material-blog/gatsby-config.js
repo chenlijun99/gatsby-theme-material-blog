@@ -16,6 +16,14 @@ module.exports = themeOptions => {
           ...themeOptions,
         },
       },
+      {
+        resolve: `gatsby-plugin-mdx`,
+        options: {
+          extensions: [`.mdx`, `.md`],
+          remarkPlugins: [require("remark-math")],
+          rehypePlugins: [require("rehype-katex")],
+        },
+      },
       `gatsby-plugin-typescript`,
       `gatsby-plugin-react-helmet`,
       {
@@ -27,30 +35,7 @@ module.exports = themeOptions => {
       },
       `gatsby-plugin-sharp`,
       `gatsby-transformer-sharp`,
-      {
-        resolve: `gatsby-source-filesystem`,
-        options: {
-          name: `posts`,
-          path: themeOptions.contentPath,
-        },
-      },
       "gatsby-transformer-javascript-frontmatter",
-      {
-        resolve: `gatsby-transformer-remark`,
-        options: {
-          plugins: [
-            {
-              resolve: `gatsby-remark-katex`,
-              options: {
-                // Add any KaTeX options from https://github.com/KaTeX/KaTeX/blob/master/docs/options.md here
-                strict: `ignore`,
-              },
-            },
-            `gatsby-remark-smartypants`,
-            `gatsby-remark-prismjs`,
-          ],
-        },
-      },
       {
         resolve: `gatsby-plugin-layout`,
         options: {
@@ -58,6 +43,7 @@ module.exports = themeOptions => {
         },
       },
       `gatsby-plugin-material-ui`,
+      `gatsby-plugin-theme-ui`,
     ],
   };
 };

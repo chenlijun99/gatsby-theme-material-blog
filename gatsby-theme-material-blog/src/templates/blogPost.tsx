@@ -7,10 +7,10 @@ export default function Template({ data }) {
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
-export const pageQuery = graphql`
-  query MarkdownPost($id: String!) {
-    markdownRemark(id: { eq: $id }) {
-      html
-    }
-  }
-`;
+//export const pageQuery = graphql`
+//query MarkdownPost($id: String!) {
+//markdownRemark(id: { eq: $id }) {
+//html
+//}
+//}
+//`;
