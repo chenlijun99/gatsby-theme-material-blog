@@ -10,6 +10,12 @@ module.exports = themeOptions => {
       author: `Lijun Chen`,
     },
     plugins: [
+      {
+        resolve: `gatsby-theme-blog-core`,
+        options: {
+          ...themeOptions,
+        },
+      },
       `gatsby-plugin-typescript`,
       `gatsby-plugin-react-helmet`,
       {
