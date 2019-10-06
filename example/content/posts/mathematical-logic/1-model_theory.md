@@ -1,3 +1,6 @@
+---
+date: 2019-10-06
+---
 # Introduction to model theory
 
 Science is about extracting the abstract, essential elements
