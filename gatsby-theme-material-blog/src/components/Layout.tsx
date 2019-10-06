@@ -8,7 +8,6 @@ import MDXProviderWrapper from "./MDXProviderWrapper";
 import Footer from "./Footer";
 import Header from "./Header";
 import ScrollTop from "./ScrollTop";
-import Sidenav from "./Sidenav";
 
 const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
@@ -22,21 +21,12 @@ const Layout: React.FC = ({ children }) => {
 
   const backToTopAnchor = React.createRef<HTMLDivElement>();
 
-  const [sidenavOpen, setSidenavOpen] = useState(true);
-
   return (
     <MDXProviderWrapper>
       <Box>
         <CssBaseline />
-        <Header onToggleMainSidenav={() => setSidenavOpen(!sidenavOpen)} />
+        <Header />
         <Box display="flex" flexDirection="row">
-          <Sidenav
-            open={sidenavOpen}
-            onOpenStatusChange={open => setSidenavOpen(open)}
-            classes={{
-              desktopDrawer: classes.sidenavDesktopDrawer,
-            }}
-          />
           <Box component="div" flexGrow={1}>
             <div ref={backToTopAnchor} />
             <Container component="main">{children}</Container>
