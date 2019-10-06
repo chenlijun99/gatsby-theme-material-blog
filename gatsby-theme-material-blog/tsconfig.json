@@ -9,8 +9,9 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-	"noImplicitAny": true,
-	"noImplicitThis": true,
-	"strictNullChecks": true
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "moduleResolution": "node"
   }
 }
