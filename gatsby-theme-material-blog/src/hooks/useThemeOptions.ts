@@ -6,15 +6,16 @@ import {
 } from "../generated/graphql";
 
 const useThemeOptions = () => {
-  //const data = useStaticQuery<ThemeOptionsQuery>(graphql`
-  //query ThemeOptions {
-  //materialBlogThemeOptions {
-  //basePath
-  //contentPath
-  //}
-  //}
-  //`);
-  //return data.materialBlogThemeOptions as MaterialBlogThemeOptions;
+  const data = useStaticQuery<ThemeOptionsQuery>(graphql`
+    query ThemeOptions {
+      materialBlogThemeOptions {
+        basePath
+        contentPath
+        assetPath
+      }
+    }
+  `);
+  return data.materialBlogThemeOptions as MaterialBlogThemeOptions;
 };
 
 export default useThemeOptions;

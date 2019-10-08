@@ -1,7 +1,7 @@
-const getThemeOptions = require("./src/utils/getThemeOptions");
+const withDefaultsOptions = require(`./src/utils/withDefaultOptions`);
 
 module.exports = themeOptions => {
-  themeOptions = getThemeOptions(themeOptions);
+  themeOptions = withDefaultsOptions(themeOptions);
 
   return {
     siteMetadata: {
@@ -11,9 +11,37 @@ module.exports = themeOptions => {
     },
     plugins: [
       {
-        resolve: `gatsby-theme-blog-core`,
+        resolve: `gatsby-source-filesystem`,
         options: {
-          ...themeOptions,
+          path: themeOptions.contentPath || `content/posts`,
+          name: themeOptions.contentPath || `content/posts`,
+        },
+      },
+      {
+        resolve: `gatsby-source-filesystem`,
+        options: {
+          path: themeOptions.assetPath || `content/assets`,
+          name: themeOptions.assetPath || `content/assets`,
+        },
+      },
+      `gatsby-transformer-sharp`,
+      `gatsby-plugin-sharp`,
+      {
+        resolve: `gatsby-plugin-mdx`,
+        options: {
+          extensions: [`.mdx`, `.md`],
+          gatsbyRemarkPlugins: [
+            {
+              resolve: `gatsby-remark-images`,
+              options: {
+                // should this be configurable by the end-user?
+                maxWidth: 1380,
+                linkImagesToOriginal: false,
+              },
+            },
+            { resolve: `gatsby-remark-smartypants` },
+          ],
+          remarkPlugins: [require(`remark-slug`)],
         },
       },
       {
