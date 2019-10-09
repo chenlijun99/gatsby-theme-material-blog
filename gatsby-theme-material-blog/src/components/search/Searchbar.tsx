@@ -1,5 +1,6 @@
 import React from "react";
 import InputBase from "@material-ui/core/InputBase";
+import { InputBaseComponentProps } from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import {
   createStyles,
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const SearchBar: React.FC = () => {
+const SearchBar: React.FC<InputBaseComponentProps> = props => {
   const classes = useStyles();
   return (
     <div className={classes.search}>
@@ -63,7 +64,7 @@ const SearchBar: React.FC = () => {
           root: classes.inputRoot,
           input: classes.inputInput,
         }}
-        inputProps={{ "aria-label": "search" }}
+        inputProps={{ "aria-label": "search", ...props }}
       />
     </div>
   );

@@ -1,7 +1,20 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const withDefaultsOptions = require(`./src/utils/withDefaultOptions`);
+const algoliaQueries = require("./src/utils/algoliaQueries");
 
 module.exports = themeOptions => {
   themeOptions = withDefaultsOptions(themeOptions);
+  if (
+    !(
+      process.env.GATSBY_ALGOLIA_APP_ID &&
+      process.env.GATSBY_ALGOLIA_SEARCH_KEY &&
+      process.env.ALGOLIA_ADMIN_KEY
+    )
+  ) {
+    console.error(
+      `GATSBY_ALGOLIA_APP_ID, GATSBY_ALGOLIA_SEARCH_KEY and ALGOLIA_ADMIN_KEY environment variables need to be defined`
+    );
+  }
 
   return {
     siteMetadata: {
@@ -22,6 +35,15 @@ module.exports = themeOptions => {
         options: {
           path: themeOptions.assetPath || `content/assets`,
           name: themeOptions.assetPath || `content/assets`,
+        },
+      },
+      {
+        resolve: `gatsby-plugin-algolia`,
+        options: {
+          appId: process.env.GATSBY_ALGOLIA_APP_ID,
+          apiKey: process.env.ALGOLIA_ADMIN_KEY,
+          queries: algoliaQueries,
+          chunkSize: 10000, // default: 1000
         },
       },
       `gatsby-transformer-sharp`,

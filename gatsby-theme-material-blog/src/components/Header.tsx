@@ -21,7 +21,7 @@ import {
 import { useStaticQuery, graphql } from "gatsby";
 import BackgroundImage from "gatsby-background-image";
 
-import SearchBar from "./Searchbar";
+import Search from "./search/";
 
 const TransformOnScroll: React.FC<{ children: React.ReactElement }> = props => {
   const { children } = props;
@@ -105,7 +105,7 @@ const CustomAppBar = React.forwardRef<Element, AppBarProps>((props, ref) => {
         >
           Material-UI
         </Typography>
-        <SearchBar />
+        <Search />
       </Toolbar>
     </AppBar>
   );

@@ -85,7 +85,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
           args: {
             pruneLength: {
               type: `Int`,
-              defaultValue: 140,
+              defaultValue: 100000,
             },
           },
           resolve: mdxResolverPassthrough(`excerpt`),
