@@ -69,7 +69,7 @@ const AlgoliaSearch: React.FC = () => {
     process.env.GATSBY_ALGOLIA_APP_ID!,
     process.env.GATSBY_ALGOLIA_SEARCH_KEY!
   );
-  useClickOutside(ref, () => setFocus(false));
+  //useClickOutside(ref, () => setFocus(false));
 
   return (
     <InstantSearch

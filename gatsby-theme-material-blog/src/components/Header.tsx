@@ -1,8 +1,7 @@
 /** @jsx jsx */
 import React from "react";
 
-import { useThemeUI, jsx } from "theme-ui";
-import { css } from "@emotion/core";
+import { useThemeUI, jsx, Styled } from "theme-ui";
 import { transparentize } from "polished";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -27,7 +26,7 @@ const TransformOnScroll: React.FC<{ children: React.ReactElement }> = props => {
   const { children } = props;
   const trigger = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 100,
+    threshold: 150,
   });
 
   const theme = useTheme();
@@ -72,12 +71,25 @@ const Cover: React.FC = props => {
   return (
     <BackgroundImage
       Tag="div"
+      css={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "50vh",
+      }}
       fluid={backgroundFluidImageStack}
       backgroundColor={`#040e18`}
-      css={css`
-        height: 50vh;
-      `}
-    ></BackgroundImage>
+    >
+      <h1
+        sx={{
+          color: theme => "white",
+          fontSize: 7,
+          fontFamily: "heading",
+        }}
+      >
+        Boolshelf
+      </h1>
+    </BackgroundImage>
   );
 };
 
