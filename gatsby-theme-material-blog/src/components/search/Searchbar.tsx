@@ -51,23 +51,25 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const SearchBar: React.FC<InputBaseComponentProps> = props => {
-  const classes = useStyles();
-  return (
-    <div className={classes.search}>
-      <div className={classes.searchIcon}>
-        <SearchIcon />
+const SearchBar = React.forwardRef<Element, InputBaseComponentProps>(
+  (props, ref) => {
+    const classes = useStyles();
+    return (
+      <div ref={ref} className={classes.search}>
+        <div className={classes.searchIcon}>
+          <SearchIcon />
+        </div>
+        <InputBase
+          placeholder="Search…"
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ "aria-label": "search", ...props }}
+        />
       </div>
-      <InputBase
-        placeholder="Search…"
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
-        inputProps={{ "aria-label": "search", ...props }}
-      />
-    </div>
-  );
-};
+    );
+  }
+);
 
 export default SearchBar;

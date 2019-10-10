@@ -1,14 +1,18 @@
+/** @jsx jsx */
 import React, { useState, useEffect, createRef } from "react";
 
 import { useThemeUI, jsx } from "theme-ui";
 
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
 import Dialog from "@material-ui/core/Dialog";
-import Zoom from "@material-ui/core/Zoom";
+import Divider from "@material-ui/core/Divider";
+import Fade from "@material-ui/core/Fade";
 import IconButton from "@material-ui/core/IconButton";
+import Paper from "@material-ui/core/Paper";
+import Popper from "@material-ui/core/Popper";
 import SearchIcon from "@material-ui/icons/Search";
+import Zoom from "@material-ui/core/Zoom";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { TransitionProps } from "@material-ui/core/transitions";
 
 import {
@@ -22,15 +26,18 @@ import algoliasearch from "algoliasearch/lite";
 
 import SearchBar from "./Searchbar";
 import { HitComponents, HitComponentMap } from "./hitComopnents";
+import { SearchBoxProvided } from "react-instantsearch-core";
+
+import get from "lodash/get";
 
 const Results = connectStateResults(
-  ({ searchState: state, searchResults: res, children }) =>
-    res && res.nbHits > 0 ? children : `No results for '${state.query}'`
-);
-
-const Stats = connectStateResults(
-  ({ searchResults: res }) =>
-    res && res.nbHits > 0 && `${res.nbHits} result${res.nbHits > 1 ? `s` : ``}`
+  ({ searchState: state, searchResults: res, children }) => {
+    if (res && res.nbHits > 0) {
+      return <React.Fragment>{children}</React.Fragment>;
+    } else {
+      return <span>No results for {state.query}</span>;
+    }
+  }
 );
 
 function useClickOutside(
@@ -57,12 +64,18 @@ const searchIndices: Array<{
   hitComponent: HitComponents;
 }> = [{ name: `Posts`, title: `Posts`, hitComponent: HitComponents.Post }];
 
-const Input = connectSearchBox(({ refine, ...rest }) => (
-  <SearchBar onChange={e => refine(e.target.value)} {...rest} />
-));
+const Input = connectSearchBox(props => {
+  const { refine } = props;
+  return (
+    <SearchBar
+      onChange={(e: InputEvent) => {
+        return refine(get(e, "target.value", ""));
+      }}
+    />
+  );
+});
 
 const AlgoliaSearch: React.FC = () => {
-  const ref = createRef<Element>();
   const [query, setQuery] = useState(``);
   const [focus, setFocus] = useState(false);
   const searchClient = algoliasearch(
@@ -70,6 +83,9 @@ const AlgoliaSearch: React.FC = () => {
     process.env.GATSBY_ALGOLIA_SEARCH_KEY!
   );
   //useClickOutside(ref, () => setFocus(false));
+  //
+
+  const anchorElRef = React.useRef(null);
 
   return (
     <InstantSearch
@@ -77,26 +93,31 @@ const AlgoliaSearch: React.FC = () => {
       indexName={searchIndices[0].name}
       onSearchStateChange={({ query }) => setQuery(query)}
     >
-      <Input />
-      {query.length > 0 ? (
-        <Paper>
-          {searchIndices.map(({ name, title, hitComponent }) => (
-            <Index key={name} indexName={name}>
-              <header>
-                <h3>{title}</h3>
-                <Stats />
-              </header>
-              <Results>
-                <Hits
-                  hitComponent={HitComponentMap[hitComponent](() =>
-                    setFocus(false)
-                  )}
-                />
-              </Results>
-            </Index>
-          ))}
-        </Paper>
-      ) : null}
+      <div ref={anchorElRef}>
+        <Input />
+      </div>
+      <Popper
+        id="popper"
+        open={query.length > 0}
+        anchorEl={anchorElRef.current}
+        transition
+      >
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={100}>
+            <Paper sx={{ padding: 1 }}>
+              {searchIndices.map(({ name, title, hitComponent }) => (
+                <Index key={name} indexName={name}>
+                  <h3>{title}</h3>
+                  <Divider variant="middle" />
+                  <Results>
+                    <Hits />
+                  </Results>
+                </Index>
+              ))}
+            </Paper>
+          </Fade>
+        )}
+      </Popper>
     </InstantSearch>
   );
 };
@@ -139,7 +160,6 @@ const LandscapeSearch: React.FC = () => {
 
 const Search: React.FC = () => {
   const landspace = useMediaQuery(`(orientation: landscape)`);
-  console.log(`landscape ${landspace}`);
   if (landspace) {
     return <LandscapeSearch />;
   } else {
