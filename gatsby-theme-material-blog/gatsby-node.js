@@ -100,19 +100,16 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
   );
 };
 
-// Create fields for post slugs and source
-// This will change with schema customization with work
-exports.onCreateNode = async (
-  { node, actions, getNode, createNodeId, createContentDigest },
+exports.sourceNodes = (
+  { actions, createNodeId, createContentDigest },
   themeOptions
 ) => {
-  const { createNode, createParentChildLink } = actions;
-  const { contentPath, basePath } = withDefaultsOptions(themeOptions);
+  const { createNode } = actions;
 
   themeOptions = withDefaultsOptions(themeOptions);
   createNode({
     ...themeOptions,
-    id: `gatsby-theme-material-blog`,
+    id: createNodeId(`gatsby-theme-material-blog`),
     parent: null,
     children: [],
     internal: {
@@ -122,6 +119,16 @@ exports.onCreateNode = async (
       description: `Options for gatsby-theme-material-blog`,
     },
   });
+};
+
+// Create fields for post slugs and source
+// This will change with schema customization with work
+exports.onCreateNode = async (
+  { node, actions, getNode, createNodeId },
+  themeOptions
+) => {
+  const { createNode, createParentChildLink } = actions;
+  const { contentPath, basePath } = withDefaultsOptions(themeOptions);
 
   // Make sure it's an MDX node
   if (node.internal.type !== `Mdx`) {
