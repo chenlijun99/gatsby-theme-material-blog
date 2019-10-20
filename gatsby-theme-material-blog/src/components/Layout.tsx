@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import MDXProviderWrapper from "./MDXProviderWrapper";
 import Footer from "./Footer";
+import Theme from "./Theme";
 import Header from "./Header";
 import ScrollTop from "./ScrollTop";
 
@@ -25,19 +26,21 @@ const Layout: React.FC = ({ children }) => {
   const backToTopAnchor = React.createRef<HTMLDivElement>();
 
   return (
-    <Box>
-      <CssBaseline />
-      <Header />
-      <div ref={backToTopAnchor} />
-      <MDXProviderWrapper>
-        <Container component="main">{children}</Container>
-      </MDXProviderWrapper>
-      <ScrollTop anchorRef={backToTopAnchor}>
-        <Fab color="secondary" size="small" aria-label="scroll back to top">
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </ScrollTop>
-    </Box>
+    <Theme>
+      <Box>
+        <CssBaseline />
+        <Header />
+        <div ref={backToTopAnchor} />
+        <MDXProviderWrapper>
+          <Container component="main">{children}</Container>
+        </MDXProviderWrapper>
+        <ScrollTop anchorRef={backToTopAnchor}>
+          <Fab color="secondary" size="small" aria-label="scroll back to top">
+            <KeyboardArrowUpIcon />
+          </Fab>
+        </ScrollTop>
+      </Box>
+    </Theme>
   );
 };
 

@@ -63,8 +63,8 @@ const Cover: React.FC = props => {
   const backgroundFluidImageStack = [
     data.file.childImageSharp.fluid,
     `linear-gradient(to left,
-                     ${transparentize(0.5, theme.colors!.secondary!)},
-                     ${transparentize(0.6, theme.colors!.secondary!)}
+                     ${transparentize(0.5, theme.colors!.primary!)},
+                     ${transparentize(0.6, theme.colors!.primary!)}
                     )`,
   ].reverse();
 
