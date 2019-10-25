@@ -63,7 +63,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
       date: Date! @dateformat
       tags: [String]!
       keywords: [String]!
-      excerpt: String!
+      excerpt(pruneLength: Int = 100000): String!
   }`);
 
   createTypes(

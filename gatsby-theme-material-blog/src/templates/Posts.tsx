@@ -8,7 +8,7 @@ export const query = graphql`
     allBlogPost(sort: { fields: [date, title], order: DESC }, limit: 1000) {
       nodes {
         id
-        excerpt
+        excerpt(pruneLength: 500)
         slug
         title
         tags
