@@ -44,6 +44,11 @@ export type BlogPostDateArgs = {
   locale?: Maybe<Scalars['String']>
 };
 
+
+export type BlogPostExcerptArgs = {
+  pruneLength?: Maybe<Scalars['Int']>
+};
+
 export type BlogPostConnection = {
    __typename?: 'BlogPostConnection',
   totalCount: Scalars['Int'],
@@ -2742,10 +2747,10 @@ export type Query = {
   allImageSharp: ImageSharpConnection,
   mdx?: Maybe<Mdx>,
   allMdx: MdxConnection,
-  materialBlogThemeOptions?: Maybe<MaterialBlogThemeOptions>,
-  allMaterialBlogThemeOptions: MaterialBlogThemeOptionsConnection,
   mdxBlogPost?: Maybe<MdxBlogPost>,
   allMdxBlogPost: MdxBlogPostConnection,
+  materialBlogThemeOptions?: Maybe<MaterialBlogThemeOptions>,
+  allMaterialBlogThemeOptions: MaterialBlogThemeOptionsConnection,
   sitePage?: Maybe<SitePage>,
   allSitePage: SitePageConnection,
   sitePlugin?: Maybe<SitePlugin>,
@@ -2882,25 +2887,6 @@ export type QueryAllMdxArgs = {
 };
 
 
-export type QueryMaterialBlogThemeOptionsArgs = {
-  basePath?: Maybe<StringQueryOperatorInput>,
-  contentPath?: Maybe<StringQueryOperatorInput>,
-  assetPath?: Maybe<StringQueryOperatorInput>,
-  id?: Maybe<StringQueryOperatorInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>
-};
-
-
-export type QueryAllMaterialBlogThemeOptionsArgs = {
-  filter?: Maybe<MaterialBlogThemeOptionsFilterInput>,
-  sort?: Maybe<MaterialBlogThemeOptionsSortInput>,
-  skip?: Maybe<Scalars['Int']>,
-  limit?: Maybe<Scalars['Int']>
-};
-
-
 export type QueryMdxBlogPostArgs = {
   id?: Maybe<StringQueryOperatorInput>,
   title?: Maybe<StringQueryOperatorInput>,
@@ -2919,6 +2905,25 @@ export type QueryMdxBlogPostArgs = {
 export type QueryAllMdxBlogPostArgs = {
   filter?: Maybe<MdxBlogPostFilterInput>,
   sort?: Maybe<MdxBlogPostSortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+export type QueryMaterialBlogThemeOptionsArgs = {
+  basePath?: Maybe<StringQueryOperatorInput>,
+  contentPath?: Maybe<StringQueryOperatorInput>,
+  assetPath?: Maybe<StringQueryOperatorInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>
+};
+
+
+export type QueryAllMaterialBlogThemeOptionsArgs = {
+  filter?: Maybe<MaterialBlogThemeOptionsFilterInput>,
+  sort?: Maybe<MaterialBlogThemeOptionsSortInput>,
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>
 };
@@ -3276,14 +3281,10 @@ export type SitePageConnectionGroupArgs = {
 export type SitePageContext = {
    __typename?: 'SitePageContext',
   id?: Maybe<Scalars['String']>,
-  previousId?: Maybe<Scalars['String']>,
-  nextId?: Maybe<Scalars['String']>,
 };
 
 export type SitePageContextFilterInput = {
   id?: Maybe<StringQueryOperatorInput>,
-  previousId?: Maybe<StringQueryOperatorInput>,
-  nextId?: Maybe<StringQueryOperatorInput>,
 };
 
 export type SitePageEdge = {
@@ -3386,8 +3387,6 @@ export enum SitePageFieldsEnum {
   ComponentChunkName = 'componentChunkName',
   IsCreatedByStatefulCreatePages = 'isCreatedByStatefulCreatePages',
   ContextId = 'context___id',
-  ContextPreviousId = 'context___previousId',
-  ContextNextId = 'context___nextId',
   PluginCreatorId = 'pluginCreator___id',
   PluginCreatorParentId = 'pluginCreator___parent___id',
   PluginCreatorParentParentId = 'pluginCreator___parent___parent___id',
@@ -3431,6 +3430,12 @@ export enum SitePageFieldsEnum {
   PluginCreatorVersion = 'pluginCreator___version',
   PluginCreatorPluginOptionsPath = 'pluginCreator___pluginOptions___path',
   PluginCreatorPluginOptionsName = 'pluginCreator___pluginOptions___name',
+  PluginCreatorPluginOptionsAppId = 'pluginCreator___pluginOptions___appId',
+  PluginCreatorPluginOptionsApiKey = 'pluginCreator___pluginOptions___apiKey',
+  PluginCreatorPluginOptionsQueries = 'pluginCreator___pluginOptions___queries',
+  PluginCreatorPluginOptionsQueriesQuery = 'pluginCreator___pluginOptions___queries___query',
+  PluginCreatorPluginOptionsQueriesIndexName = 'pluginCreator___pluginOptions___queries___indexName',
+  PluginCreatorPluginOptionsChunkSize = 'pluginCreator___pluginOptions___chunkSize',
   PluginCreatorPluginOptionsExtensions = 'pluginCreator___pluginOptions___extensions',
   PluginCreatorPluginOptionsGatsbyRemarkPlugins = 'pluginCreator___pluginOptions___gatsbyRemarkPlugins',
   PluginCreatorPluginOptionsGatsbyRemarkPluginsResolve = 'pluginCreator___pluginOptions___gatsbyRemarkPlugins___resolve',
@@ -3635,6 +3640,12 @@ export enum SitePluginFieldsEnum {
   Version = 'version',
   PluginOptionsPath = 'pluginOptions___path',
   PluginOptionsName = 'pluginOptions___name',
+  PluginOptionsAppId = 'pluginOptions___appId',
+  PluginOptionsApiKey = 'pluginOptions___apiKey',
+  PluginOptionsQueries = 'pluginOptions___queries',
+  PluginOptionsQueriesQuery = 'pluginOptions___queries___query',
+  PluginOptionsQueriesIndexName = 'pluginOptions___queries___indexName',
+  PluginOptionsChunkSize = 'pluginOptions___chunkSize',
   PluginOptionsExtensions = 'pluginOptions___extensions',
   PluginOptionsGatsbyRemarkPlugins = 'pluginOptions___gatsbyRemarkPlugins',
   PluginOptionsGatsbyRemarkPluginsResolve = 'pluginOptions___gatsbyRemarkPlugins___resolve',
@@ -3781,6 +3792,10 @@ export type SitePluginPluginOptions = {
    __typename?: 'SitePluginPluginOptions',
   path?: Maybe<Scalars['String']>,
   name?: Maybe<Scalars['String']>,
+  appId?: Maybe<Scalars['String']>,
+  apiKey?: Maybe<Scalars['String']>,
+  queries?: Maybe<Array<Maybe<SitePluginPluginOptionsQueries>>>,
+  chunkSize?: Maybe<Scalars['Int']>,
   extensions?: Maybe<Array<Maybe<Scalars['String']>>>,
   gatsbyRemarkPlugins?: Maybe<Array<Maybe<SitePluginPluginOptionsGatsbyRemarkPlugins>>>,
   component?: Maybe<Scalars['String']>,
@@ -3796,6 +3811,10 @@ export type SitePluginPluginOptions = {
 export type SitePluginPluginOptionsFilterInput = {
   path?: Maybe<StringQueryOperatorInput>,
   name?: Maybe<StringQueryOperatorInput>,
+  appId?: Maybe<StringQueryOperatorInput>,
+  apiKey?: Maybe<StringQueryOperatorInput>,
+  queries?: Maybe<SitePluginPluginOptionsQueriesFilterListInput>,
+  chunkSize?: Maybe<IntQueryOperatorInput>,
   extensions?: Maybe<StringQueryOperatorInput>,
   gatsbyRemarkPlugins?: Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsFilterListInput>,
   component?: Maybe<StringQueryOperatorInput>,
@@ -3850,6 +3869,21 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsFilterInput = {
   tracedSVG?: Maybe<BooleanQueryOperatorInput>,
   loading?: Maybe<StringQueryOperatorInput>,
   disableBgImageOnAlpha?: Maybe<BooleanQueryOperatorInput>,
+};
+
+export type SitePluginPluginOptionsQueries = {
+   __typename?: 'SitePluginPluginOptionsQueries',
+  query?: Maybe<Scalars['String']>,
+  indexName?: Maybe<Scalars['String']>,
+};
+
+export type SitePluginPluginOptionsQueriesFilterInput = {
+  query?: Maybe<StringQueryOperatorInput>,
+  indexName?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePluginPluginOptionsQueriesFilterListInput = {
+  elemMatch?: Maybe<SitePluginPluginOptionsQueriesFilterInput>,
 };
 
 export type SitePluginSortInput = {
@@ -3924,6 +3958,20 @@ export type Unnamed_2_QueryVariables = {};
 
 
 export type Unnamed_2_Query = (
+  { __typename?: 'Query' }
+  & { site: Maybe<(
+    { __typename?: 'Site' }
+    & { siteMetadata: Maybe<(
+      { __typename?: 'SiteSiteMetadata' }
+      & Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>
+    )> }
+  )> }
+);
+
+export type SiteMetaDataQueryVariables = {};
+
+
+export type SiteMetaDataQuery = (
   { __typename?: 'Query' }
   & { site: Maybe<(
     { __typename?: 'Site' }

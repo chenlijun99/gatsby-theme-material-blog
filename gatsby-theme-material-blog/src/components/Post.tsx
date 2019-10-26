@@ -1,15 +1,28 @@
 /** @jsx jsx */
-import React from "react";
-import { Styled, jsx, css } from "theme-ui";
+import React, { useEffect, useState, useContext } from "react";
+import { Styled, jsx } from "theme-ui";
 
 import SEO from "./SEO";
 import { Card, Container } from "@material-ui/core";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 
+import { LayoutContext, LayoutContextType } from "./Layout";
 import { PostPageQuery } from "../generated/graphql";
 
 const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
   const post = data.blogPost;
+
+  const context = useContext(LayoutContext);
+
+  useEffect(() => {
+    context.setHeaderProps({
+      title: post!.title,
+    });
+    return () => {
+      context.setHeaderProps({});
+    };
+  }, []);
+
   return (
     <React.Fragment>
       <SEO title={post!.title} description={post!.excerpt} />

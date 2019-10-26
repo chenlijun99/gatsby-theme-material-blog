@@ -21,5 +21,8 @@
     "lint": "eslint --ext .tsx gatsby-theme-material-blog/src/",
     "generate-graphql-types": "yarn workspace gatsby-theme-material-blog generate-graphql-types"
   },
-  "workspaces": ["gatsby-theme-material-blog", "example"]
+  "workspaces": [
+    "gatsby-theme-material-blog",
+    "example"
+  ]
 }

@@ -3,6 +3,7 @@ const path = require(`path`);
 const crypto = require(`crypto`);
 const { createFilePath } = require(`gatsby-source-filesystem`);
 const { urlResolve } = require(`gatsby-core-utils`);
+const get = require("lodash/get");
 const withDefaultsOptions = require(`../src/utils/withDefaultOptions`);
 
 const mdxResolverPassthrough = fieldName => async (
@@ -58,6 +59,22 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
   );
 };
 
+//exports.createResolvers = ({ createResolvers }) =>
+//createResolvers({
+//SomeType: {
+//someField: {
+//resolve: async (source, _, context, info) => {
+//const resolver = info.schema.getType("Mdx").getFields()["headings"]
+//.resolve;
+//const mdxNode = await context.nodeModel.getNodeById(id);
+//const args = {}; // arguments passed to the resolver
+//const headings = await resolver(mdxNode, args);
+//return headings;
+//},
+//},
+//},
+//});
+
 exports.onCreateNode = async (
   { node, actions, getNode, createNodeId },
   themeOptions
@@ -95,7 +112,6 @@ exports.onCreateNode = async (
       slug = urlResolve(basePath, filePath);
     }
     node = getNode(node.id);
-    console.log(node);
     const fieldData = {
       title:
         node.frontmatter.title ||

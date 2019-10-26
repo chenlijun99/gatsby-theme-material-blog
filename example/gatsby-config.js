@@ -16,6 +16,6 @@ module.exports = {
     `gatsby-plugin-offline`,
   ],
   siteMetadata: {
-    title: `Shadowed Site Title`,
+    title: `Bookshelf`,
   },
-}
+};
