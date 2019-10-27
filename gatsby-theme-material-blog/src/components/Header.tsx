@@ -2,9 +2,12 @@
 import React from "react";
 
 import { useThemeUI, jsx } from "theme-ui";
+import styled from "@emotion/styled";
 import { transparentize } from "polished";
 
 import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -12,7 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import { useScrollTrigger } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 
-import { useStaticQuery, graphql } from "gatsby";
+import { useStaticQuery, graphql, Link } from "gatsby";
 import BackgroundImage from "gatsby-background-image";
 
 import Search from "./search/";
@@ -90,6 +93,12 @@ interface CustomAppBarProps {
 }
 const CustomAppBar: React.FC<CustomAppBarProps> = props => {
   const { title, titleHidden, ...fordwardProps } = props;
+
+  const HeaderLinkButton = styled(Button)`
+    border: 0;
+    color: white;
+  `;
+
   return (
     <AppBar {...fordwardProps}>
       <Toolbar>
@@ -106,6 +115,17 @@ const CustomAppBar: React.FC<CustomAppBarProps> = props => {
         >
           {!titleHidden ? title : ""}
         </Typography>
+        <ButtonGroup size="large">
+          <HeaderLinkButton component={Link} to="/">
+            Home
+          </HeaderLinkButton>
+          <HeaderLinkButton component={Link} to="/archive">
+            Archive
+          </HeaderLinkButton>
+          <HeaderLinkButton component={Link} to="/about">
+            About
+          </HeaderLinkButton>
+        </ButtonGroup>
         <Search />
       </Toolbar>
     </AppBar>

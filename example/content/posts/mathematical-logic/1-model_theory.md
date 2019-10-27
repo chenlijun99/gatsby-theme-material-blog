@@ -1,5 +1,5 @@
 ---
-date: 2019-10-06
+date: 2017-12-31
 ---
 # Introduction to model theory
 
