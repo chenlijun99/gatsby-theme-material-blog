@@ -32,6 +32,23 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         id: { type: `ID!` },
         title: {
           type: `String!`,
+          resolve: async (node, args, context, info) => {
+            const mdxNode = context.nodeModel.getNodeById({
+              id: node.parent,
+              type: "Mdx",
+            });
+            if (mdxNode.frontmatter.title) {
+              return mdxNode.frontmatter.title;
+            }
+            const resolver = info.schema.getType("Mdx").getFields()["headings"]
+              .resolve;
+            const headings = await resolver(mdxNode, {}, context, info);
+            return get(
+              headings.find(heading => heading.depth === 1),
+              "value",
+              "Untitled"
+            );
+          },
         },
         slug: {
           type: `String!`,
@@ -58,22 +75,6 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
     })
   );
 };
-
-//exports.createResolvers = ({ createResolvers }) =>
-//createResolvers({
-//SomeType: {
-//someField: {
-//resolve: async (source, _, context, info) => {
-//const resolver = info.schema.getType("Mdx").getFields()["headings"]
-//.resolve;
-//const mdxNode = await context.nodeModel.getNodeById(id);
-//const args = {}; // arguments passed to the resolver
-//const headings = await resolver(mdxNode, args);
-//return headings;
-//},
-//},
-//},
-//});
 
 exports.onCreateNode = async (
   { node, actions, getNode, createNodeId },
@@ -113,13 +114,6 @@ exports.onCreateNode = async (
     }
     node = getNode(node.id);
     const fieldData = {
-      title:
-        node.frontmatter.title ||
-        get(
-          (node.headings || []).find(heading => heading.depth === 1),
-          "value",
-          ""
-        ),
       tags: node.frontmatter.tags || [],
       slug,
       date: node.frontmatter.date,
