@@ -33,21 +33,39 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         title: {
           type: `String!`,
           resolve: async (node, args, context, info) => {
+            let title;
+            // 1st choice: title defined in the frontmatter
             const mdxNode = context.nodeModel.getNodeById({
               id: node.parent,
               type: "Mdx",
             });
-            if (mdxNode.frontmatter.title) {
-              return mdxNode.frontmatter.title;
+            if ((title = mdxNode.frontmatter.title)) {
+              return title;
             }
+            // 2st choice: 1st level heading as title
             const resolver = info.schema.getType("Mdx").getFields()["headings"]
               .resolve;
             const headings = await resolver(mdxNode, {}, context, info);
-            return get(
+            title = get(
               headings.find(heading => heading.depth === 1),
               "value",
-              "Untitled"
+              null
             );
+            if (title) {
+              return title;
+            }
+            // last choice: filename without extension
+            const fileNode = context.nodeModel.getNodeById({
+              id: mdxNode.parent,
+              type: "File",
+            });
+            if (fileNode) {
+              return path.basename(
+                fileNode.absolutePath,
+                path.extname(fileNode.absolutePath)
+              );
+            }
+            return "Untitled";
           },
         },
         slug: {
