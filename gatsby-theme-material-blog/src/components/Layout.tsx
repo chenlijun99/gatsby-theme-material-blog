@@ -1,7 +1,4 @@
-/** @jsx jsx */
 import React, { useState } from "react";
-
-import { jsx } from "theme-ui";
 
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { CssBaseline, Box, Container, Fab, Card } from "@material-ui/core";

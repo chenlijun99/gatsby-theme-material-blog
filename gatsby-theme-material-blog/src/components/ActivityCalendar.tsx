@@ -1,51 +1,33 @@
-/** @jsx jsx */
 import React, { useRef, useEffect, useState } from "react";
-import { jsx } from "theme-ui";
-import echarts, { EChartOption, ECharts, VisualMap } from "echarts";
+import echarts, {
+  EChartOption,
+  ECharts,
+  VisualMap,
+  EChartsResponsiveOption,
+} from "echarts";
 import { graphql, useStaticQuery } from "gatsby";
 
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import get from "lodash/get";
 import { DateTime } from "luxon";
 import { ActivityCalendarPostQuery } from "../generated/graphql";
-
-const option: EChartOption<EChartOption.SeriesHeatmap> = {
-  tooltip: {},
-  visualMap: [
-    {
-      min: 0,
-      type: "piecewise",
-      orient: "horizontal",
-      left: "center",
-      top: 0,
-      textStyle: {
-        color: "#000",
-      },
-    },
-  ],
-  calendar: {
-    top: 50,
-    cellSize: [17, 17],
-    itemStyle: {
-      borderWidth: 0.5,
-    },
-    yearLabel: { show: false },
-  },
-  series: [
-    {
-      type: "heatmap",
-      coordinateSystem: "calendar",
-    },
-  ],
-};
+import { makeStyles } from "@material-ui/core/styles";
+import { Typography } from "@material-ui/core";
 
 interface YearSelectorProps {
   years: number[];
   selectedYear: number;
   onYearSelected: (selectedYear: number) => void;
 }
+
+const useYearSelectorStyles = makeStyles(theme => ({
+  triggerElementText: {
+    ...theme.typography.h5,
+  },
+}));
 const YearSelector: React.FC<YearSelectorProps> = props => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -57,10 +39,12 @@ const YearSelector: React.FC<YearSelectorProps> = props => {
     setAnchorEl(null);
   };
 
+  const classes = useYearSelectorStyles();
   return (
     <div>
       <Button
-        aria-controls="simple-menu"
+        classes={{ text: classes.triggerElementText }}
+        variant="text"
         aria-haspopup="true"
         onClick={handleClick}
       >
@@ -87,6 +71,87 @@ const YearSelector: React.FC<YearSelectorProps> = props => {
       </Menu>
     </div>
   );
+};
+
+const option: EChartsResponsiveOption = {
+  baseOption: {
+    tooltip: {},
+    visualMap: [
+      {
+        min: 0,
+        type: "piecewise",
+        orient: "horizontal",
+        left: "center",
+        top: 0,
+        textStyle: {
+          color: "#000",
+        },
+      },
+    ],
+    calendar: {
+      top: 50,
+      left: "center",
+      cellSize: [15, 15],
+      itemStyle: {
+        borderWidth: 0.5,
+      },
+      yearLabel: { show: false },
+    },
+    series: [
+      {
+        type: "heatmap",
+        coordinateSystem: "calendar",
+      },
+    ],
+  } as EChartOption<EChartOption.SeriesHeatmap>,
+  media: [
+    {
+      query: {
+        minWidth: 960,
+      },
+      option: {
+        visualMap: [
+          {
+            show: false,
+          },
+        ],
+        calendar: {
+          cellSize: [12, 12],
+        },
+      },
+    },
+    {
+      query: {
+        minWidth: 600,
+        maxWidth: 800,
+      },
+      option: {
+        visualMap: [
+          {
+            show: false,
+          },
+        ],
+        calendar: {
+          cellSize: [12, 12],
+        },
+      },
+    },
+    {
+      query: {
+        maxWidth: 600,
+      },
+      option: {
+        visualMap: [
+          {
+            show: false,
+          },
+        ],
+        calendar: {
+          cellSize: [600 / 60, 600 / 60],
+        },
+      },
+    },
+  ],
 };
 
 function processData(
@@ -150,6 +215,13 @@ function getDiscretePieces(
   return pieces;
 }
 
+const useStyles = makeStyles({
+  chartDiv: {
+    width: "100%",
+    height: "30vh",
+  },
+});
+
 const ActivityCalendar: React.FC = () => {
   const chartRef = useRef<HTMLDivElement>(null);
   const data = useStaticQuery<ActivityCalendarPostQuery>(graphql`
@@ -181,12 +253,13 @@ const ActivityCalendar: React.FC = () => {
         data.allBlogPost.nodes
       );
       setAvailableYears(years);
-      option!.visualMap![0].max = max;
-      (option!.visualMap![0] as VisualMap.Piecewise).pieces = getDiscretePieces(
+      option!.baseOption!.visualMap![0].max = max;
+      (option!.baseOption!
+        .visualMap![0] as VisualMap.Piecewise).pieces = getDiscretePieces(
         max,
         3
       );
-      (option!.calendar as EChartOption.Calendar)!.range =
+      (option!.baseOption!.calendar as EChartOption.Calendar)!.range =
         new Date().getFullYear() === selectedYear
           ? [
               DateTime.local()
@@ -195,20 +268,41 @@ const ActivityCalendar: React.FC = () => {
               DateTime.local().toFormat("yyyy-MM-dd"),
             ]
           : selectedYear;
-      option!.series![0].data = parsedData;
+      (option!.baseOption!
+        .series![0] as EChartOption.SeriesHeatmap).data = parsedData;
       chart.setOption(option);
     }
   }, [chart, data, selectedYear]);
 
+  useEffect(() => {
+    function handleResize() {
+      if (chart) {
+        chart.resize();
+      }
+    }
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [chart]);
+
+  const classes = useStyles();
+
   return (
     <React.Fragment>
-      Activity Calendar:
-      <YearSelector
-        selectedYear={selectedYear}
-        years={availableYears}
-        onYearSelected={setSelectedYear}
-      />
-      <div ref={chartRef} sx={{ width: "1000px", height: "300px" }}></div>
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <Box display="flex" flexDirection="row" alignItems="center">
+          <Typography variant="h5" component="h2">
+            Activity Calendar:
+          </Typography>
+          <YearSelector
+            selectedYear={selectedYear}
+            years={availableYears}
+            onYearSelected={setSelectedYear}
+          />
+        </Box>
+        <div ref={chartRef} className={classes.chartDiv}></div>
+      </Box>
     </React.Fragment>
   );
 };

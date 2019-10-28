@@ -93,7 +93,6 @@ module.exports = themeOptions => {
         },
       },
       `gatsby-plugin-material-ui`,
-      `gatsby-plugin-theme-ui`,
     ],
   };
 };

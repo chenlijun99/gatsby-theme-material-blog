@@ -1,9 +1,17 @@
-/** @jsx jsx */
 import React from "react";
-import { jsx } from "theme-ui";
 import { graphql, useStaticQuery } from "gatsby";
 import ReactWordCloud, { Word } from "react-wordcloud";
 import { TagsWordCloudQuery } from "../generated/graphql";
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles({
+  wordCloudContainer: {
+    "& > * text": {
+      outline: "none",
+      cursor: "pointer",
+    },
+  },
+});
 
 const TagsWordCloud: React.FC = () => {
   const data = useStaticQuery<TagsWordCloudQuery>(graphql`
@@ -37,15 +45,9 @@ const TagsWordCloud: React.FC = () => {
     };
   });
 
+  const classes = useStyles();
   return (
-    <div
-      sx={{
-        "& > * text": {
-          outline: "none",
-          cursor: "pointer",
-        },
-      }}
-    >
+    <div className={classes.wordCloudContainer}>
       <ReactWordCloud
         words={words}
         options={{ rotationAngles: [0, 0], rotations: 1, fontSizes: [12, 30] }}

@@ -1,7 +1,5 @@
-/** @jsx jsx */
 import React, { Fragment } from "react";
 import { Link } from "gatsby";
-import { Styled, jsx } from "theme-ui";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import Icon from "@material-ui/core/Icon";
@@ -10,6 +8,7 @@ import Chip from "@material-ui/core/Chip";
 import { LayoutContext } from "./Layout";
 
 import { PostsQuery } from "../generated/graphql";
+import Typography from "@material-ui/core/Typography";
 
 import SEO from "./SEO";
 
@@ -23,25 +22,15 @@ const Posts: React.FC<{ data: PostsQuery }> = ({ data }) => {
             const title = node.title || node.slug;
             const tags = node.tags || [];
             return (
-              <Card
-                sx={{
-                  margin: 3,
-                  py: 3,
-                  px: 3,
-                }}
-                key={node.slug}
-              >
+              <Card key={node.slug}>
                 <CardActionArea component={Link} to={node.slug}>
-                  <Styled.h2
-                    sx={{
-                      mb: 1,
-                    }}
-                  >
+                  <Typography variant="h5" component="h2" noWrap>
                     {title}
-                  </Styled.h2>
-                  <CalendarIcon />
-                  <small>{node.date}</small>
-                  <Styled.p>{node.excerpt}</Styled.p>
+                  </Typography>
+                  <Typography variant="subtitle1" noWrap>
+                    {node.date}
+                  </Typography>
+                  <Typography variant="body1">{node.excerpt}</Typography>
                 </CardActionArea>
                 {tags.map((tag, index) => {
                   return (

@@ -1,6 +1,4 @@
-/** @jsx jsx */
 import React, { useEffect, useState, useContext } from "react";
-import { Styled, jsx } from "theme-ui";
 
 import SEO from "./SEO";
 import { Card, Container } from "@material-ui/core";
@@ -8,6 +6,19 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 
 import { LayoutContext, LayoutContextType } from "./Layout";
 import { PostPageQuery } from "../generated/graphql";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles({
+  postCard: {
+    position: "relative",
+    minHeight: "20vh",
+    marginTop: "-10vh",
+    marginLeft: "10vh",
+    marginRight: "10vh",
+    marginBottom: "30px",
+  },
+});
 
 const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
   const post = data.blogPost;
@@ -23,23 +34,16 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
     };
   }, []);
 
+  const classes = useStyles();
+
   return (
     <React.Fragment>
       <SEO title={post!.title} description={post!.excerpt} />
-      <Card
-        sx={{
-          position: "relative",
-          minHeight: "20vh",
-          marginTop: "-10vh",
-          marginLeft: ["1vh", "2vh", "10vh"],
-          marginRight: ["1vh", "2vh", "10vh"],
-          marginBottom: "30px",
-        }}
-        raised={true}
-      >
+      <Card className={classes.postCard} raised={true}>
         <Container component="article">
-          <Styled.h1>{post!.title}</Styled.h1>
-          <Styled.p>{post!.date}</Styled.p>
+          <Typography variant="body2" noWrap>
+            {post!.date}
+          </Typography>
           <MDXRenderer>{post!.body}</MDXRenderer>
         </Container>
       </Card>

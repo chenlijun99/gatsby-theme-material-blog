@@ -1,7 +1,4 @@
-/** @jsx jsx */
 import React, { useState, useEffect, createRef } from "react";
-
-import { useThemeUI, jsx } from "theme-ui";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -104,7 +101,7 @@ const AlgoliaSearch: React.FC = () => {
       >
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={100}>
-            <Paper sx={{ padding: 1 }}>
+            <Paper>
               {searchIndices.map(({ name, title, hitComponent }) => (
                 <Index key={name} indexName={name}>
                   <h3>{title}</h3>

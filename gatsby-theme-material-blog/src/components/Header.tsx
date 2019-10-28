@@ -1,8 +1,5 @@
-/** @jsx jsx */
 import React from "react";
 
-import { useThemeUI, jsx } from "theme-ui";
-import styled from "@emotion/styled";
 import { transparentize } from "polished";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -13,13 +10,28 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { useScrollTrigger } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
+import { useTheme, withStyles, makeStyles } from "@material-ui/core/styles";
 
 import { useStaticQuery, graphql, Link } from "gatsby";
 import BackgroundImage from "gatsby-background-image";
 
 import Search from "./search/";
 import useSiteMetadata from "../hooks/useSiteMetadata";
+
+const useStyles = makeStyles(theme => ({
+  headerContentWrapper: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "60vh",
+  },
+  fallbackHeaderContent: {
+    color: theme.palette.primary.contrastText,
+  },
+  appBarTitle: {
+    flexGrow: 1,
+  },
+}));
 
 interface HeaderContentWrapperProps {
   coverImg?: string;
@@ -42,27 +54,22 @@ const HeaderContentWrapper: React.FC<HeaderContentWrapperProps> = ({
     `
   );
 
-  const { theme } = useThemeUI();
+  const theme = useTheme();
 
   const backgroundFluidImageStack = [
     data.file.childImageSharp.fluid,
     `linear-gradient(to left,
-                     ${transparentize(0.5, theme.colors!.primary!)},
-                     ${transparentize(0.6, theme.colors!.primary!)}
+                     ${transparentize(0.5, theme.palette.primary.main)},
+                     ${transparentize(0.6, theme.palette.primary.main)}
                     )`,
   ].reverse();
 
+  const classes = useStyles();
   return (
     <BackgroundImage
       Tag="div"
-      css={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "50vh",
-      }}
+      className={classes.headerContentWrapper}
       fluid={backgroundFluidImageStack}
-      backgroundColor={`#040e18`}
     >
       {children}
     </BackgroundImage>
@@ -79,8 +86,8 @@ const TransformOnScroll: React.FC<{ children: React.ReactElement }> = props => {
   const theme = useTheme();
 
   return React.cloneElement(children, {
-    css: {
-      backgroundColor: trigger ? theme.palette.primary : "transparent",
+    style: {
+      backgroundColor: trigger ? theme.palette.primary.main : "transparent",
     },
     elevation: trigger ? 4 : 0,
     titleHidden: !trigger,
@@ -91,40 +98,36 @@ interface CustomAppBarProps {
   title: string;
   titleHidden?: boolean;
 }
+
+const NavLinkButton = withStyles(theme => ({
+  root: {
+    color: theme.palette.primary.contrastText,
+    border: 0,
+  },
+}))(Button);
+
 const CustomAppBar: React.FC<CustomAppBarProps> = props => {
   const { title, titleHidden, ...fordwardProps } = props;
-
-  const HeaderLinkButton = styled(Button)`
-    border: 0;
-    color: white;
-  `;
-
+  const classes = useStyles();
   return (
     <AppBar {...fordwardProps}>
       <Toolbar>
         <IconButton edge="start" color="inherit" aria-label="open drawer">
           <MenuIcon />
         </IconButton>
-        <Typography
-          variant="h6"
-          noWrap
-          sx={{
-            flexGrow: 1,
-            display: "block",
-          }}
-        >
+        <Typography className={classes.appBarTitle} variant="h6" noWrap>
           {!titleHidden ? title : ""}
         </Typography>
-        <ButtonGroup size="large">
-          <HeaderLinkButton component={Link} to="/">
+        <ButtonGroup component="nav" size="large">
+          <NavLinkButton component={Link} to="/">
             Home
-          </HeaderLinkButton>
-          <HeaderLinkButton component={Link} to="/archive">
+          </NavLinkButton>
+          <NavLinkButton component={Link} to="/archive">
             Archive
-          </HeaderLinkButton>
-          <HeaderLinkButton component={Link} to="/about">
+          </NavLinkButton>
+          <NavLinkButton component={Link} to="/about">
             About
-          </HeaderLinkButton>
+          </NavLinkButton>
         </ButtonGroup>
         <Search />
       </Toolbar>
@@ -139,6 +142,7 @@ export interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = props => {
   const siteMetadata = useSiteMetadata();
+  const classes = useStyles();
   return (
     <React.Fragment>
       <TransformOnScroll>
@@ -146,15 +150,11 @@ const Header: React.FC<HeaderProps> = props => {
       </TransformOnScroll>
       <HeaderContentWrapper>
         {props.children || (
-          <h1
-            sx={{
-              color: () => "white",
-              fontSize: 7,
-              fontFamily: "heading",
-            }}
-          >
-            {props.title || siteMetadata.title}
-          </h1>
+          <div className={classes.fallbackHeaderContent}>
+            <Typography variant="h4" component="h1" noWrap>
+              <h1>{props.title || siteMetadata.title}</h1>
+            </Typography>
+          </div>
         )}
       </HeaderContentWrapper>
     </React.Fragment>

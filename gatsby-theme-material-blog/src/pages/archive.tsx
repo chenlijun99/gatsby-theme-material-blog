@@ -1,14 +1,14 @@
-/** @jsx jsx */
 import { graphql } from "gatsby";
 
 import React, { useEffect, useContext } from "react";
 import { Link } from "gatsby";
-import { Styled, jsx } from "theme-ui";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import Icon from "@material-ui/core/Icon";
 import CalendarIcon from "@material-ui/icons/CalendarToday";
 import Chip from "@material-ui/core/Chip";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
 import { LayoutContext } from "../components/Layout";
 
 import { PostsQuery } from "../generated/graphql";
@@ -16,6 +16,15 @@ import { PostsQuery } from "../generated/graphql";
 import SEO from "../components/SEO";
 import ActivityCalendar from "../components/ActivityCalendar";
 import TagsWordCloud from "../components/TagsWordCloud";
+
+const useStyles = makeStyles(theme => ({
+  activityCaldendarCard: {
+    position: "relative",
+    margin: theme.spacing(3),
+    marginTop: "-10vh",
+    padding: theme.spacing(2),
+  },
+}));
 
 const ArchivePage: React.FC<{ data: PostsQuery }> = ({ data }) => {
   const context = useContext(LayoutContext);
@@ -28,36 +37,16 @@ const ArchivePage: React.FC<{ data: PostsQuery }> = ({ data }) => {
     };
   }, []);
 
+  const classes = useStyles();
+
   return (
     <React.Fragment>
       <SEO title="Archive" />
-      <Card
-        sx={{
-          position: "relative",
-          margin: 3,
-          marginTop: "-10vh",
-          py: 3,
-          px: 3,
-          "> *": {
-            margin: "auto",
-          },
-        }}
-      >
+      <Card className={classes.activityCaldendarCard}>
         <ActivityCalendar />
       </Card>
 
-      <Card
-        sx={{
-          position: "relative",
-          margin: 3,
-          marginTop: "-10vh",
-          py: 3,
-          px: 3,
-          "> *": {
-            margin: "auto",
-          },
-        }}
-      >
+      <Card>
         <TagsWordCloud />
       </Card>
 
@@ -65,25 +54,14 @@ const ArchivePage: React.FC<{ data: PostsQuery }> = ({ data }) => {
         const title = node.title || node.slug;
         const tags = node.tags || [];
         return (
-          <Card
-            sx={{
-              margin: 3,
-              py: 3,
-              px: 3,
-            }}
-            key={node.slug}
-          >
+          <Card key={node.slug}>
             <CardActionArea component={Link} to={node.slug}>
-              <Styled.h2
-                sx={{
-                  mb: 1,
-                }}
-              >
+              <Typography variant="h2" noWrap>
                 {title}
-              </Styled.h2>
+              </Typography>
               <CalendarIcon />
               <small>{node.date}</small>
-              <Styled.p>{node.excerpt}</Styled.p>
+              <p>{node.excerpt}</p>
             </CardActionArea>
             {tags.map((tag, index) => {
               return (
