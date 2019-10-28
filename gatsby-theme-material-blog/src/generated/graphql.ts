@@ -4364,6 +4364,20 @@ export type Unnamed_2_Query = (
   )> }
 );
 
+export type TagsWordCloudQueryVariables = {};
+
+
+export type TagsWordCloudQuery = (
+  { __typename?: 'Query' }
+  & { allBlogPost: (
+    { __typename?: 'BlogPostConnection' }
+    & { nodes: Array<(
+      { __typename?: 'MdxBlogPost' }
+      & Pick<MdxBlogPost, 'tags'>
+    )> }
+  ) }
+);
+
 export type SiteMetaDataQueryVariables = {};
 
 

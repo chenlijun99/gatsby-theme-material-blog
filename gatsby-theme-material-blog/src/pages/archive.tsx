@@ -15,6 +15,7 @@ import { PostsQuery } from "../generated/graphql";
 
 import SEO from "../components/SEO";
 import ActivityCalendar from "../components/ActivityCalendar";
+import TagsWordCloud from "../components/TagsWordCloud";
 
 const ArchivePage: React.FC<{ data: PostsQuery }> = ({ data }) => {
   const context = useContext(LayoutContext);
@@ -30,7 +31,6 @@ const ArchivePage: React.FC<{ data: PostsQuery }> = ({ data }) => {
   return (
     <React.Fragment>
       <SEO title="Archive" />
-
       <Card
         sx={{
           position: "relative",
@@ -44,6 +44,21 @@ const ArchivePage: React.FC<{ data: PostsQuery }> = ({ data }) => {
         }}
       >
         <ActivityCalendar />
+      </Card>
+
+      <Card
+        sx={{
+          position: "relative",
+          margin: 3,
+          marginTop: "-10vh",
+          py: 3,
+          px: 3,
+          "> *": {
+            margin: "auto",
+          },
+        }}
+      >
+        <TagsWordCloud />
       </Card>
 
       {data.allBlogPost.nodes.map(node => {
