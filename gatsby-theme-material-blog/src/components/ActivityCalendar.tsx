@@ -4,6 +4,7 @@ import echarts, {
   ECharts,
   VisualMap,
   EChartsResponsiveOption,
+  EChartsMediaOption,
 } from "echarts";
 import { graphql, useStaticQuery } from "gatsby";
 
@@ -14,8 +15,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import get from "lodash/get";
 import { DateTime } from "luxon";
 import { ActivityCalendarPostQuery } from "../generated/graphql";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 
 interface YearSelectorProps {
   years: number[];
@@ -57,21 +59,26 @@ const YearSelector: React.FC<YearSelectorProps> = props => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {props.years.map(year => (
-          <MenuItem
-            onClick={() => {
-              props.onYearSelected(year);
-              setAnchorEl(null);
-            }}
-            key={year}
-          >
-            {year}
-          </MenuItem>
-        ))}
+        {props.years
+          .sort((a, b) => b - a)
+          .map(year => (
+            <MenuItem
+              onClick={() => {
+                props.onYearSelected(year);
+                setAnchorEl(null);
+              }}
+              key={year}
+            >
+              {year}
+            </MenuItem>
+          ))}
       </Menu>
     </div>
   );
 };
+
+const CELL_PER_ROW = 80;
+const CELL_PER_COLUMN = 14;
 
 const option: EChartsResponsiveOption = {
   baseOption: {
@@ -89,13 +96,7 @@ const option: EChartsResponsiveOption = {
       },
     ],
     calendar: {
-      top: 50,
       left: "center",
-      cellSize: [15, 15],
-      itemStyle: {
-        borderWidth: 0.5,
-      },
-      yearLabel: { show: false },
     },
     series: [
       {
@@ -104,55 +105,75 @@ const option: EChartsResponsiveOption = {
       },
     ],
   } as EChartOption<EChartOption.SeriesHeatmap>,
-  media: [
-    {
-      query: {
-        minWidth: 960,
-      },
-      option: {
-        visualMap: [
-          {
-            show: false,
-          },
-        ],
-        calendar: {
-          cellSize: [12, 12],
-        },
-      },
-    },
-    {
-      query: {
-        minWidth: 600,
-        maxWidth: 800,
-      },
-      option: {
-        visualMap: [
-          {
-            show: false,
-          },
-        ],
-        calendar: {
-          cellSize: [12, 12],
-        },
-      },
-    },
-    {
-      query: {
-        maxWidth: 600,
-      },
-      option: {
-        visualMap: [
-          {
-            show: false,
-          },
-        ],
-        calendar: {
-          cellSize: [600 / 60, 600 / 60],
-        },
-      },
-    },
-  ],
 };
+
+const useStyles = makeStyles(theme => {
+  const heights = theme.breakpoints.keys
+    .sort((b1, b2) => theme.breakpoints.width(b1) - theme.breakpoints.width(b2))
+    .reduce(
+      (accumulator, breakpoint, i, arr) => {
+        if (i + 1 < arr.length) {
+          const width = theme.breakpoints.width(arr[i + 1]);
+          const cellSize = width / CELL_PER_ROW;
+          accumulator[theme.breakpoints.between(breakpoint, breakpoint)] = {
+            height: cellSize * CELL_PER_COLUMN,
+          };
+        } else {
+          const width = theme.breakpoints.width(breakpoint);
+          const cellSize = width / CELL_PER_ROW;
+          accumulator[theme.breakpoints.up(breakpoint)] = {
+            height: cellSize * CELL_PER_COLUMN,
+          };
+        }
+        return accumulator;
+      },
+      {} as { [key in string]: unknown }
+    );
+  return {
+    chartDiv: {
+      width: "100%",
+      ...heights,
+    },
+  };
+});
+
+function getMediaOptions(theme: Theme): EChartsMediaOption[] {
+  return Object.values(theme.breakpoints.values)
+    .sort((a, b) => a - b)
+    .map((width, index, arr) => {
+      const min = width;
+      const max = index + 1 < arr.length ? arr[index + 1] : undefined;
+      const cellSize = (max || min) / CELL_PER_ROW;
+      return {
+        query: {
+          minWidth: min,
+          maxWidth: max,
+        },
+        option: {
+          visualMap: [
+            {
+              show: cellSize >= 15,
+            },
+          ],
+          calendar: {
+            top: cellSize > 15 ? 50 : "center",
+            cellSize: [cellSize, cellSize],
+            monthLabel: { show: cellSize > 10 },
+            dayLabel: { show: cellSize > 10 },
+            yearLabel: { show: cellSize > 10 },
+            itemStyle: {
+              borderWidth: cellSize > 10 ? 0.5 : 0.2,
+            },
+            splitLine: {
+              lineStyle: {
+                width: cellSize > 10 ? 1 : 0.5,
+              },
+            },
+          },
+        },
+      };
+    });
+}
 
 function processData(
   selectedYear: number,
@@ -214,13 +235,6 @@ function getDiscretePieces(
   }
   return pieces;
 }
-
-const useStyles = makeStyles({
-  chartDiv: {
-    width: "100%",
-    height: "30vh",
-  },
-});
 
 const ActivityCalendar: React.FC = () => {
   const chartRef = useRef<HTMLDivElement>(null);
@@ -285,6 +299,15 @@ const ActivityCalendar: React.FC = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [chart]);
+
+  const theme = useTheme();
+
+  useEffect(() => {
+    if (chart && theme) {
+      option.media = getMediaOptions(theme);
+      chart.setOption(option);
+    }
+  }, [chart, theme]);
 
   const classes = useStyles();
 
