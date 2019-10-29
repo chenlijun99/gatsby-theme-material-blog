@@ -13,18 +13,20 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useMediaQuery } from "@material-ui/core";
 
-import { ArchivePostsQuery } from "../generated/graphql";
+import get from "lodash/get";
+
+import { ArchiveQuery } from "../generated/graphql";
 import { LayoutContext } from "../components/Layout";
 import SEO from "../components/SEO";
 import ActivityCalendar from "../components/ActivityCalendar";
 import TagsWordCloud from "../components/TagsWordCloud";
 
 type BlogPostGroupedByYear = {
-  [key in number]: Array<ArchivePostsQuery["allBlogPost"]["nodes"][0]>;
+  [key in number]: Array<ArchiveQuery["posts"]["nodes"][0]>;
 };
 
 function groupByYear(
-  posts: ArchivePostsQuery["allBlogPost"]["nodes"]
+  posts: ArchiveQuery["posts"]["nodes"]
 ): BlogPostGroupedByYear {
   return posts.reduce(
     (accumulator, post) => {
@@ -51,11 +53,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ArchivePage: React.FC<{ data: ArchivePostsQuery }> = ({ data }) => {
+const ArchivePage: React.FC<{ data: ArchiveQuery }> = ({ data }) => {
   const context = useContext(LayoutContext);
   useEffect(() => {
+    const img = get(data, "headerImage.childImageSharp.fluid", undefined);
     context.setHeaderProps({
       title: "Archive",
+      coverImg: img ? [img] : undefined,
     });
     return () => {
       context.setHeaderProps({});
@@ -63,7 +67,7 @@ const ArchivePage: React.FC<{ data: ArchivePostsQuery }> = ({ data }) => {
   }, []);
 
   const classes = useStyles();
-  const postsGrouopedByYear = groupByYear(data.allBlogPost.nodes);
+  const postsGrouopedByYear = groupByYear(data.posts.nodes);
 
   const theme = useTheme();
   const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -130,8 +134,15 @@ const ArchivePage: React.FC<{ data: ArchivePostsQuery }> = ({ data }) => {
 };
 
 export const query = graphql`
-  query ArchivePosts {
-    allBlogPost(sort: { fields: [date, title], order: DESC }) {
+  query Archive {
+    headerImage: file(relativePath: { eq: "archive.jpg" }) {
+      childImageSharp {
+        fluid(quality: 90, maxWidth: 1920) {
+          ...GatsbyImageSharpFluid_withWebp
+        }
+      }
+    }
+    posts: allBlogPost(sort: { fields: [date, title], order: DESC }) {
       nodes {
         id
         slug

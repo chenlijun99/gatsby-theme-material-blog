@@ -68,6 +68,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
             return "Untitled";
           },
         },
+        featuredImage: { type: `File`, extensions: { fileByRelativePath: {} } },
         slug: {
           type: `String!`,
         },
@@ -136,6 +137,7 @@ exports.onCreateNode = async (
       slug,
       date: node.frontmatter.date,
       keywords: node.frontmatter.keywords || [],
+      featuredImage: node.frontmatter.featuredImage,
     };
 
     const mdxBlogPostId = createNodeId(`${node.id} >>> MdxBlogPost`);

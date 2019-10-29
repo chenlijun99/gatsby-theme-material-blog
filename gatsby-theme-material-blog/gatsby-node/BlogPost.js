@@ -8,6 +8,7 @@ exports.createSchemaCustomization = ({ actions }) => {
   createTypes(`interface BlogPost @nodeInterface {
       id: ID!
       title: String!
+      featuredImage: File @fileByRelativePath
       body: String!
       slug: String!
       date: Date! @dateformat

@@ -13,7 +13,9 @@ import { useScrollTrigger } from "@material-ui/core";
 import { useTheme, withStyles, makeStyles } from "@material-ui/core/styles";
 
 import { useStaticQuery, graphql, Link } from "gatsby";
-import BackgroundImage from "gatsby-background-image";
+import BackgroundImage, {
+  IBackgroundImageProps,
+} from "gatsby-background-image";
 
 import Search from "./search/";
 import useSiteMetadata from "../hooks/useSiteMetadata";
@@ -34,11 +36,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface HeaderContentWrapperProps {
-  coverImg?: string;
+  coverImg?: IBackgroundImageProps["fluid"];
 }
 
 const HeaderContentWrapper: React.FC<HeaderContentWrapperProps> = ({
   children,
+  coverImg,
 }) => {
   const data = useStaticQuery(
     graphql`
@@ -69,7 +72,7 @@ const HeaderContentWrapper: React.FC<HeaderContentWrapperProps> = ({
     <BackgroundImage
       Tag="div"
       className={classes.headerContentWrapper}
-      fluid={backgroundFluidImageStack}
+      fluid={coverImg || backgroundFluidImageStack}
     >
       {children}
     </BackgroundImage>
@@ -129,13 +132,12 @@ const CustomAppBar: React.FC<CustomAppBarProps> = props => {
             About
           </NavLinkButton>
         </ButtonGroup>
-        <Search />
       </Toolbar>
     </AppBar>
   );
 };
 
-export interface HeaderProps {
+export interface HeaderProps extends HeaderContentWrapperProps {
   title?: string;
   children?: React.ReactNode;
 }
@@ -143,16 +145,19 @@ export interface HeaderProps {
 const Header: React.FC<HeaderProps> = props => {
   const siteMetadata = useSiteMetadata();
   const classes = useStyles();
+
+  const { title, children, ...forwardProps } = props;
+
   return (
     <React.Fragment>
       <TransformOnScroll>
-        <CustomAppBar title={props.title || siteMetadata.title} />
+        <CustomAppBar title={title || siteMetadata.title} />
       </TransformOnScroll>
-      <HeaderContentWrapper>
-        {props.children || (
+      <HeaderContentWrapper {...forwardProps}>
+        {children || (
           <div className={classes.fallbackHeaderContent}>
             <Typography variant="h1" component="h1" noWrap>
-              {props.title || siteMetadata.title}
+              {title || siteMetadata.title}
             </Typography>
           </div>
         )}

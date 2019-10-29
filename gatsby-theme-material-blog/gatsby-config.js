@@ -77,8 +77,6 @@ module.exports = themeOptions => {
           path: `${__dirname}/src/images`,
         },
       },
-      `gatsby-plugin-sharp`,
-      `gatsby-transformer-sharp`,
       "gatsby-transformer-javascript-frontmatter",
       {
         resolve: `gatsby-plugin-layout`,
