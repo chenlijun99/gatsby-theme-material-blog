@@ -1150,10 +1150,10 @@ export enum FileFieldsEnum {
   ChildMdxRawBody = 'childMdx___rawBody',
   ChildMdxFileAbsolutePath = 'childMdx___fileAbsolutePath',
   ChildMdxFrontmatterTitle = 'childMdx___frontmatter___title',
-  ChildMdxFrontmatterName = 'childMdx___frontmatter___name',
-  ChildMdxFrontmatterOpen = 'childMdx___frontmatter___open',
   ChildMdxFrontmatterDate = 'childMdx___frontmatter___date',
   ChildMdxFrontmatterTags = 'childMdx___frontmatter___tags',
+  ChildMdxFrontmatterName = 'childMdx___frontmatter___name',
+  ChildMdxFrontmatterOpen = 'childMdx___frontmatter___open',
   ChildMdxBody = 'childMdx___body',
   ChildMdxExcerpt = 'childMdx___excerpt',
   ChildMdxHeadings = 'childMdx___headings',
@@ -2804,10 +2804,10 @@ export enum MdxFieldsEnum {
   RawBody = 'rawBody',
   FileAbsolutePath = 'fileAbsolutePath',
   FrontmatterTitle = 'frontmatter___title',
-  FrontmatterName = 'frontmatter___name',
-  FrontmatterOpen = 'frontmatter___open',
   FrontmatterDate = 'frontmatter___date',
   FrontmatterTags = 'frontmatter___tags',
+  FrontmatterName = 'frontmatter___name',
+  FrontmatterOpen = 'frontmatter___open',
   Body = 'body',
   Excerpt = 'excerpt',
   Headings = 'headings',
@@ -2975,10 +2975,10 @@ export type MdxFilterInput = {
 export type MdxFrontmatter = {
    __typename?: 'MdxFrontmatter',
   title: Scalars['String'],
-  name?: Maybe<Scalars['String']>,
-  open?: Maybe<Scalars['Boolean']>,
   date?: Maybe<Scalars['Date']>,
   tags?: Maybe<Array<Maybe<Scalars['String']>>>,
+  name?: Maybe<Scalars['String']>,
+  open?: Maybe<Scalars['Boolean']>,
 };
 
 
@@ -2991,10 +2991,10 @@ export type MdxFrontmatterDateArgs = {
 
 export type MdxFrontmatterFilterInput = {
   title?: Maybe<StringQueryOperatorInput>,
-  name?: Maybe<StringQueryOperatorInput>,
-  open?: Maybe<BooleanQueryOperatorInput>,
   date?: Maybe<DateQueryOperatorInput>,
   tags?: Maybe<StringQueryOperatorInput>,
+  name?: Maybe<StringQueryOperatorInput>,
+  open?: Maybe<BooleanQueryOperatorInput>,
 };
 
 export type MdxGroupConnection = {
@@ -4403,16 +4403,16 @@ export type ThemeOptionsQuery = (
   )> }
 );
 
-export type Unnamed_3_QueryVariables = {};
+export type ArchivePostsQueryVariables = {};
 
 
-export type Unnamed_3_Query = (
+export type ArchivePostsQuery = (
   { __typename?: 'Query' }
   & { allBlogPost: (
     { __typename?: 'BlogPostConnection' }
     & { nodes: Array<(
       { __typename?: 'MdxBlogPost' }
-      & Pick<MdxBlogPost, 'id' | 'excerpt' | 'slug' | 'title' | 'tags' | 'keywords' | 'date'>
+      & Pick<MdxBlogPost, 'id' | 'slug' | 'title' | 'date'>
     )> }
   ) }
 );

@@ -151,8 +151,8 @@ const Header: React.FC<HeaderProps> = props => {
       <HeaderContentWrapper>
         {props.children || (
           <div className={classes.fallbackHeaderContent}>
-            <Typography variant="h4" component="h1" noWrap>
-              <h1>{props.title || siteMetadata.title}</h1>
+            <Typography variant="h1" component="h1" noWrap>
+              {props.title || siteMetadata.title}
             </Typography>
           </div>
         )}

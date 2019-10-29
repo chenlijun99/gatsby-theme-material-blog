@@ -2,7 +2,7 @@ import React from "react";
 import { graphql, useStaticQuery } from "gatsby";
 import ReactWordCloud, { Word } from "react-wordcloud";
 import { TagsWordCloudQuery } from "../generated/graphql";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   wordCloudContainer: {
@@ -46,11 +46,18 @@ const TagsWordCloud: React.FC = () => {
   });
 
   const classes = useStyles();
+  const theme = useTheme();
   return (
     <div className={classes.wordCloudContainer}>
       <ReactWordCloud
         words={words}
-        options={{ rotationAngles: [0, 0], rotations: 1, fontSizes: [12, 30] }}
+        minSize={[300, 300]}
+        options={{
+          rotationAngles: [0, 0],
+          rotations: 1,
+          fontSizes: [12, 30],
+          deterministic: true,
+        }}
       />
     </div>
   );

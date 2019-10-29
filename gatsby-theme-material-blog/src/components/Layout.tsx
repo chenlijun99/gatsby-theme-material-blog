@@ -39,7 +39,7 @@ const Layout: React.FC = ({ children }) => {
           <Header {...headerProps} />
           <div ref={backToTopAnchor} />
           <MDXProviderWrapper>
-            <Container component="main">{children}</Container>
+            <main>{children}</main>
           </MDXProviderWrapper>
           <ScrollTop anchorRef={backToTopAnchor}>
             <Fab color="secondary" size="small" aria-label="scroll back to top">
