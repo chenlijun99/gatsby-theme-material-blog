@@ -48,6 +48,8 @@ module.exports = themeOptions => {
       },
       `gatsby-transformer-sharp`,
       `gatsby-plugin-sharp`,
+      // workaround for https://github.com/gatsbyjs/gatsby/issues/16712
+      "gatsby-remark-images",
       {
         resolve: `gatsby-plugin-mdx`,
         options: {
@@ -58,18 +60,10 @@ module.exports = themeOptions => {
               options: {
                 // should this be configurable by the end-user?
                 maxWidth: 1380,
-                linkImagesToOriginal: false,
               },
             },
             { resolve: `gatsby-remark-smartypants` },
           ],
-          remarkPlugins: [require(`remark-slug`)],
-        },
-      },
-      {
-        resolve: `gatsby-plugin-mdx`,
-        options: {
-          extensions: [`.mdx`, `.md`],
           remarkPlugins: [require("remark-math")],
           rehypePlugins: [require("rehype-katex")],
         },
