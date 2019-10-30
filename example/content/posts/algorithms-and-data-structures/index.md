@@ -1,6 +1,10 @@
 ---
-name: "Algorithms and Data Structures"
+title: "Algorithms and Data Structures"
 open: true
-date: 2019-10-06
+date: 2019-10-30
 ---
+
+# A
+
+## B
 

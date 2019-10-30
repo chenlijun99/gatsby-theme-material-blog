@@ -2,6 +2,7 @@
 const path = require(`path`);
 const crypto = require(`crypto`);
 const { urlResolve } = require(`gatsby-core-utils`);
+const get = require("lodash/get");
 const withDefaultsOptions = require(`../src/utils/withDefaultOptions`);
 
 exports.createSchemaCustomization = ({ actions, schema }, themeOptions) => {
@@ -17,8 +18,24 @@ exports.createSchemaCustomization = ({ actions, schema }, themeOptions) => {
         },
         name: {
           type: `String!`,
-          resolve: (source, args, context, info) => {
-            return "NAME";
+          resolve: async (source, args, context, info) => {
+            const javascriptFrontmatter = await context.nodeModel.runQuery({
+              query: {
+                filter: {
+                  node: {
+                    relativePath: {
+                      eq: path.join(source.slug.slice(1), "config.js"),
+                    },
+                  },
+                },
+              },
+              type: "JavascriptFrontmatter",
+            });
+            return get(
+              javascriptFrontmatter,
+              "[0].frontmatter.name",
+              path.basename(source.slug)
+            );
           },
         },
         parentCategory: {
