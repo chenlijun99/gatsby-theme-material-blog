@@ -1,9 +1,20 @@
 import React, { useEffect } from "react";
 
+import { Link } from "gatsby";
+
 import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Divider from "@material-ui/core/Divider";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import HomeIcon from "@material-ui/icons/Home";
+import ArchiveIcon from "@material-ui/icons/Archive";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useMediaQuery } from "@material-ui/core";
+
+import { useLocation } from "react-use";
 
 import CategoriesNavMenu from "./CategoriesNavMenu";
 
@@ -55,6 +66,14 @@ const Sidenav: React.FC<Props> = props => {
     props.onOpenStatusChange(!props.open);
   };
 
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location) {
+      props.onOpenStatusChange(false);
+    }
+  }, [location]);
+
   let drawer;
   if (isMobile) {
     drawer = (
@@ -69,7 +88,22 @@ const Sidenav: React.FC<Props> = props => {
           keepMounted: true, // Better open performance on mobile.
         }}
       >
-        <CategoriesNavMenu />
+        <List component="nav" aria-label="main mailbox folders">
+          <ListItem button component={Link} to="/">
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+          <ListItem button component={Link} to="/archive">
+            <ListItemIcon>
+              <ArchiveIcon />
+            </ListItemIcon>
+            <ListItemText primary="Archive" />
+          </ListItem>
+        </List>
+        <Divider />
+        <CategoriesNavMenu enableLeafNode={true} />
       </SwipeableDrawer>
     );
   } else {
