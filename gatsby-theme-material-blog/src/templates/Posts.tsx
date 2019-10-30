@@ -21,6 +21,7 @@ import get from "lodash/get";
 import SEO from "../components/SEO";
 import { LayoutContext } from "../components/Layout";
 import { PostsQuery } from "../generated/graphql";
+import CategoriesNavMenu from "../components/CategoriesNavMenu";
 
 interface PostCardProps {
   post: PostsQuery["allBlogPost"]["nodes"][0];
@@ -97,10 +98,15 @@ const Posts: React.FC<{ data: PostsQuery }> = ({ data }) => {
   return (
     <React.Fragment>
       <SEO title="Home" />
-      <Box mx={[0, 10]}>
-        {data.allBlogPost.nodes.map(node => {
-          return <PostCard key={node.slug} post={node} />;
-        })}
+      <Box display="flex" flexDirection="row">
+        <Box minWidth="20%">
+          <CategoriesNavMenu enableLeafNode={true} />
+        </Box>
+        <Box mx={[0, 10]} flexGrow={1}>
+          {data.allBlogPost.nodes.map(node => {
+            return <PostCard key={node.id} post={node} />;
+          })}
+        </Box>
       </Box>
     </React.Fragment>
   );
@@ -115,7 +121,6 @@ export const query = graphql`
         slug
         title
         tags
-        keywords
         date(formatString: "MMMM DD, YYYY")
         featuredImage {
           childImageSharp {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { transparentize } from "polished";
 
@@ -11,6 +11,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { useScrollTrigger } from "@material-ui/core";
 import { useTheme, withStyles, makeStyles } from "@material-ui/core/styles";
+import { LayoutContext } from "./Layout";
 
 import { useStaticQuery, graphql, Link } from "gatsby";
 import BackgroundImage, {
@@ -112,10 +113,18 @@ const NavLinkButton = withStyles(theme => ({
 const CustomAppBar: React.FC<CustomAppBarProps> = props => {
   const { title, titleHidden, ...fordwardProps } = props;
   const classes = useStyles();
+  const context = useContext(LayoutContext);
   return (
     <AppBar {...fordwardProps}>
       <Toolbar>
-        <IconButton edge="start" color="inherit" aria-label="open drawer">
+        <IconButton
+          onClick={() => {
+            context.setSidenavOpen(!context.sidenavOpen);
+          }}
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+        >
           <MenuIcon />
         </IconButton>
         <Typography className={classes.appBarTitle} variant="h6" noWrap>

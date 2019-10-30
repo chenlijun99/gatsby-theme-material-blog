@@ -16,7 +16,13 @@ import usePostsGroupedByCategory, {
   Category,
 } from "../hooks/usePostsGroupedByCategory";
 
-const SubList: React.FC<{ node: Category; level: number }> = props => {
+declare interface CategoriesNavMenuProps {
+  enableLeafNode?: boolean;
+}
+
+const SubList: React.FC<
+  { node: Category; level: number } & CategoriesNavMenuProps
+> = props => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
 
@@ -27,29 +33,43 @@ const SubList: React.FC<{ node: Category; level: number }> = props => {
     }
     setOpen(!open);
   };
+  const renderSubList =
+    props.enableLeafNode ||
+    Object.values(props.node.children).filter(node => {
+      return isCategory(node);
+    }).length > 0;
   return (
     <>
       <ListItem
-        component={props.node.slug ? Link : "div"}
+        component={props.enableLeafNode && props.node.slug ? Link : "div"}
         to={props.node.slug}
         key={props.node.id}
         button
         onClick={handleClick}
       >
         <ListItemText primary={props.node.name} />
-        <div onClick={e => handleClick(e, true)}>
-          {open ? <ExpandLess /> : <ExpandMore />}
-        </div>
+        {renderSubList ? (
+          <div onClick={e => handleClick(e, true)}>
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </div>
+        ) : null}
       </ListItem>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        {// eslint-disable-next-line @typescript-eslint/no-use-before-define
-        getList(props.node.children, theme, props.level + 1)}
-      </Collapse>
+      {renderSubList ? (
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          {// eslint-disable-next-line @typescript-eslint/no-use-before-define
+          getList(props, props.node.children, theme, props.level + 1)}
+        </Collapse>
+      ) : null}
     </>
   );
 };
 
-function getList(rootNode: PostsGroupedByCategory, theme: Theme, level = 0) {
+function getList(
+  props: CategoriesNavMenuProps,
+  rootNode: PostsGroupedByCategory,
+  theme: Theme,
+  level = 0
+) {
   return (
     <List
       component={level === 0 ? "nav" : "div"}
@@ -66,24 +86,26 @@ function getList(rootNode: PostsGroupedByCategory, theme: Theme, level = 0) {
     >
       {Object.values(rootNode).map(node => {
         if (isCategory(node)) {
-          return <SubList node={node} level={level} />;
-        } else {
+          return <SubList {...props} node={node} level={level} />;
+        } else if (props.enableLeafNode) {
           return (
             <ListItem component={Link} to={node.slug} key={node.id} button>
               <ListItemText primary={node.title} />
             </ListItem>
           );
+        } else {
+          return null;
         }
       })}
     </List>
   );
 }
 
-const NavMenu: React.FC = () => {
+const CategoriesNavMenu: React.FC<CategoriesNavMenuProps> = props => {
   const theme = useTheme();
   const postsByCategories = usePostsGroupedByCategory();
 
-  return getList(postsByCategories, theme);
+  return getList(props, postsByCategories, theme);
 };
 
-export default NavMenu;
+export default CategoriesNavMenu;

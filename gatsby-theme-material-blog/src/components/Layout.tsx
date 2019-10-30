@@ -9,6 +9,7 @@ import Footer from "./Footer";
 import Theme from "./Theme";
 import Header, { HeaderProps } from "./Header";
 import ScrollTop from "./ScrollTop";
+import Sidenav from "./Sidenav";
 
 const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
@@ -19,10 +20,14 @@ const useStyles = makeStyles(theme => ({
 
 interface LayoutContextType {
   setHeaderProps(props: HeaderProps): void;
+  setSidenavOpen(open: boolean): void;
+  sidenavOpen: boolean;
 }
 
 export const LayoutContext = React.createContext<LayoutContextType>({
   setHeaderProps: (props: HeaderProps) => {},
+  setSidenavOpen: (open: boolean) => {},
+  sidenavOpen: false,
 });
 
 const Layout: React.FC = ({ children }) => {
@@ -30,14 +35,18 @@ const Layout: React.FC = ({ children }) => {
 
   const backToTopAnchor = React.createRef<HTMLDivElement>();
   const [headerProps, setHeaderProps] = useState({});
+  const [sidenavOpen, setSidenavOpen] = useState(false);
 
   return (
-    <LayoutContext.Provider value={{ setHeaderProps }}>
+    <LayoutContext.Provider
+      value={{ sidenavOpen, setHeaderProps, setSidenavOpen }}
+    >
       <Theme>
         <Box>
           <CssBaseline />
           <Header {...headerProps} />
           <div ref={backToTopAnchor} />
+          <Sidenav open={sidenavOpen} onOpenStatusChange={setSidenavOpen} />
           <MDXProviderWrapper>
             <main>{children}</main>
           </MDXProviderWrapper>

@@ -103,7 +103,7 @@ const usePostsGroupedByCategory = () => {
   const data = useStaticQuery<Query>(
     graphql`
       query PostsGroupedByCategory {
-        posts: allBlogPost {
+        posts: allBlogPost(sort: { fields: [title] }) {
           nodes {
             id
             slug

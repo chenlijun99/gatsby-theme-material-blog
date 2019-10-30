@@ -20,6 +20,7 @@ import { LayoutContext } from "../components/Layout";
 import SEO from "../components/SEO";
 import ActivityCalendar from "../components/ActivityCalendar";
 import TagsWordCloud from "../components/TagsWordCloud";
+import CategoriesNavMenu from "../components/CategoriesNavMenu";
 
 type BlogPostGroupedByYear = {
   [key in number]: Array<ArchiveQuery["posts"]["nodes"][0]>;
@@ -125,6 +126,11 @@ const ArchivePage: React.FC<{ data: ArchiveQuery }> = ({ data }) => {
               <Card>
                 <TagsWordCloud />
               </Card>
+              <Box marginTop={2}>
+                <Card>
+                  <CategoriesNavMenu />
+                </Card>
+              </Box>
             </Box>
           ) : null}
         </Box>
