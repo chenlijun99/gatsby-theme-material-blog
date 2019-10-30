@@ -5,7 +5,7 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useMediaQuery } from "@material-ui/core";
 
-import NavMenu from "./NavMenu";
+import CategoriesNavMenu from "./CategoriesNavMenu";
 
 interface Props {
   open: boolean;
@@ -69,7 +69,7 @@ const Sidenav: React.FC<Props> = props => {
           keepMounted: true, // Better open performance on mobile.
         }}
       >
-        <NavMenu />
+        <CategoriesNavMenu />
       </SwipeableDrawer>
     );
   } else {
@@ -84,7 +84,7 @@ const Sidenav: React.FC<Props> = props => {
             ((props.classes && props.classes.desktopDrawer) || ""),
         }}
       >
-        <NavMenu />
+        <CategoriesNavMenu />
       </Drawer>
     );
   }

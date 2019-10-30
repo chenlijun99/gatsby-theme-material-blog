@@ -80,7 +80,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
           args: {
             pruneLength: {
               type: `Int`,
-              defaultValue: 100000,
+              defaultValue: 500,
             },
           },
           resolve: mdxResolverPassthrough(`excerpt`),
@@ -114,7 +114,7 @@ exports.onCreateNode = async (
   if (node.internal.type === `Mdx` && source === contentPath) {
     let slug;
     if (node.frontmatter.slug) {
-      if (path.isAbsolute(node.frontmatter.slug)) {
+      if (path.posix.isAbsolute(node.frontmatter.slug)) {
         // absolute paths take precedence
         slug = node.frontmatter.slug;
       } else {
@@ -127,6 +127,8 @@ exports.onCreateNode = async (
         node: fileNode,
         getNode,
         basePath: contentPath,
+        trailingSlash:
+          path.basename(fileNode.absolutePath).split(".")[0] === "index",
       });
 
       slug = urlResolve(basePath, filePath);

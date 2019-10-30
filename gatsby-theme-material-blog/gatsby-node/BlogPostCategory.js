@@ -14,7 +14,7 @@ exports.createSchemaCustomization = ({ actions, schema }, themeOptions) => {
       fields: {
         id: { type: `ID!` },
         slug: {
-          type: `String!`,
+          type: `String!`, // with trailing slash
         },
         name: {
           type: `String!`,
@@ -24,7 +24,7 @@ exports.createSchemaCustomization = ({ actions, schema }, themeOptions) => {
                 filter: {
                   node: {
                     relativePath: {
-                      eq: path.join(source.slug.slice(1), "config.js"),
+                      eq: path.posix.join(source.slug.slice(1), "config.js"),
                     },
                   },
                 },
@@ -34,41 +34,8 @@ exports.createSchemaCustomization = ({ actions, schema }, themeOptions) => {
             return get(
               javascriptFrontmatter,
               "[0].frontmatter.name",
-              path.basename(source.slug)
+              path.posix.basename(source.slug)
             );
-          },
-        },
-        parentCategory: {
-          type: `BlogPostCategory`,
-          resolve: (source, args, context, info) => {
-            if (
-              path.relative(basePath, source.slug).split(path.sep).length > 1
-            ) {
-              return context.nodeModel
-                .getAllNodes({ type: "BlogPostCategory" })
-                .find(node => {
-                  const relativePath = path.relative(
-                    node.slug,
-                    path.dirname(source.slug)
-                  );
-                  return relativePath.length === 0;
-                });
-            }
-            return null;
-          },
-        },
-        subCategories: {
-          type: `[BlogPostCategory]`,
-          resolve: (source, args, context, info) => {
-            return context.nodeModel
-              .getAllNodes({ type: "BlogPostCategory" })
-              .filter(node => {
-                const relativePath = path.relative(
-                  source.slug,
-                  path.dirname(node.slug)
-                );
-                return relativePath.length === 0;
-              });
           },
         },
       },
@@ -77,48 +44,41 @@ exports.createSchemaCustomization = ({ actions, schema }, themeOptions) => {
   );
 };
 
-const categories = {};
-
 exports.onCreateNode = async (
   { node, actions, getNode, createNodeId },
   themeOptions
 ) => {
-  const { createNode } = actions;
+  const { createNode, createParentChildLink } = actions;
   const { contentPath, basePath } = withDefaultsOptions(themeOptions);
 
-  // Make sure it's an MDX node
-  if (node.internal.type !== `Mdx`) {
+  // Make sure it's an Directory node
+  if (node.internal.type !== `Directory`) {
     return;
   }
 
-  // Create source field (according to contentPath)
-  const fileNode = getNode(node.parent);
-  const source = fileNode.sourceInstanceName;
+  if (node.sourceInstanceName === contentPath && node.relativePath !== "") {
+    const blogPostCategoryId = createNodeId(`${node.id} >>> BlogPostCategory`);
+    const fieldData = {
+      slug: urlResolve(basePath, ...node.relativePath.split(path.sep)) + "/",
+    };
+    await createNode({
+      ...fieldData,
+      id: blogPostCategoryId,
+      parent: node.id,
+      children: [],
+      internal: {
+        type: `BlogPostCategory`,
+        contentDigest: crypto
+          .createHash(`md5`)
+          .update(JSON.stringify(fieldData))
+          .digest(`hex`),
+        content: JSON.stringify(fieldData),
+      },
+    });
 
-  if (node.internal.type === `Mdx` && source === contentPath) {
-    const categorySlug =
-      node.frontmatter.category || path.dirname(fileNode.relativePath);
-    categorySlug
-      .split("/")
-      .reduce(async (currentCategory, category, i, arr) => {
-        if (!currentCategory[category]) {
-          currentCategory[category] = {};
-          await createNode({
-            slug: urlResolve(basePath, categorySlug),
-            id: createNodeId(`${category}`),
-            parent: null,
-            children: [],
-            internal: {
-              type: `BlogPostCategory`,
-              contentDigest: crypto
-                .createHash(`md5`)
-                .update(JSON.stringify(arr.slice(0, i)))
-                .digest(`hex`),
-              content: JSON.stringify(arr.slice(0, i)),
-            },
-          });
-        }
-        return currentCategory[category];
-      }, categories);
+    createParentChildLink({
+      parent: node,
+      child: getNode(blogPostCategoryId),
+    });
   }
 };

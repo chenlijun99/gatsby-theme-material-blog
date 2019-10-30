@@ -50,3 +50,6 @@ exports.onCreateNode = async (...args) => {
 exports.createPages = async (...args) => {
   await callLifecycleHookForEachModule("createPages", ...args);
 };
+exports.createResolvers = async (...args) => {
+  await callLifecycleHookForEachModule("createResolvers", ...args);
+};

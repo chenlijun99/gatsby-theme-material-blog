@@ -5,6 +5,11 @@ const PostsTemplate = require.resolve(`../src/templates/Posts.tsx`);
 
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
+  /**
+   * slug: without trailing slash, except if the filename is index in a directory
+   * E.g. dir/a.md: the slug should be dir/a instead of dir/a/.
+   * E.g. dir/index.md: the slug should be dir/ instead of dir.
+   */
   createTypes(`interface BlogPost @nodeInterface {
       id: ID!
       title: String!
