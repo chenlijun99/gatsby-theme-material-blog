@@ -17,5 +17,16 @@ module.exports = {
   ],
   siteMetadata: {
     title: `Bookshelf`,
+    author: `Lijun Chen`,
+    social: [
+      {
+        name: `Twitter`,
+        url: `https://twitter.com/gatsbyjs`,
+      },
+      {
+        name: `GitHub`,
+        url: `https://github.com/gatsbyjs`,
+      },
+    ],
   },
 };

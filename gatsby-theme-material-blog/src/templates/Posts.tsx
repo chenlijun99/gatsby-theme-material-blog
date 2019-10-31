@@ -13,10 +13,12 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Chip from "@material-ui/core/Chip";
 import Divider from "@material-ui/core/Divider";
 import Icon from "@material-ui/core/Icon";
+import { useMediaQuery, useTheme } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
 import get from "lodash/get";
+import { useOrientation } from "react-use";
 
 import SEO from "../components/SEO";
 import { LayoutContext } from "../components/Layout";
@@ -95,14 +97,19 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 };
 
 const Posts: React.FC<{ data: PostsQuery }> = ({ data }) => {
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <React.Fragment>
       <SEO title="Home" />
       <Box display="flex" flexDirection="row">
-        <Box minWidth="20%">
-          <CategoriesNavMenu enableLeafNode={true} />
-        </Box>
-        <Box mx={[0, 10]} flexGrow={1}>
+        {!smallScreen ? (
+          <Box minWidth="20%">
+            <CategoriesNavMenu enableLeafNode={true} />
+          </Box>
+        ) : null}
+        <Box mx={[0, 5, 10]} flexGrow={1}>
           {data.allBlogPost.nodes.map(node => {
             return <PostCard key={node.id} post={node} />;
           })}

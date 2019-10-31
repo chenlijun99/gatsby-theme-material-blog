@@ -4,8 +4,7 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { CssBaseline, Box, Container, Fab, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import MDXProviderWrapper from "./MDXProviderWrapper";
-import Footer from "./Footer";
+import Footer from "./Footer/";
 import Theme from "./Theme";
 import Header, { HeaderProps } from "./Header";
 import ScrollTop from "./ScrollTop";
@@ -38,26 +37,29 @@ const Layout: React.FC = ({ children }) => {
   const [sidenavOpen, setSidenavOpen] = useState(false);
 
   return (
-    <LayoutContext.Provider
-      value={{ sidenavOpen, setHeaderProps, setSidenavOpen }}
-    >
-      <Theme>
-        <Box>
-          <CssBaseline />
-          <Header {...headerProps} />
-          <div ref={backToTopAnchor} />
-          <Sidenav open={sidenavOpen} onOpenStatusChange={setSidenavOpen} />
-          <MDXProviderWrapper>
-            <main>{children}</main>
-          </MDXProviderWrapper>
+    <>
+      <CssBaseline />
+      <LayoutContext.Provider
+        value={{ sidenavOpen, setHeaderProps, setSidenavOpen }}
+      >
+        <Theme>
+          <Box display="flex" flexDirection="column" minHeight="100vh">
+            <Header {...headerProps} />
+            <div ref={backToTopAnchor} />
+            <Sidenav open={sidenavOpen} onOpenStatusChange={setSidenavOpen} />
+            <Box flexGrow={1}>
+              <main>{children}</main>
+            </Box>
+            <Footer />
+          </Box>
           <ScrollTop anchorRef={backToTopAnchor}>
             <Fab color="secondary" size="small" aria-label="scroll back to top">
               <KeyboardArrowUpIcon />
             </Fab>
           </ScrollTop>
-        </Box>
-      </Theme>
-    </LayoutContext.Provider>
+        </Theme>
+      </LayoutContext.Provider>
+    </>
   );
 };
 

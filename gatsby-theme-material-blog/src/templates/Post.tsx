@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/styles";
 import get from "lodash/get";
 
 import SEO from "../components/SEO";
+import MDXProviderWrapper from "../components/MDXProviderWrapper";
 import { LayoutContext } from "../components/Layout";
 import { PostPageQuery } from "../generated/graphql";
 
@@ -53,7 +54,9 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
           <Typography variant="body2" noWrap>
             {post!.date}
           </Typography>
-          <MDXRenderer>{post!.body}</MDXRenderer>
+          <MDXProviderWrapper>
+            <MDXRenderer>{post!.body}</MDXRenderer>
+          </MDXProviderWrapper>
         </Container>
       </Card>
     </React.Fragment>

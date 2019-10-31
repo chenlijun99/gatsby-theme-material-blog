@@ -19,7 +19,7 @@ import BackgroundImage, {
 } from "gatsby-background-image";
 
 import Search from "./search/";
-import useSiteMetadata from "../hooks/useSiteMetadata";
+import useSiteData from "../hooks/useSiteData";
 
 const useStyles = makeStyles(theme => ({
   headerContentWrapper: {
@@ -152,7 +152,7 @@ export interface HeaderProps extends HeaderContentWrapperProps {
 }
 
 const Header: React.FC<HeaderProps> = props => {
-  const siteMetadata = useSiteMetadata();
+  const siteData = useSiteData();
   const classes = useStyles();
 
   const { title, children, ...forwardProps } = props;
@@ -160,13 +160,13 @@ const Header: React.FC<HeaderProps> = props => {
   return (
     <React.Fragment>
       <TransformOnScroll>
-        <CustomAppBar title={title || siteMetadata.title} />
+        <CustomAppBar title={title || siteData.siteMetadata.title} />
       </TransformOnScroll>
       <HeaderContentWrapper {...forwardProps}>
         {children || (
           <div className={classes.fallbackHeaderContent}>
             <Typography variant="h1" component="h1" noWrap>
-              {title || siteMetadata.title}
+              {title || siteData.siteMetadata.title}
             </Typography>
           </div>
         )}
