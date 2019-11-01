@@ -11,6 +11,17 @@ A Gatsby theme for creating a material-design blog.
 
 [![CircleCI](https://circleci.com/gh/free-easy/gatsby-theme-material-blog.svg?style=svg)](https://circleci.com/gh/free-easy/gatsby-theme-material-blog)
 
+<!-- vim-markdown-toc GFM -->
+
+* [Installation](#installation)
+* [Usage](#usage)
+  * [Theme options](#theme-options)
+    * [Example usage](#example-usage)
+  * [Additional configuration](#additional-configuration)
+  * [Environment variables](#environment-variables)
+    * [Algolia Search](#algolia-search)
+
+<!-- vim-markdown-toc -->
 
 ## Installation
 
@@ -73,3 +84,13 @@ module.exports = {
 }
 ```
 
+### Environment variables
+
+#### Algolia Search
+
+In order to get Algolia Search functionality, you need to define the following
+variables:
+
+* `GATSBY_ALGOLIA_APP_ID`
+* `GATSBY_ALGOLIA_SEARCH_KEY`
+* `ALGOLIA_ADMIN_KEY`

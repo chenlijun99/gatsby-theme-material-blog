@@ -14,6 +14,18 @@ module.exports = {
       },
     },
     `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-plugin-webpack-bundle-analyser-v2`,
+      options: {
+        disable: process.env.DISABLE_WEBPACK_BUNDLE_ANALYSER === "1",
+      },
+    },
+    {
+      resolve: `gatsby-plugin-webpack-size`,
+      options: {
+        writeFile: true,
+      },
+    },
   ],
   siteMetadata: {
     title: `My Blog`,
