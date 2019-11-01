@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -7,24 +7,74 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { ListSubheader } from "@material-ui/core";
-import { useTheme, Theme } from "@material-ui/core/styles";
+import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import { Link } from "gatsby";
+
+import { lighten } from "polished";
+
 import usePostsGroupedByCategory, {
-  PostsGroupedByCategory,
+  CategoryPostNodes,
   isCategory,
   Category,
+  isBlogPost,
 } from "../hooks/usePostsGroupedByCategory";
+import { useLocation } from "react-use";
 
-declare interface CategoriesNavMenuProps {
+interface CategoriesNavMenuProps {
+  /**
+   * When this prop is set to true, the leafnodes (i.e. the blog posts) will be
+   * present in the list too.
+   * Furthermore, if one of the leaf nodes has the same slug as the category
+   * (which means its name is index.md), then instead of being shown as child
+   * in a sublist, it's shown as the parent of that sublist.
+   */
   enableLeafNode?: boolean;
 }
 
-const SubList: React.FC<
-  { node: Category; level: number } & CategoriesNavMenuProps
-> = props => {
-  const [open, setOpen] = useState(false);
-  const theme = useTheme();
+interface ItemListProps {
+  nodes: CategoryPostNodes;
+  level: number;
+}
+
+interface SubListProps {
+  node: Category;
+  level: number;
+}
+
+type CategoriesMenuContextType = CategoriesNavMenuProps;
+
+export const CategoriesMenuContext = React.createContext<
+  CategoriesMenuContextType
+>({});
+
+const itemStyles = (theme: Theme) => {
+  return {
+    "&:hover": {
+      color: theme.palette.primary.dark,
+      backgroundColor: lighten(0.25, theme.palette.primary.light),
+      borderRadius: theme.shape.borderRadius,
+    },
+    "&.active": {
+      color: theme.palette.primary.dark,
+      backgroundColor: lighten(0.25, theme.palette.primary.light),
+      borderRadius: theme.shape.borderRadius,
+    },
+  };
+};
+
+const useSubListStyle = makeStyles(theme => ({
+  item: itemStyles(theme),
+}));
+
+const SubList: React.FC<SubListProps> = props => {
+  const { node } = props;
+  const location = useLocation();
+  const [open, setOpen] = useState(
+    decodeURI(location.pathname || "").startsWith(node.slug)
+  );
+  const classes = useSubListStyle();
+  const context = useContext(CategoriesMenuContext);
 
   const handleClick = (e: React.MouseEvent, stopPropagation = false) => {
     if (stopPropagation) {
@@ -33,16 +83,34 @@ const SubList: React.FC<
     }
     setOpen(!open);
   };
+  /**
+   * A sublist is rendered when one of the following two conditions apply:
+   *
+   * * We want leaf node to be rendered and apart of the leaf node named
+   * index there's at least another leaf node
+   * * We don't want leaf node to be rendered, so among the child nodes at least
+   * one must a category node
+   */
   const renderSubList =
-    props.enableLeafNode ||
+    (context.enableLeafNode &&
+      Object.values(props.node.children).filter(node => {
+        return node.slug !== props.node.slug;
+      }).length > 0) ||
     Object.values(props.node.children).filter(node => {
       return isCategory(node);
     }).length > 0;
+
   return (
     <>
       <ListItem
-        component={props.enableLeafNode && props.node.slug ? Link : "div"}
-        to={props.node.slug}
+        {...(context.enableLeafNode && isBlogPost(props.node.children["/"])
+          ? {
+              component: Link,
+              to: props.node.children["/"].slug,
+              activeClassName: "active",
+            }
+          : {})}
+        className={classes.item}
         key={props.node.id}
         button
         onClick={handleClick}
@@ -56,26 +124,31 @@ const SubList: React.FC<
       </ListItem>
       {renderSubList ? (
         <Collapse in={open} timeout="auto" unmountOnExit>
-          {// eslint-disable-next-line @typescript-eslint/no-use-before-define
-          getList(props, props.node.children, theme, props.level + 1)}
+          <ItemList nodes={props.node.children} level={props.level + 1} />
         </Collapse>
       ) : null}
     </>
   );
 };
 
-function getList(
-  props: CategoriesNavMenuProps,
-  rootNode: PostsGroupedByCategory,
-  theme: Theme,
-  level = 0
-) {
+const useItemListStyle = makeStyles<Theme, ItemListProps>(theme => ({
+  list: props => ({
+    paddingLeft: theme.spacing(1) * props.level,
+  }),
+  item: itemStyles(theme),
+}));
+
+const ItemList: React.FC<ItemListProps> = props => {
+  const { nodes, level, ...forwardProps } = props;
+  const classes = useItemListStyle(props);
+  const context = useContext(CategoriesMenuContext);
+
   return (
     <List
       component={level === 0 ? "nav" : "div"}
+      className={classes.list}
       dense={true}
       disablePadding={level !== 0}
-      style={{ paddingLeft: theme.spacing(level * 2) }}
       subheader={
         level === 0 ? (
           <ListSubheader component="div">Archive</ListSubheader>
@@ -84,12 +157,27 @@ function getList(
         )
       }
     >
-      {Object.values(rootNode).map(node => {
+      {Object.keys(nodes).map(key => {
+        const node = nodes[key];
         if (isCategory(node)) {
-          return <SubList {...props} node={node} level={level} />;
-        } else if (props.enableLeafNode) {
           return (
-            <ListItem component={Link} to={node.slug} key={node.id} button>
+            <SubList
+              key={node.id}
+              {...forwardProps}
+              node={node}
+              level={level}
+            />
+          );
+        } else if (context.enableLeafNode && key !== "/") {
+          return (
+            <ListItem
+              component={Link}
+              to={node.slug}
+              className={classes.item}
+              activeClassName="active"
+              key={node.id}
+              button
+            >
               <ListItemText primary={node.title} />
             </ListItem>
           );
@@ -99,13 +187,17 @@ function getList(
       })}
     </List>
   );
-}
-
-const CategoriesNavMenu: React.FC<CategoriesNavMenuProps> = props => {
-  const theme = useTheme();
+};
+const CategoriesNavMenu: React.FC<CategoriesMenuContextType> = ({
+  enableLeafNode,
+}) => {
   const postsByCategories = usePostsGroupedByCategory();
 
-  return getList(props, postsByCategories, theme);
+  return (
+    <CategoriesMenuContext.Provider value={{ enableLeafNode }}>
+      <ItemList nodes={postsByCategories} level={0} />
+    </CategoriesMenuContext.Provider>
+  );
 };
 
 export default CategoriesNavMenu;

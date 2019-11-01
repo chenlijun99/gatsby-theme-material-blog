@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 
-import { Card, Container } from "@material-ui/core";
+import { Card, Container, Box } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/styles";
 
@@ -13,6 +13,7 @@ import SEO from "../components/SEO";
 import MDXProviderWrapper from "../components/MDXProviderWrapper";
 import { LayoutContext } from "../components/Layout";
 import { PostPageQuery } from "../generated/graphql";
+import CategoriesNavMenu from "../components/CategoriesNavMenu";
 
 const useStyles = makeStyles({
   postCard: {
@@ -49,16 +50,23 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
   return (
     <React.Fragment>
       <SEO title={post!.title} description={post!.excerpt} />
-      <Card className={classes.postCard} raised={true}>
-        <Container component="article">
-          <Typography variant="body2" noWrap>
-            {post!.date}
-          </Typography>
-          <MDXProviderWrapper>
-            <MDXRenderer>{post!.body}</MDXRenderer>
-          </MDXProviderWrapper>
-        </Container>
-      </Card>
+      <Box display="flex" flexDirection="row">
+        <Box minWidth="20%">
+          <CategoriesNavMenu enableLeafNode={true} />
+        </Box>
+        <Box flexGrow={1}>
+          <Card className={classes.postCard} raised={true}>
+            <Container component="article">
+              <Typography variant="body2" noWrap>
+                {post!.date}
+              </Typography>
+              <MDXProviderWrapper>
+                <MDXRenderer>{post!.body}</MDXRenderer>
+              </MDXProviderWrapper>
+            </Container>
+          </Card>
+        </Box>
+      </Box>
     </React.Fragment>
   );
 };

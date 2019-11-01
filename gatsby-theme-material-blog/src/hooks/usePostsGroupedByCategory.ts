@@ -17,11 +17,9 @@ interface CategoryNode {
 export type Category = CategoryNode &
   Omit<BlogPostCategory, "parent" | "children" | "internal">;
 
-interface Root {
-  [key: string]: Category | BlogPost;
-}
+type Root = CategoryNode["children"];
 
-export type PostsGroupedByCategory = Root;
+export type CategoryPostNodes = Root;
 
 export function isCategory(arg: unknown): arg is Category {
   const check = arg as Category;

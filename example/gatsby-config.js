@@ -16,8 +16,9 @@ module.exports = {
     `gatsby-plugin-offline`,
   ],
   siteMetadata: {
-    title: `Bookshelf`,
+    title: `My Blog`,
     author: `Lijun Chen`,
+    description: `My Blog`,
     social: [
       {
         name: `Twitter`,

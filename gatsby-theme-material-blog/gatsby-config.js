@@ -17,11 +17,6 @@ module.exports = themeOptions => {
   }
 
   return {
-    siteMetadata: {
-      title: `Knowledge Base`,
-      description: `My knowledge base`,
-      author: `Lijun Chen`,
-    },
     plugins: [
       {
         resolve: `gatsby-source-filesystem`,
