@@ -73,6 +73,16 @@ const Input = connectSearchBox(props => {
 });
 
 const AlgoliaSearch: React.FC = () => {
+  if (
+    !(
+      process.env.GATSBY_ALGOLIA_APP_ID && process.env.GATSBY_ALGOLIA_SEARCH_KEY
+    )
+  ) {
+    console.warn(
+      `GATSBY_ALGOLIA_APP_ID, GATSBY_ALGOLIA_SEARCH_KEY and ALGOLIA_ADMIN_KEY environment variables are not defined. Search functionality won't be available`
+    );
+    return <></>;
+  }
   const [query, setQuery] = useState(``);
   const [focus, setFocus] = useState(false);
   const searchClient = algoliasearch(
