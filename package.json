@@ -5,24 +5,33 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^2.3.1",
     "@typescript-eslint/parser": "^2.3.1",
     "eslint": "^6.4.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.14.3",
+    "husky": "^3.0.9",
     "prettier": "^1.18.2"
   },
   "scripts": {
     "build": "yarn workspace example build",
+    "develop": "yarn workspace example develop",
+    "generate-graphql-types": "yarn workspace gatsby-theme-material-blog generate-graphql-types",
+    "lint": "eslint --ext .tsx gatsby-theme-material-blog/src/",
     "serve": "yarn workspace example serve",
     "start": "yarn run develop",
-    "develop": "yarn workspace example develop",
-    "lint": "eslint --ext .tsx gatsby-theme-material-blog/src/",
-    "generate-graphql-types": "yarn workspace gatsby-theme-material-blog generate-graphql-types"
+    "type-check": "yarn workspace gatsby-theme-material-blog type-check"
   },
   "workspaces": [
     "gatsby-theme-material-blog",
     "example"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
 }
