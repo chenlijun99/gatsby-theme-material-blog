@@ -7,9 +7,12 @@
   The Gatsby Material Design blog theme
 </h1>
 
-A Gatsby theme for creating a material-design blog.
 
 [![CircleCI](https://circleci.com/gh/free-easy/gatsby-theme-material-blog.svg?style=svg)](https://circleci.com/gh/free-easy/gatsby-theme-material-blog)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/19dbb999-1394-47b0-ad99-e8888c9ca27c/deploy-status)](https://app.netlify.com/sites/gatsby-material-blog-theme/deploys)
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+
+A Gatsby theme for creating a material-design blog.
 
 <!-- vim-markdown-toc GFM -->
 
