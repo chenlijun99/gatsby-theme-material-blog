@@ -1,6 +1,6 @@
 import React from "react";
 
-import BackgroundImage from "gatsby-background-image";
+import BackgroundImage, { IFluidObject } from "gatsby-background-image";
 import Img, { FluidObject } from "gatsby-image";
 import { Link, graphql } from "gatsby";
 
@@ -53,7 +53,9 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
               {get(post, "featuredImage.childImageSharp.fluid", null) ? (
                 <BackgroundImage
                   Tag="div"
-                  fluid={post!.featuredImage!.childImageSharp!.fluid!}
+                  fluid={
+                    post!.featuredImage!.childImageSharp!.fluid! as IFluidObject
+                  }
                 >
                   <Typography variant="h5" component="h2" noWrap>
                     {post.title}
