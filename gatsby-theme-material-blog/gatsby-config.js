@@ -80,6 +80,7 @@ module.exports = themeOptions => {
         },
       },
       `gatsby-plugin-material-ui`,
+      "gatsby-plugin-webpack-bundle-analyser-v2",
     ],
   };
 };
