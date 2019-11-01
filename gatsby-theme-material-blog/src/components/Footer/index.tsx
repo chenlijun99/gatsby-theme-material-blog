@@ -48,20 +48,22 @@ export default function Footer() {
         </Typography>
       </Box>
       <Box display="flex" flexDirection="row" my={[2]}>
-        {get(site, "siteMetadata.social", []).map(social => {
-          const icon = brandIconMap[(social.name as string).toLowerCase()];
-          if (icon) {
-            return (
-              <Box mx={1} key={social.url}>
-                <a href={social.url}>
-                  <FontAwesomeIcon className="MuiSvgIcon-root" icon={icon} />
-                </a>
-              </Box>
-            );
-          } else {
-            return <></>;
+        {get(site, "siteMetadata.social", []).map(
+          (social: { name: string; url: string }) => {
+            const icon = brandIconMap[social.name.toLowerCase()];
+            if (icon) {
+              return (
+                <Box mx={1} key={social.url}>
+                  <a href={social.url}>
+                    <FontAwesomeIcon className="MuiSvgIcon-root" icon={icon} />
+                  </a>
+                </Box>
+              );
+            } else {
+              return <></>;
+            }
           }
-        })}
+        )}
       </Box>
     </Box>
   );

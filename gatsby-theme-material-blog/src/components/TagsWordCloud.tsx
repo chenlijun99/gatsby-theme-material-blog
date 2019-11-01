@@ -1,8 +1,8 @@
 import React from "react";
 import { graphql, useStaticQuery } from "gatsby";
-import ReactWordCloud, { Word } from "react-wordcloud";
+import ReactWordCloud from "react-wordcloud";
 import { TagsWordCloudQuery } from "../generated/graphql";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   wordCloudContainer: {
@@ -46,7 +46,6 @@ const TagsWordCloud: React.FC = () => {
   });
 
   const classes = useStyles();
-  const theme = useTheme();
   return (
     <div className={classes.wordCloudContainer}>
       <ReactWordCloud

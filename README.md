@@ -9,6 +9,9 @@
 
 A Gatsby theme for creating a material-design blog.
 
+[![CircleCI](https://circleci.com/gh/free-easy/gatsby-theme-material-blog.svg?style=svg)](https://circleci.com/gh/free-easy/gatsby-theme-material-blog)
+
+
 ## Installation
 
 ```shell

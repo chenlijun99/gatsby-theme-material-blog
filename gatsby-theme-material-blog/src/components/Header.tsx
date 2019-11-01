@@ -11,6 +11,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { useScrollTrigger } from "@material-ui/core";
 import { useTheme, withStyles, makeStyles } from "@material-ui/core/styles";
+
+import get from "lodash/get";
+
 import { LayoutContext } from "./Layout";
 
 import { useStaticQuery, graphql, Link } from "gatsby";
@@ -18,7 +21,6 @@ import BackgroundImage, {
   IBackgroundImageProps,
 } from "gatsby-background-image";
 
-import Search from "./search/";
 import useSiteData from "../hooks/useSiteData";
 
 const useStyles = makeStyles(theme => ({
@@ -99,16 +101,19 @@ const TransformOnScroll: React.FC<{ children: React.ReactElement }> = props => {
 };
 
 interface CustomAppBarProps {
-  title: string;
+  title?: string;
   titleHidden?: boolean;
 }
 
+/**
+ * Check out https://github.com/mui-org/material-ui/issues/15759#issuecomment-493994852
+ */
 const NavLinkButton = withStyles(theme => ({
   root: {
     color: theme.palette.primary.contrastText,
     border: 0,
   },
-}))(Button);
+}))(Button) as typeof Button;
 
 const CustomAppBar: React.FC<CustomAppBarProps> = props => {
   const { title, titleHidden, ...fordwardProps } = props;
@@ -160,13 +165,15 @@ const Header: React.FC<HeaderProps> = props => {
   return (
     <React.Fragment>
       <TransformOnScroll>
-        <CustomAppBar title={title || siteData.siteMetadata.title} />
+        <CustomAppBar
+          title={title || get(siteData, "siteMetadata.title", undefined)}
+        />
       </TransformOnScroll>
       <HeaderContentWrapper {...forwardProps}>
         {children || (
           <div className={classes.fallbackHeaderContent}>
             <Typography variant="h1" component="h1" noWrap>
-              {title || siteData.siteMetadata.title}
+              {title || get(siteData, "siteMetadata.title", undefined)}
             </Typography>
           </div>
         )}

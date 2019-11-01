@@ -2,17 +2,19 @@
 const withDefaultsOptions = require(`./src/utils/withDefaultOptions`);
 const algoliaQueries = require("./src/utils/algoliaQueries");
 
+function algoliaKeysAvailable() {
+  return !!(
+    process.env.GATSBY_ALGOLIA_APP_ID &&
+    process.env.GATSBY_ALGOLIA_SEARCH_KEY &&
+    process.env.ALGOLIA_ADMIN_KEY
+  );
+}
+
 module.exports = themeOptions => {
   themeOptions = withDefaultsOptions(themeOptions);
-  if (
-    !(
-      process.env.GATSBY_ALGOLIA_APP_ID &&
-      process.env.GATSBY_ALGOLIA_SEARCH_KEY &&
-      process.env.ALGOLIA_ADMIN_KEY
-    )
-  ) {
-    console.error(
-      `GATSBY_ALGOLIA_APP_ID, GATSBY_ALGOLIA_SEARCH_KEY and ALGOLIA_ADMIN_KEY environment variables need to be defined`
+  if (!algoliaKeysAvailable()) {
+    console.warn(
+      `GATSBY_ALGOLIA_APP_ID, GATSBY_ALGOLIA_SEARCH_KEY and ALGOLIA_ADMIN_KEY environment variables are not defined. Search functionality won't be available`
     );
   }
 
@@ -30,15 +32,6 @@ module.exports = themeOptions => {
         options: {
           path: themeOptions.assetPath || `content/assets`,
           name: themeOptions.assetPath || `content/assets`,
-        },
-      },
-      {
-        resolve: `gatsby-plugin-algolia`,
-        options: {
-          appId: process.env.GATSBY_ALGOLIA_APP_ID,
-          apiKey: process.env.ALGOLIA_ADMIN_KEY,
-          queries: algoliaQueries,
-          chunkSize: 10000, // default: 1000
         },
       },
       `gatsby-transformer-sharp`,
@@ -81,6 +74,20 @@ module.exports = themeOptions => {
       },
       `gatsby-plugin-material-ui`,
       "gatsby-plugin-webpack-bundle-analyser-v2",
-    ],
+    ].concat(
+      algoliaKeysAvailable()
+        ? [
+            {
+              resolve: `gatsby-plugin-algolia`,
+              options: {
+                appId: process.env.GATSBY_ALGOLIA_APP_ID,
+                apiKey: process.env.ALGOLIA_ADMIN_KEY,
+                queries: algoliaQueries,
+                chunkSize: 10000, // default: 1000
+              },
+            },
+          ]
+        : []
+    ),
   };
 };

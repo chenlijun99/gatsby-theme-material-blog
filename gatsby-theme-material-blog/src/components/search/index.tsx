@@ -1,6 +1,5 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState } from "react";
 
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import Divider from "@material-ui/core/Divider";
 import Fade from "@material-ui/core/Fade";
@@ -22,8 +21,7 @@ import {
 import algoliasearch from "algoliasearch/lite";
 
 import SearchBar from "./Searchbar";
-import { HitComponents, HitComponentMap } from "./hitComopnents";
-import { SearchBoxProvided } from "react-instantsearch-core";
+import { HitComponents } from "./hitComopnents";
 
 import get from "lodash/get";
 
@@ -36,24 +34,6 @@ const Results = connectStateResults(
     }
   }
 );
-
-function useClickOutside(
-  ref: React.RefObject<Element>,
-  handler: () => unknown,
-  events: Array<keyof DocumentEventMap> = [`mousedown`, `touchstart`]
-) {
-  const detectClickOutside = (
-    event: DocumentEventMap[keyof DocumentEventMap]
-  ) => !ref.current!.contains(event.target as Node) && handler();
-  useEffect(() => {
-    for (const event of events)
-      document.addEventListener(event, detectClickOutside);
-    return () => {
-      for (const event of events)
-        document.removeEventListener(event, detectClickOutside);
-    };
-  });
-}
 
 const searchIndices: Array<{
   name: string;
@@ -73,8 +53,18 @@ const Input = connectSearchBox(props => {
 });
 
 const AlgoliaSearch: React.FC = () => {
+  if (
+    !(
+      process.env.GATSBY_ALGOLIA_APP_ID && process.env.GATSBY_ALGOLIA_SEARCH_KEY
+    )
+  ) {
+    console.warn(
+      `GATSBY_ALGOLIA_APP_ID, GATSBY_ALGOLIA_SEARCH_KEY and ALGOLIA_ADMIN_KEY environment variables are not defined. Search functionality won't be available`
+    );
+    return <></>;
+  }
   const [query, setQuery] = useState(``);
-  const [focus, setFocus] = useState(false);
+  const [] = useState(false);
   const searchClient = algoliasearch(
     process.env.GATSBY_ALGOLIA_APP_ID!,
     process.env.GATSBY_ALGOLIA_SEARCH_KEY!
@@ -102,7 +92,7 @@ const AlgoliaSearch: React.FC = () => {
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={100}>
             <Paper>
-              {searchIndices.map(({ name, title, hitComponent }) => (
+              {searchIndices.map(({ name, title }) => (
                 <Index key={name} indexName={name}>
                   <h3>{title}</h3>
                   <Divider variant="middle" />

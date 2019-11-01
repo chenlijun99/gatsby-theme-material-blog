@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
+import React from "react";
 
-import BackgroundImage from "gatsby-background-image";
+import BackgroundImage, { IFluidObject } from "gatsby-background-image";
 import Img, { FluidObject } from "gatsby-image";
 import { Link, graphql } from "gatsby";
 
@@ -12,16 +12,13 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Chip from "@material-ui/core/Chip";
 import Divider from "@material-ui/core/Divider";
-import Icon from "@material-ui/core/Icon";
 import { useMediaQuery, useTheme } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
 import get from "lodash/get";
-import { useOrientation } from "react-use";
 
 import SEO from "../components/SEO";
-import { LayoutContext } from "../components/Layout";
 import { PostsQuery } from "../generated/graphql";
 import CategoriesNavMenu from "../components/CategoriesNavMenu";
 
@@ -56,7 +53,9 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
               {get(post, "featuredImage.childImageSharp.fluid", null) ? (
                 <BackgroundImage
                   Tag="div"
-                  fluid={post!.featuredImage!.childImageSharp!.fluid!}
+                  fluid={
+                    post!.featuredImage!.childImageSharp!.fluid! as IFluidObject
+                  }
                 >
                   <Typography variant="h5" component="h2" noWrap>
                     {post.title}

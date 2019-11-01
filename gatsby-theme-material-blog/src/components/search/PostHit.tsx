@@ -1,14 +1,14 @@
 import React, { Fragment } from "react";
-import { Highlight, Snippet } from "react-instantsearch-dom";
+import { Highlight, Snippet, HitsProps } from "react-instantsearch-dom";
 import { Link } from "gatsby";
 import DateIcon from "@material-ui/icons/TodayOutlined";
 import TagsIcon from "@material-ui/icons/LabelOutlined";
+import { BlogPost } from "../../generated/graphql";
 
-const PostHit = clickHandler => ({ hit }) => {
-  console.log(hit);
+const PostHit: HitsProps<BlogPost>["hitComponent"] = ({ hit }) => {
   return (
     <div>
-      <Link to={hit.slug} onClick={clickHandler}>
+      <Link to={hit.slug}>
         <h4>
           <Highlight attribute="title" hit={hit} tagName="mark" />
         </h4>
@@ -20,8 +20,8 @@ const PostHit = clickHandler => ({ hit }) => {
         &emsp;
         <TagsIcon />
         &nbsp;
-        {(hit.tags || []).map((tag, index) => (
-          <Fragment key={tag}>
+        {hit.tags.map((tag, index) => (
+          <Fragment key={tag || index}>
             {index > 0 && `, `}
             {tag}
           </Fragment>

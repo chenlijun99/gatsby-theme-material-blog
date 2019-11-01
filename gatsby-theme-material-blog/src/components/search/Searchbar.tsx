@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const SearchBar = React.forwardRef<Element, InputBaseComponentProps>(
+const SearchBar = React.forwardRef<HTMLDivElement, InputBaseComponentProps>(
   (props, ref) => {
     const classes = useStyles();
     return (
