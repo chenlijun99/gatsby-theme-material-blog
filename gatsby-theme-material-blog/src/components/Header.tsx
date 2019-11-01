@@ -18,7 +18,6 @@ import BackgroundImage, {
   IBackgroundImageProps,
 } from "gatsby-background-image";
 
-import Search from "./search/";
 import useSiteData from "../hooks/useSiteData";
 
 const useStyles = makeStyles(theme => ({
