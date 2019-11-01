@@ -20,6 +20,7 @@ import usePostsGroupedByCategory, {
   isBlogPost,
 } from "../hooks/usePostsGroupedByCategory";
 import { useLocation } from "react-use";
+import { LocationSensorState } from "react-use/lib/useLocation";
 
 interface CategoriesNavMenuProps {
   /**
@@ -48,6 +49,27 @@ export const CategoriesMenuContext = React.createContext<
   CategoriesMenuContextType
 >({});
 
+function isSlugActive(location: LocationSensorState, slug: string): boolean {
+  return new RegExp(`^${slug}/?$`).test(decodeURI(location.pathname || ""));
+}
+function isSlugPartiallyActive(
+  location: LocationSensorState,
+  slug: string
+): boolean {
+  return decodeURI(location.pathname || "").startsWith(slug);
+}
+function getSlugActiveStatusClass(
+  location: LocationSensorState,
+  slug: string
+): string {
+  if (isSlugActive(location, slug)) {
+    return "active";
+  } else if (isSlugPartiallyActive(location, slug)) {
+    return "partial-active";
+  }
+  return "";
+}
+
 const itemStyles = (theme: Theme) => {
   return {
     "&:hover": {
@@ -57,7 +79,7 @@ const itemStyles = (theme: Theme) => {
     },
     "&.active": {
       color: theme.palette.primary.dark,
-      backgroundColor: lighten(0.25, theme.palette.primary.light),
+      backgroundColor: lighten(0.2, theme.palette.primary.light),
       borderRadius: theme.shape.borderRadius,
     },
   };
@@ -68,10 +90,9 @@ const useSubListStyle = makeStyles(theme => ({
 }));
 
 const SubList: React.FC<SubListProps> = props => {
-  const { node } = props;
   const location = useLocation();
   const [open, setOpen] = useState(
-    decodeURI(location.pathname || "").startsWith(node.slug)
+    isSlugPartiallyActive(location, props.node.slug)
   );
   const classes = useSubListStyle();
   const context = useContext(CategoriesMenuContext);
@@ -107,11 +128,15 @@ const SubList: React.FC<SubListProps> = props => {
           ? {
               component: Link,
               to: props.node.children["/"].slug,
-              activeClassName: "active",
             }
           : {})}
-        className={classes.item}
         key={props.node.id}
+        className={`${classes.item} ${getSlugActiveStatusClass(
+          location,
+          context.enableLeafNode && isBlogPost(props.node.children["/"])
+            ? props.node.children["/"].slug
+            : props.node.slug
+        )}`}
         button
         onClick={handleClick}
       >
@@ -142,6 +167,7 @@ const ItemList: React.FC<ItemListProps> = props => {
   const { nodes, level, ...forwardProps } = props;
   const classes = useItemListStyle(props);
   const context = useContext(CategoriesMenuContext);
+  const location = useLocation();
 
   return (
     <List
@@ -173,8 +199,10 @@ const ItemList: React.FC<ItemListProps> = props => {
             <ListItem
               component={Link}
               to={node.slug}
-              className={classes.item}
-              activeClassName="active"
+              className={`${classes.item} ${getSlugActiveStatusClass(
+                location,
+                node.slug
+              )}`}
               key={node.id}
               button
             >
