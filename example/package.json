@@ -20,6 +20,6 @@
   },
   "devDependencies": {
     "gatsby-plugin-webpack-bundle-analyser-v2": "^1.1.7",
-    "gatsby-plugin-webpack-size": "^1.0.0"
+    "size-plugin": "^2.0.1"
   }
 }
