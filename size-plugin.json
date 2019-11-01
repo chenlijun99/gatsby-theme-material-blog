@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1572648640332,
+    "timestamp": 1572650476642,
     "files": [
       {
         "filename": "commons-********************.js",
@@ -11,8 +11,8 @@
       {
         "filename": "app-********************.js",
         "previous": 0,
-        "size": 124296,
-        "diff": 124296
+        "size": 124297,
+        "diff": 124297
       },
       {
         "filename": "component---gatsby-theme-material-blog-src-pages-404-tsx-********************.js",
@@ -23,8 +23,8 @@
       {
         "filename": "component---gatsby-theme-material-blog-src-pages-archive-tsx-********************.js",
         "previous": 0,
-        "size": 357565,
-        "diff": 357565
+        "size": 357567,
+        "diff": 357567
       },
       {
         "filename": "component---gatsby-theme-material-blog-src-templates-post-tsx-********************.js",
@@ -59,8 +59,8 @@
       {
         "filename": "webpack-runtime-********************.js",
         "previous": 0,
-        "size": 1385,
-        "diff": 1385
+        "size": 1386,
+        "diff": 1386
       }
     ]
   }
