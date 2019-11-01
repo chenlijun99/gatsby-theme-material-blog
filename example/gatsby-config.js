@@ -23,7 +23,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-webpack-size`,
       options: {
-        writeFile: true,
+        publish: true,
       },
     },
   ],
