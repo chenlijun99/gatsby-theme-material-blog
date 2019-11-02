@@ -16,6 +16,7 @@ A Gatsby theme for creating a material-design blog.
 
 <!-- vim-markdown-toc GFM -->
 
+* [Features](#features)
 * [Installation](#installation)
 * [Usage](#usage)
   * [Theme options](#theme-options)
@@ -25,6 +26,14 @@ A Gatsby theme for creating a material-design blog.
     * [Algolia Search](#algolia-search)
 
 <!-- vim-markdown-toc -->
+
+## Features
+
+* Based on a solid material UI library, [material-ui](https://material-ui.com)
+* GitHub-like calendar heatmap to track activity
+* Mobile-friendly
+* Directory (a.k.a. category) organization of posts
+* Algolia search
 
 ## Installation
 

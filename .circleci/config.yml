@@ -1,8 +1,13 @@
-version: 2
-jobs:
- install:
+version: 2.1
+
+executors:
+  node-executor:
    docker:
      - image: circleci/node
+
+jobs:
+ install:
+   executor: node-executor
    steps:
      - checkout
      - restore_cache:
@@ -22,8 +27,7 @@ jobs:
         paths:
           - node_modules
  type-check:
-   docker:
-     - image: circleci/node
+   executor: node-executor
    steps:
      - checkout
      - attach_workspace:
@@ -31,8 +35,7 @@ jobs:
      - run: yarn run type-check
 
  lint:
-   docker:
-     - image: circleci/node
+   executor: node-executor
    steps:
      - checkout
      - attach_workspace:
@@ -40,13 +43,36 @@ jobs:
      - run: yarn run lint
 
  build:
-   docker:
-     - image: circleci/node
+   executor: node-executor
    steps:
      - checkout
      - attach_workspace:
         at: ./
-     - run: DISABLE_WEBPACK_BUNDLE_ANALYSER=1 yarn run build
+     - run:
+        name: Gatsby build
+        command: DISABLE_WEBPACK_BUNDLE_ANALYSER=1 yarn run build
+     - persist_to_workspace:
+        root: ./
+        paths:
+          - example/public/
+ deploy-pr-preview:
+   executor: node-executor
+   steps:
+     - checkout
+     - attach_workspace:
+        at: ./
+     - run:
+        name: Preview deploy
+        command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --dir=example/public
+ deploy-master:
+   executor: node-executor
+   steps:
+     - checkout
+     - attach_workspace:
+        at: ./
+     - run:
+        name: Production deploy
+        command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=example/public
 
 workflows:
   version: 2
@@ -63,3 +89,17 @@ workflows:
           requires:
             - lint
             - type-check
+      - deploy-pr-preview:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore:
+                - master
+      - deploy-master:
+          requires:
+            - build
+          filters:
+            branches:
+             only:
+                - master
