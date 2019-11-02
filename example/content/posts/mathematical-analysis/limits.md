@@ -12,6 +12,3 @@ $$
 \mid \forall x \in  \text{dom}f,0 \lt \left|x-c\right| \lt \delta \implies
 \left|f(x) - L\right| \lt \epsilon)
 $$
-
-![](../.gitbook/assets/fqobswjeq0-group.png)
-
