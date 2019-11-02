@@ -78,17 +78,34 @@ workflows:
   version: 2
   build_and_test: # name of your workflow
     jobs:
-      - install
+      - install:
+          filters:
+            branches:
+              ignore:
+                - size-plugin-*
       - type-check:
           requires:
             - install
+          filters:
+            branches:
+              ignore:
+                - size-plugin-*
       - lint:
           requires:
             - install
+          filters:
+            branches:
+              ignore:
+                - size-plugin-*
       - build:
           requires:
             - lint
             - type-check
+          filters:
+            branches:
+              ignore:
+                - master
+                - size-plugin-*
       - deploy-pr-preview:
           requires:
             - build
@@ -96,6 +113,7 @@ workflows:
             branches:
               ignore:
                 - master
+                - size-plugin-*
       - deploy-master:
           requires:
             - build
