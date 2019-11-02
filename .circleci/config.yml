@@ -1,20 +1,9 @@
-version: 2
+version: 2.1
 
-executors::
+executors:
   node-executor:
    docker:
      - image: circleci/node
-   steps:
-     - checkout
-     - attach_workspace:
-        at: ./
-     - run: DISABLE_WEBPACK_BUNDLE_ANALYSER=1 yarn run build
-
-netlify-deploy: &netlify-deploy
-   executor: node-executor
-   environment:
-    NETLIFY_SITE_ID: NETLIFY_SITE_ID
-    NETLIFY_ACCESS_TOKEN: NETLIFY_ACCESS_TOKEN
 
 jobs:
  install:
@@ -67,23 +56,23 @@ jobs:
         paths:
           - example/public/
  deploy-pr-preview:
-   <<: *netlify-deploy
+   executor: node-executor
    steps:
      - checkout
      - attach_workspace:
         at: ./
      - run:
         name: Preview deploy
-        command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --dir=example/build
+        command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --dir=example/public
  deploy-master:
-   <<: *netlify-deploy
+   executor: node-executor
    steps:
      - checkout
      - attach_workspace:
         at: ./
      - run:
         name: Production deploy
-        command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=example/build
+        command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=example/public
 
 workflows:
   version: 2
