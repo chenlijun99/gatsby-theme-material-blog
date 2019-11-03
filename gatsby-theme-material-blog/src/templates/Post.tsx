@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/styles";
 import get from "lodash/get";
 
 import SEO from "../components/SEO";
-import MDXProviderWrapper from "../components/MDXProviderWrapper";
+import MDXProviderWrapper from "../components/mdx/MDXProviderWrapper";
 import { LayoutContext } from "../components/Layout";
 import { PostPageQuery } from "../generated/graphql";
 import CategoriesNavMenu from "../components/CategoriesNavMenu";
@@ -18,11 +18,6 @@ import CategoriesNavMenu from "../components/CategoriesNavMenu";
 const useStyles = makeStyles({
   postCard: {
     position: "relative",
-    minHeight: "20vh",
-    marginTop: "-10vh",
-    marginLeft: "10vh",
-    marginRight: "10vh",
-    marginBottom: "30px",
   },
 });
 
@@ -51,10 +46,16 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
     <React.Fragment>
       <SEO title={post!.title} description={post!.excerpt} />
       <Box display="flex" flexDirection="row">
-        <Box minWidth="20%">
+        <Box minWidth={["15%"]}>
           <CategoriesNavMenu enableLeafNode={true} />
         </Box>
-        <Box flexGrow={1}>
+        <Box
+          flexGrow={1}
+          marginTop={["0", "-10vh"]}
+          marginBottom="10vh"
+          minHeight="50vh"
+          mx={[0, 2, 4, 5]}
+        >
           <Card className={classes.postCard} raised={true}>
             <Container component="article">
               <Typography variant="body2" noWrap>
