@@ -1,29 +1,19 @@
-import React from "react";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { useScrollTrigger, Zoom } from "@material-ui/core";
+import React, { useContext } from "react";
+import { useScrollTrigger, Zoom, Portal } from "@material-ui/core";
+import { LayoutContext } from "./Layout";
 
 interface Props {
   children?: React.ReactNode;
   anchorRef: React.RefObject<Element>;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      position: "fixed",
-      bottom: theme.spacing(2),
-      right: theme.spacing(2),
-    },
-  })
-);
-
 const ScrollTop: React.FC<Props> = props => {
   const { children } = props;
-  const classes = useStyles();
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 100,
   });
+  const layoutContext = useContext(LayoutContext);
 
   const handleClick = (): void => {
     if (props.anchorRef && props.anchorRef.current) {
@@ -35,11 +25,13 @@ const ScrollTop: React.FC<Props> = props => {
   };
 
   return (
-    <Zoom in={trigger}>
-      <div onClick={handleClick} role="presentation" className={classes.root}>
-        {children}
-      </div>
-    </Zoom>
+    <Portal container={layoutContext.fabSpace}>
+      <Zoom in={trigger}>
+        <div onClick={handleClick} role="presentation">
+          {children}
+        </div>
+      </Zoom>
+    </Portal>
   );
 };
 
