@@ -12,7 +12,6 @@ const Heading: React.FC<{ id: string } & TypographyProps> = ({
   ...props
 }) => {
   const theme = useTheme();
-  console.log(children);
   return (
     <Typography {...props} id={id}>
       {children}

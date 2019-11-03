@@ -32,7 +32,7 @@ export const LayoutContext = React.createContext<LayoutContextType>({
   setHeaderProps: () => {},
   setSidenavOpen: () => {},
   sidenavOpen: false,
-  fabSpace: document.body,
+  fabSpace: null,
 });
 
 const Layout: React.FC = ({ children }) => {
