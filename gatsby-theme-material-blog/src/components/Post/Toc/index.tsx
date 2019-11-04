@@ -124,7 +124,7 @@ const Toc: React.FC<TocProps> = props => {
         {headings.map((heading, index) => (
           <TocListItem
             active={activeHeading === heading}
-            key={heading.title}
+            key={heading.id}
             depth={heading.depth}
             onClick={() => (location.hash = heading.id)}
             {...listItemProps}
