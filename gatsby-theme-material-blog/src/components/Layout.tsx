@@ -25,14 +25,13 @@ interface LayoutContextType {
   setHeaderProps(props: HeaderProps): void;
   setSidenavOpen(open: boolean): void;
   sidenavOpen: boolean;
-  fabSpace: React.ReactInstance;
+  fabSpace?: React.ReactInstance;
 }
 
 export const LayoutContext = React.createContext<LayoutContextType>({
   setHeaderProps: () => {},
   setSidenavOpen: () => {},
   sidenavOpen: false,
-  fabSpace: null,
 });
 
 const Layout: React.FC = ({ children }) => {
