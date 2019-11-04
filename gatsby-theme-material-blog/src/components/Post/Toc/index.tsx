@@ -75,8 +75,8 @@ const Toc: React.FC<TocProps> = props => {
 
   // Read heading titles, depths and nodes from the DOM.
   useEffect(() => {
-    const headings = headingSelectors.reduce<Heading[]>(
-      (accumulator, headingSelector) => {
+    const headings = headingSelectors
+      .reduce<Heading[]>((accumulator, headingSelector) => {
         const nodes = document.querySelectorAll<HTMLElement>(
           headingSelector.selector
         );
@@ -89,9 +89,16 @@ const Toc: React.FC<TocProps> = props => {
           });
         });
         return accumulator;
-      },
-      []
-    );
+      }, [])
+      .sort((heading1, heading2) => {
+        if (heading1.node === heading2.node) {
+          return 0;
+        }
+        if (heading1.node.compareDocumentPosition(heading2.node) & 2) {
+          return 1;
+        }
+        return -1;
+      });
     setHeadings(headings);
   }, [headingSelectors]);
 
