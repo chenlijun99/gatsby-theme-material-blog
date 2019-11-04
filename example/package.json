@@ -11,6 +11,7 @@
   "dependencies": {
     "gatsby": "^2.15.28",
     "gatsby-plugin-manifest": "^2.2.20",
+    "gatsby-plugin-netlify": "^2.1.23",
     "gatsby-plugin-offline": "^3.0.11",
     "gatsby-theme-material-blog": "^0.0.1",
     "lodash": "^4.17.15",

@@ -20,6 +20,7 @@ module.exports = {
         disable: process.env.DISABLE_WEBPACK_BUNDLE_ANALYSER === "1",
       },
     },
+    `gatsby-plugin-netlify`,
   ],
   siteMetadata: {
     title: `My Blog`,
