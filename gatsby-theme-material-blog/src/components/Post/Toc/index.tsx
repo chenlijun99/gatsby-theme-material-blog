@@ -119,8 +119,8 @@ const Toc: React.FC<TocProps> = props => {
   }, [headings]);
 
   return (
-    <>
-      <TocList component="nav" {...listProps}>
+    <nav>
+      <TocList {...listProps}>
         {headings.map((heading, index) => (
           <TocListItem
             active={activeHeading === heading}
@@ -133,7 +133,7 @@ const Toc: React.FC<TocProps> = props => {
           </TocListItem>
         ))}
       </TocList>
-    </>
+    </nav>
   );
 };
 
