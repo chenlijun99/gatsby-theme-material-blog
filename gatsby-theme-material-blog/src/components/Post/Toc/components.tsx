@@ -7,13 +7,10 @@ import {
   Theme,
 } from "@material-ui/core";
 import { ListItemProps } from "@material-ui/core/ListItem";
-import { WithStyles } from "@material-ui/styles";
-import { desaturate, transparentize } from "polished";
+import { transparentize } from "polished";
 
 export const TocList = withStyles(theme => ({
-  root: {
-    borderLeft: theme.palette.primary.main,
-  },
+  root: {},
 }))(List) as typeof List;
 
 interface TocListItemProps {
@@ -22,28 +19,27 @@ interface TocListItemProps {
 }
 
 const tocListItemStyle = (theme: Theme) => {
-  return createStyles({
+  return createStyles<string, TocListItemProps>({
     root: {
       paddingLeft: theme.spacing(1),
       cursor: "pointer",
-      color: (props: TocListItemProps) =>
+      color: props =>
         props.active
           ? theme.palette.primary.main
           : transparentize(0.3, theme.palette.text.primary),
-      borderLeft: (props: TocListItemProps) =>
+      borderLeft: props =>
         props.active
           ? `4px solid ${theme.palette.primary.main}`
           : `4px solid transparent`,
       "&:hover": {
-        borderLeft: (props: TocListItemProps) =>
-          !props.active && `4px solid ${theme.palette.grey["200"]}`,
+        borderLeft: props =>
+          !props.active ? `4px solid ${theme.palette.grey["200"]}` : undefined,
       },
       "& .MuiListItemText-root": {
-        paddingLeft: (props: TocListItemProps) =>
-          props.depth * theme.spacing(1),
+        paddingLeft: props => props.depth * theme.spacing(1),
         "& .MuiListItemText-primary": {
-          fontWeight: (props: TocListItemProps) =>
-            props.active && theme.typography.fontWeightBold,
+          fontWeight: props =>
+            props.active ? theme.typography.fontWeightBold : undefined,
         },
       },
     },
@@ -54,6 +50,7 @@ const TocListItemRaw: React.FC<
   TocListItemProps & Omit<ListItemProps, keyof TocListItemProps>
 > = props => {
   const { depth, active, ...forwardProps } = props;
+  // @ts-ignore
   return <ListItem {...forwardProps} />;
 };
 

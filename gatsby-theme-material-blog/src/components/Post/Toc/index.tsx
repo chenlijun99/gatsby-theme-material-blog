@@ -4,6 +4,7 @@ import throttle from "lodash/throttle";
 import { TocList, TocListItem } from "./components";
 import { ListItemText } from "@material-ui/core/";
 import { ListProps } from "@material-ui/core/List";
+import { ListItemProps } from "@material-ui/core/ListItem";
 
 // Used to calculate each heading's offset from the top of the page.
 // This will be compared to window.scrollY to determine which heading
