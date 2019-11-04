@@ -104,7 +104,6 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
                 - size-plugin-*
       - deploy-pr-preview:
           requires:
