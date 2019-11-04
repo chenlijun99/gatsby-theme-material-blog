@@ -1,0 +1,3 @@
+size-files:
+    - dir: example
+      filename: size-plugin.json
