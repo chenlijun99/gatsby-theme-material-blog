@@ -5,10 +5,8 @@ import CalendarIcon from "@material-ui/icons/Today";
 import {
   Card,
   CardActionArea,
-  CardContent,
   Divider,
   Typography,
-  makeStyles,
   Box,
   useTheme,
   styled,
@@ -25,27 +23,62 @@ import Tags from "./Tags";
 import Breadcrumbs from "../Breadcrumbs";
 import { TypographyProps } from "@material-ui/core/Typography";
 
-interface PostCardProps {
-  post: PostsQuery["allBlogPost"]["nodes"][0];
-}
+type BlogPost = PostsQuery["allBlogPost"]["nodes"][0];
 
-const usePostCardStyle = makeStyles(theme => ({
-  headerDate: {
-    ...theme.typography.subtitle2,
-  },
-}));
+interface PostCardProps {
+  post: BlogPost;
+}
 
 const Title = (props: TypographyProps) => (
   <Typography variant="h5" component="h2" {...props} />
 );
 
-const TitleWithBackground = styled(Title)(({ theme }) => ({
+const DateCaption = (props: { date: string }) => {
+  const theme = useTheme();
+  return (
+    <Box display="flex" alignItems="center">
+      <CalendarIcon
+        style={{
+          ...theme.typography.body1,
+        }}
+      />
+      <Box mx={`${theme.spacing(1) / 2}px`}>
+        <Typography variant="overline">{props.date}</Typography>
+      </Box>
+    </Box>
+  );
+};
+
+const Header = (props: { post: BlogPost & unknown }) => {
+  const theme = useTheme();
+  const { post, ...otherProps } = props;
+  return (
+    <Box {...otherProps}>
+      <Box marginBottom={`${theme.spacing(1) / 2}px`}>
+        <Title>{post.title}</Title>
+      </Box>
+      <Box display="flex" flexDirection="row" alignItems="center">
+        <DateCaption date={post.date} />
+        <Box flexGrow={1} />
+        <Breadcrumbs post={post} />
+      </Box>
+    </Box>
+  );
+};
+
+const HeaderOnBackground = styled(Header)(({ theme }) => ({
   color: theme.palette.primary.contrastText,
-  textShadow: "0 1px 0 black",
+  width: "100%",
+  textShadow: "0px 1px 5px black",
+  "& .MuiTypography-overline": {
+    fontWeight: theme.typography.fontWeightMedium,
+  },
+  "& .PostBreadcrumbs .MuiBreadcrumbs-ol": {
+    color: theme.palette.primary.contrastText,
+  },
 }));
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
-  const classes = usePostCardStyle();
   const theme = useTheme();
   return (
     <Box my={2}>
@@ -57,14 +90,16 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                 Tag="div"
                 fluid={[
                   `linear-gradient(to bottom,
-                     ${transparentize(0.8, theme.palette.primary.main)},
-                     ${transparentize(0.5, theme.palette.primary.main)}
+                     ${transparentize(0.9, theme.palette.primary.main)},
+                     ${transparentize(0.5, theme.palette.primary.main)} 50%,
+                     ${transparentize(0.4, theme.palette.primary.main)} 70%,
+                     ${transparentize(0.3, theme.palette.primary.main)}
                     )`,
                   post!.featuredImage!.childImageSharp!.fluid! as IFluidObject,
                 ]}
                 style={{
                   height: post!.featuredImage!.childImageSharp!.fluid!
-                    .presentationHeight,
+                    .presentationHeight as number,
                 }}
               >
                 <Box
@@ -74,31 +109,19 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                   display="flex"
                   alignItems="flex-end"
                 >
-                  <TitleWithBackground>{post.title}</TitleWithBackground>
+                  <HeaderOnBackground post={post} />
                 </Box>
               </BackgroundImage>
             ) : (
-              <Box p={2}>
-                <Title>{post.title}</Title>
+              <Box p={2} paddingBottom={1}>
+                <Header post={post} />
               </Box>
             )}
           </Box>
         </CardActionArea>
+        <Divider />
         <Box m={2}>
           <Typography variant="body1">{post.excerpt}</Typography>
-          <Box
-            display="flex"
-            alignItems="center"
-            color={theme.palette.grey["700"]}
-          >
-            <CalendarIcon
-              style={{
-                ...theme.typography.body1,
-              }}
-            />
-            <Typography variant="body1">{post.date}</Typography>
-          </Box>
-          <Breadcrumbs post={post} />
           <Tags tags={post.tags} />
         </Box>
       </Card>
