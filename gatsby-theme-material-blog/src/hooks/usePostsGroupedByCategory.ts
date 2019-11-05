@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useStaticQuery, graphql } from "gatsby";
 
 import {
@@ -118,7 +119,36 @@ const usePostsGroupedByCategory = () => {
       }
     `
   );
-  return groupPosts(data.posts.nodes, data.categories.nodes);
+  return useMemo(() => groupPosts(data.posts.nodes, data.categories.nodes), [
+    data,
+  ]);
 };
+
+export function getPostCategories(post: BlogPost): Category[] {
+  const categories: Category[] = [];
+  post.slug
+    .slice(1)
+    .split("/")
+    .slice(0, -1)
+    .reduce<Root | Category | BlogPost>((previousNode, slugChunk) => {
+      const id = slugChunk + "/";
+      if (isCategory(previousNode)) {
+        const node = previousNode.children[id];
+        if (isCategory(node)) {
+          categories.push(node);
+        }
+        return previousNode.children[id];
+      } else if (isBlogPost(previousNode)) {
+        throw new Error("Iteration should have already ended");
+      } else {
+        const node = previousNode[id];
+        if (isCategory(node)) {
+          categories.push(node);
+        }
+        return previousNode[id];
+      }
+    }, usePostsGroupedByCategory());
+  return categories;
+}
 
 export default usePostsGroupedByCategory;
