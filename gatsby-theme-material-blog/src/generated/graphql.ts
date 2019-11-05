@@ -1135,9 +1135,6 @@ export enum FileFieldsEnum {
   childMdx___fileAbsolutePath = 'childMdx___fileAbsolutePath',
   childMdx___frontmatter___title = 'childMdx___frontmatter___title',
   childMdx___frontmatter___date = 'childMdx___frontmatter___date',
-  childMdx___frontmatter___tags = 'childMdx___frontmatter___tags',
-  childMdx___frontmatter___open = 'childMdx___frontmatter___open',
-  childMdx___frontmatter___name = 'childMdx___frontmatter___name',
   childMdx___frontmatter___featuredImage___birthtime = 'childMdx___frontmatter___featuredImage___birthtime',
   childMdx___frontmatter___featuredImage___birthtimeMs = 'childMdx___frontmatter___featuredImage___birthtimeMs',
   childMdx___frontmatter___featuredImage___sourceInstanceName = 'childMdx___frontmatter___featuredImage___sourceInstanceName',
@@ -1174,6 +1171,9 @@ export enum FileFieldsEnum {
   childMdx___frontmatter___featuredImage___publicURL = 'childMdx___frontmatter___featuredImage___publicURL',
   childMdx___frontmatter___featuredImage___id = 'childMdx___frontmatter___featuredImage___id',
   childMdx___frontmatter___featuredImage___children = 'childMdx___frontmatter___featuredImage___children',
+  childMdx___frontmatter___open = 'childMdx___frontmatter___open',
+  childMdx___frontmatter___tags = 'childMdx___frontmatter___tags',
+  childMdx___frontmatter___name = 'childMdx___frontmatter___name',
   childMdx___body = 'childMdx___body',
   childMdx___excerpt = 'childMdx___excerpt',
   childMdx___headings = 'childMdx___headings',
@@ -2849,8 +2849,8 @@ export enum MdxBlogPostFieldsEnum {
   featuredImage___childMdx___fileAbsolutePath = 'featuredImage___childMdx___fileAbsolutePath',
   featuredImage___childMdx___frontmatter___title = 'featuredImage___childMdx___frontmatter___title',
   featuredImage___childMdx___frontmatter___date = 'featuredImage___childMdx___frontmatter___date',
-  featuredImage___childMdx___frontmatter___tags = 'featuredImage___childMdx___frontmatter___tags',
   featuredImage___childMdx___frontmatter___open = 'featuredImage___childMdx___frontmatter___open',
+  featuredImage___childMdx___frontmatter___tags = 'featuredImage___childMdx___frontmatter___tags',
   featuredImage___childMdx___frontmatter___name = 'featuredImage___childMdx___frontmatter___name',
   featuredImage___childMdx___body = 'featuredImage___childMdx___body',
   featuredImage___childMdx___excerpt = 'featuredImage___childMdx___excerpt',
@@ -3096,9 +3096,6 @@ export enum MdxFieldsEnum {
   fileAbsolutePath = 'fileAbsolutePath',
   frontmatter___title = 'frontmatter___title',
   frontmatter___date = 'frontmatter___date',
-  frontmatter___tags = 'frontmatter___tags',
-  frontmatter___open = 'frontmatter___open',
-  frontmatter___name = 'frontmatter___name',
   frontmatter___featuredImage___birthtime = 'frontmatter___featuredImage___birthtime',
   frontmatter___featuredImage___birthtimeMs = 'frontmatter___featuredImage___birthtimeMs',
   frontmatter___featuredImage___sourceInstanceName = 'frontmatter___featuredImage___sourceInstanceName',
@@ -3163,6 +3160,9 @@ export enum MdxFieldsEnum {
   frontmatter___featuredImage___childJavascriptFrontmatter___id = 'frontmatter___featuredImage___childJavascriptFrontmatter___id',
   frontmatter___featuredImage___childJavascriptFrontmatter___children = 'frontmatter___featuredImage___childJavascriptFrontmatter___children',
   frontmatter___featuredImage___childJavascriptFrontmatter___fileAbsolutePath = 'frontmatter___featuredImage___childJavascriptFrontmatter___fileAbsolutePath',
+  frontmatter___open = 'frontmatter___open',
+  frontmatter___tags = 'frontmatter___tags',
+  frontmatter___name = 'frontmatter___name',
   body = 'body',
   excerpt = 'excerpt',
   headings = 'headings',
@@ -3395,10 +3395,10 @@ export type MdxFrontmatter = {
    __typename?: 'MdxFrontmatter',
   title: Scalars['String'],
   date?: Maybe<Scalars['Date']>,
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>,
-  open?: Maybe<Scalars['Boolean']>,
-  name?: Maybe<Scalars['String']>,
   featuredImage?: Maybe<File>,
+  open?: Maybe<Scalars['Boolean']>,
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>,
+  name?: Maybe<Scalars['String']>,
 };
 
 
@@ -3412,10 +3412,10 @@ export type MdxFrontmatterDateArgs = {
 export type MdxFrontmatterFilterInput = {
   title?: Maybe<StringQueryOperatorInput>,
   date?: Maybe<DateQueryOperatorInput>,
-  tags?: Maybe<StringQueryOperatorInput>,
-  open?: Maybe<BooleanQueryOperatorInput>,
-  name?: Maybe<StringQueryOperatorInput>,
   featuredImage?: Maybe<FileFilterInput>,
+  open?: Maybe<BooleanQueryOperatorInput>,
+  tags?: Maybe<StringQueryOperatorInput>,
+  name?: Maybe<StringQueryOperatorInput>,
 };
 
 export type MdxGroupConnection = {
@@ -4240,18 +4240,13 @@ export enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___gatsbyRemarkPlugins = 'pluginCreator___pluginOptions___gatsbyRemarkPlugins',
   pluginCreator___pluginOptions___gatsbyRemarkPlugins___resolve = 'pluginCreator___pluginOptions___gatsbyRemarkPlugins___resolve',
   pluginCreator___pluginOptions___component = 'pluginCreator___pluginOptions___component',
-  pluginCreator___pluginOptions___appId = 'pluginCreator___pluginOptions___appId',
-  pluginCreator___pluginOptions___apiKey = 'pluginCreator___pluginOptions___apiKey',
-  pluginCreator___pluginOptions___queries = 'pluginCreator___pluginOptions___queries',
-  pluginCreator___pluginOptions___queries___query = 'pluginCreator___pluginOptions___queries___query',
-  pluginCreator___pluginOptions___queries___indexName = 'pluginCreator___pluginOptions___queries___indexName',
-  pluginCreator___pluginOptions___chunkSize = 'pluginCreator___pluginOptions___chunkSize',
   pluginCreator___pluginOptions___short_name = 'pluginCreator___pluginOptions___short_name',
   pluginCreator___pluginOptions___start_url = 'pluginCreator___pluginOptions___start_url',
   pluginCreator___pluginOptions___background_color = 'pluginCreator___pluginOptions___background_color',
   pluginCreator___pluginOptions___theme_color = 'pluginCreator___pluginOptions___theme_color',
   pluginCreator___pluginOptions___display = 'pluginCreator___pluginOptions___display',
   pluginCreator___pluginOptions___icon = 'pluginCreator___pluginOptions___icon',
+  pluginCreator___pluginOptions___disable = 'pluginCreator___pluginOptions___disable',
   pluginCreator___pluginOptions___pathCheck = 'pluginCreator___pluginOptions___pathCheck',
   pluginCreator___nodeAPIs = 'pluginCreator___nodeAPIs',
   pluginCreator___browserAPIs = 'pluginCreator___browserAPIs',
@@ -4461,18 +4456,13 @@ export enum SitePluginFieldsEnum {
   pluginOptions___gatsbyRemarkPlugins___options___loading = 'pluginOptions___gatsbyRemarkPlugins___options___loading',
   pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha = 'pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha',
   pluginOptions___component = 'pluginOptions___component',
-  pluginOptions___appId = 'pluginOptions___appId',
-  pluginOptions___apiKey = 'pluginOptions___apiKey',
-  pluginOptions___queries = 'pluginOptions___queries',
-  pluginOptions___queries___query = 'pluginOptions___queries___query',
-  pluginOptions___queries___indexName = 'pluginOptions___queries___indexName',
-  pluginOptions___chunkSize = 'pluginOptions___chunkSize',
   pluginOptions___short_name = 'pluginOptions___short_name',
   pluginOptions___start_url = 'pluginOptions___start_url',
   pluginOptions___background_color = 'pluginOptions___background_color',
   pluginOptions___theme_color = 'pluginOptions___theme_color',
   pluginOptions___display = 'pluginOptions___display',
   pluginOptions___icon = 'pluginOptions___icon',
+  pluginOptions___disable = 'pluginOptions___disable',
   pluginOptions___pathCheck = 'pluginOptions___pathCheck',
   nodeAPIs = 'nodeAPIs',
   browserAPIs = 'browserAPIs',
@@ -4601,16 +4591,13 @@ export type SitePluginPluginOptions = {
   extensions?: Maybe<Array<Maybe<Scalars['String']>>>,
   gatsbyRemarkPlugins?: Maybe<Array<Maybe<SitePluginPluginOptionsGatsbyRemarkPlugins>>>,
   component?: Maybe<Scalars['String']>,
-  appId?: Maybe<Scalars['String']>,
-  apiKey?: Maybe<Scalars['String']>,
-  queries?: Maybe<Array<Maybe<SitePluginPluginOptionsQueries>>>,
-  chunkSize?: Maybe<Scalars['Int']>,
   short_name?: Maybe<Scalars['String']>,
   start_url?: Maybe<Scalars['String']>,
   background_color?: Maybe<Scalars['String']>,
   theme_color?: Maybe<Scalars['String']>,
   display?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
+  disable?: Maybe<Scalars['Boolean']>,
   pathCheck?: Maybe<Scalars['Boolean']>,
 };
 
@@ -4620,16 +4607,13 @@ export type SitePluginPluginOptionsFilterInput = {
   extensions?: Maybe<StringQueryOperatorInput>,
   gatsbyRemarkPlugins?: Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsFilterListInput>,
   component?: Maybe<StringQueryOperatorInput>,
-  appId?: Maybe<StringQueryOperatorInput>,
-  apiKey?: Maybe<StringQueryOperatorInput>,
-  queries?: Maybe<SitePluginPluginOptionsQueriesFilterListInput>,
-  chunkSize?: Maybe<IntQueryOperatorInput>,
   short_name?: Maybe<StringQueryOperatorInput>,
   start_url?: Maybe<StringQueryOperatorInput>,
   background_color?: Maybe<StringQueryOperatorInput>,
   theme_color?: Maybe<StringQueryOperatorInput>,
   display?: Maybe<StringQueryOperatorInput>,
   icon?: Maybe<StringQueryOperatorInput>,
+  disable?: Maybe<BooleanQueryOperatorInput>,
   pathCheck?: Maybe<BooleanQueryOperatorInput>,
 };
 
@@ -4675,21 +4659,6 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsFilterInput = {
   tracedSVG?: Maybe<BooleanQueryOperatorInput>,
   loading?: Maybe<StringQueryOperatorInput>,
   disableBgImageOnAlpha?: Maybe<BooleanQueryOperatorInput>,
-};
-
-export type SitePluginPluginOptionsQueries = {
-   __typename?: 'SitePluginPluginOptionsQueries',
-  query?: Maybe<Scalars['String']>,
-  indexName?: Maybe<Scalars['String']>,
-};
-
-export type SitePluginPluginOptionsQueriesFilterInput = {
-  query?: Maybe<StringQueryOperatorInput>,
-  indexName?: Maybe<StringQueryOperatorInput>,
-};
-
-export type SitePluginPluginOptionsQueriesFilterListInput = {
-  elemMatch?: Maybe<SitePluginPluginOptionsQueriesFilterInput>,
 };
 
 export type SitePluginSortInput = {
@@ -4920,7 +4889,10 @@ export type PostsQuery = (
         { __typename?: 'File' }
         & { childImageSharp: Maybe<(
           { __typename?: 'ImageSharp' }
-          & { fluid: Maybe<{ __typename?: 'ImageSharpFluid' }
+          & { fluid: Maybe<(
+            { __typename?: 'ImageSharpFluid' }
+            & Pick<ImageSharpFluid, 'presentationHeight'>
+          )
             & GatsbyImageSharpFluid_WithWebpFragment
           > }
         )> }
