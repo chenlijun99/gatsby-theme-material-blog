@@ -57,10 +57,9 @@ const useStyles = makeStyles(theme => ({
 const ArchivePage: React.FC<{ data: ArchiveQuery }> = ({ data }) => {
   const context = useContext(LayoutContext);
   useEffect(() => {
-    const img = get(data, "headerImage.childImageSharp.fluid", undefined);
     context.setHeaderProps({
       title: "Archive",
-      coverImg: img ? [img] : undefined,
+      coverImg: get(data, "headerImage.childImageSharp.fluid", undefined),
     });
     return () => {
       context.setHeaderProps({});
