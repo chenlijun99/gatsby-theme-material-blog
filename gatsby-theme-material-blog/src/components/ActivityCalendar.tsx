@@ -1,11 +1,18 @@
 import React, { useRef, useEffect, useState } from "react";
-import echarts, {
+import {
   EChartOption,
   ECharts,
   VisualMap,
   EChartsResponsiveOption,
   EChartsMediaOption,
 } from "echarts";
+
+import echarts from "echarts/lib/echarts";
+import "echarts/lib/chart/heatmap";
+import "echarts/lib/component/calendar";
+import "echarts/lib/component/tooltip";
+import "echarts/lib/component/visualMap";
+
 import { graphql, useStaticQuery } from "gatsby";
 
 import Button from "@material-ui/core/Button";
