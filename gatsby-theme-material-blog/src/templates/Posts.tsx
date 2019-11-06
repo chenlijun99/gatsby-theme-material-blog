@@ -27,8 +27,6 @@ const Posts: React.FC<PostsPageProps> = ({ data, pageContext }) => {
   const theme = useTheme();
   const themeOptions = useThemeOptions();
   const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  console.log(data.allBlogPost.totalCount);
-  console.log(pageContext);
 
   return (
     <React.Fragment>
@@ -36,7 +34,9 @@ const Posts: React.FC<PostsPageProps> = ({ data, pageContext }) => {
       <Box display="flex" flexDirection="row">
         {!smallScreen ? (
           <Box minWidth="20%">
-            <CategoriesNavMenu enableLeafNode={true} />
+            <Box position="sticky" top={theme.mixins.toolbar.minHeight}>
+              <CategoriesNavMenu enableLeafNode={true} />
+            </Box>
           </Box>
         ) : null}
         <Box
