@@ -2,6 +2,7 @@
 const withDefaultsOptions = require(`../src/utils/withDefaultOptions`);
 const PostTemplate = require.resolve(`../src/templates/Post.tsx`);
 const PostsTemplate = require.resolve(`../src/templates/Posts.tsx`);
+const path = require("path");
 
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
@@ -23,13 +24,13 @@ exports.createSchemaCustomization = ({ actions }) => {
   }`);
 };
 
-exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
+exports.createPages = async ({ graphql, actions, reporter }, aThemeOptions) => {
   const { createPage } = actions;
-  const { basePath } = withDefaultsOptions(themeOptions);
+  const themeOptions = withDefaultsOptions(aThemeOptions);
 
   const result = await graphql(`
     {
-      allBlogPost(sort: { fields: [date, title], order: DESC }, limit: 1000) {
+      allBlogPost(sort: { fields: [date, title], order: DESC }) {
         edges {
           node {
             id
@@ -64,10 +65,18 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
     });
   });
 
-  // Create the Posts page
-  createPage({
-    path: basePath,
-    component: PostsTemplate,
-    context: {},
+  const numPages = Math.ceil(posts.length / themeOptions.postsPerPage);
+  Array.from({ length: numPages }).forEach((_, i) => {
+    createPage({
+      path:
+        i === 0
+          ? themeOptions.basePath
+          : path.posix.join(themeOptions.basePath, `page/${i + 1}`),
+      component: PostsTemplate,
+      context: {
+        limit: themeOptions.postsPerPage,
+        skip: i * themeOptions.postsPerPage,
+      },
+    });
   });
 };

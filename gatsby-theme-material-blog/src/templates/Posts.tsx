@@ -1,19 +1,34 @@
 import React from "react";
+import path from "path";
 
 import BackgroundImage, { IFluidObject } from "gatsby-background-image";
 import Img, { FluidObject } from "gatsby-image";
-import { Link, graphql } from "gatsby";
+import { Link, graphql, navigate } from "gatsby";
 
 import { useMediaQuery, useTheme, Box } from "@material-ui/core";
 
+import Pagination from "material-ui-flat-pagination";
+
+import useThemeOptions from "../hooks/useThemeOptions";
 import SEO from "../components/SEO";
 import { PostsQuery } from "../generated/graphql";
 import CategoriesNavMenu from "../components/CategoriesNavMenu";
 import PostCard from "../components/Post/PostCard";
 
-const Posts: React.FC<{ data: PostsQuery }> = ({ data }) => {
+interface PostsPageProps {
+  data: PostsQuery;
+  pageContext: {
+    limit: number;
+    skip: number;
+  };
+}
+
+const Posts: React.FC<PostsPageProps> = ({ data, pageContext }) => {
   const theme = useTheme();
+  const themeOptions = useThemeOptions();
   const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  console.log(data.allBlogPost.totalCount);
+  console.log(pageContext);
 
   return (
     <React.Fragment>
@@ -24,10 +39,30 @@ const Posts: React.FC<{ data: PostsQuery }> = ({ data }) => {
             <CategoriesNavMenu enableLeafNode={true} />
           </Box>
         ) : null}
-        <Box mx={[0, 5, 10]} flexGrow={1}>
-          {data.allBlogPost.nodes.map(node => {
-            return <PostCard key={node.id} post={node} />;
-          })}
+        <Box
+          mx={[0, 5, 10]}
+          marginBottom={[5, 3]}
+          flexGrow={1}
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+        >
+          <Box>
+            {data.allBlogPost.nodes.map(node => {
+              return <PostCard key={node.id} post={node} />;
+            })}
+          </Box>
+          <Pagination
+            limit={themeOptions.postsPerPage}
+            total={data.allBlogPost.totalCount}
+            offset={pageContext.skip}
+            onClick={(e, offset, page) => {
+              // page is >= 1
+              navigate(
+                path.join(themeOptions.basePath, page > 1 ? `page/${page}` : "")
+              );
+            }}
+          />
         </Box>
       </Box>
     </React.Fragment>
@@ -35,8 +70,12 @@ const Posts: React.FC<{ data: PostsQuery }> = ({ data }) => {
 };
 
 export const query = graphql`
-  query Posts {
-    allBlogPost(sort: { fields: [date, title], order: DESC }, limit: 1000) {
+  query Posts($skip: Int!, $limit: Int!) {
+    allBlogPost(
+      sort: { fields: [date, title], order: DESC }
+      limit: $limit
+      skip: $skip
+    ) {
       nodes {
         id
         excerpt(pruneLength: 500)
@@ -53,6 +92,7 @@ export const query = graphql`
           }
         }
       }
+      totalCount
     }
   }
 `;

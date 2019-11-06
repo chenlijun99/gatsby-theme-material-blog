@@ -2458,6 +2458,7 @@ export type MaterialBlogThemeOptions = Node & {
   basePath: Scalars['String'],
   contentPath: Scalars['String'],
   assetPath: Scalars['String'],
+  postsPerPage: Scalars['Int'],
   id: Scalars['ID'],
   parent?: Maybe<Node>,
   children: Array<Node>,
@@ -2497,6 +2498,7 @@ export enum MaterialBlogThemeOptionsFieldsEnum {
   basePath = 'basePath',
   contentPath = 'contentPath',
   assetPath = 'assetPath',
+  postsPerPage = 'postsPerPage',
   id = 'id',
   parent___id = 'parent___id',
   parent___parent___id = 'parent___parent___id',
@@ -2589,6 +2591,7 @@ export type MaterialBlogThemeOptionsFilterInput = {
   basePath?: Maybe<StringQueryOperatorInput>,
   contentPath?: Maybe<StringQueryOperatorInput>,
   assetPath?: Maybe<StringQueryOperatorInput>,
+  postsPerPage?: Maybe<IntQueryOperatorInput>,
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
@@ -3710,6 +3713,7 @@ export type QueryMaterialBlogThemeOptionsArgs = {
   basePath?: Maybe<StringQueryOperatorInput>,
   contentPath?: Maybe<StringQueryOperatorInput>,
   assetPath?: Maybe<StringQueryOperatorInput>,
+  postsPerPage?: Maybe<IntQueryOperatorInput>,
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
@@ -4083,12 +4087,20 @@ export type SitePageContext = {
   id?: Maybe<Scalars['String']>,
   previousId?: Maybe<Scalars['String']>,
   nextId?: Maybe<Scalars['String']>,
+  limit?: Maybe<Scalars['Int']>,
+  skip?: Maybe<Scalars['Int']>,
+  numPages?: Maybe<Scalars['Int']>,
+  currentPage?: Maybe<Scalars['Int']>,
 };
 
 export type SitePageContextFilterInput = {
   id?: Maybe<StringQueryOperatorInput>,
   previousId?: Maybe<StringQueryOperatorInput>,
   nextId?: Maybe<StringQueryOperatorInput>,
+  limit?: Maybe<IntQueryOperatorInput>,
+  skip?: Maybe<IntQueryOperatorInput>,
+  numPages?: Maybe<IntQueryOperatorInput>,
+  currentPage?: Maybe<IntQueryOperatorInput>,
 };
 
 export type SitePageEdge = {
@@ -4193,6 +4205,10 @@ export enum SitePageFieldsEnum {
   context___id = 'context___id',
   context___previousId = 'context___previousId',
   context___nextId = 'context___nextId',
+  context___limit = 'context___limit',
+  context___skip = 'context___skip',
+  context___numPages = 'context___numPages',
+  context___currentPage = 'context___currentPage',
   pluginCreator___id = 'pluginCreator___id',
   pluginCreator___parent___id = 'pluginCreator___parent___id',
   pluginCreator___parent___parent___id = 'pluginCreator___parent___parent___id',
@@ -4819,7 +4835,7 @@ export type ThemeOptionsQuery = (
   { __typename?: 'Query' }
   & { materialBlogThemeOptions: Maybe<(
     { __typename?: 'MaterialBlogThemeOptions' }
-    & Pick<MaterialBlogThemeOptions, 'basePath' | 'contentPath' | 'assetPath'>
+    & Pick<MaterialBlogThemeOptions, 'basePath' | 'contentPath' | 'assetPath' | 'postsPerPage'>
   )> }
 );
 
@@ -4875,13 +4891,17 @@ export type PostPageQuery = (
   )> }
 );
 
-export type PostsQueryVariables = {};
+export type PostsQueryVariables = {
+  skip: Scalars['Int'],
+  limit: Scalars['Int']
+};
 
 
 export type PostsQuery = (
   { __typename?: 'Query' }
   & { allBlogPost: (
     { __typename?: 'BlogPostConnection' }
+    & Pick<BlogPostConnection, 'totalCount'>
     & { nodes: Array<(
       { __typename?: 'MdxBlogPost' }
       & Pick<MdxBlogPost, 'id' | 'excerpt' | 'slug' | 'title' | 'tags' | 'date'>
