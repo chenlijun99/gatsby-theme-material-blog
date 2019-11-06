@@ -183,7 +183,7 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
         </Hidden>
         <Box
           flexGrow={1}
-          marginTop={["-5vh", "-10vh"]}
+          marginTop="-10vh"
           marginBottom="10vh"
           minHeight="50vh"
           mx={[1, 2, 4, 5]}

@@ -60,8 +60,8 @@ const PostCard: React.FC<{ post: BlogPost }> = ({ post }) => {
         </Box>
         <Box display="flex" justifyContent="center">
           <Box
-            width={["100%", "50%"]}
-            my={[1, 2]}
+            width={["100%", "70%", "50%"]}
+            my={[2]}
             display="flex"
             alignItems="center"
             justifyContent="space-between"
