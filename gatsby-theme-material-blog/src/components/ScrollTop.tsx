@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useScrollTrigger, Zoom, Portal } from "@material-ui/core";
 import { LayoutContext } from "./Layout";
+import get from "lodash/get";
 
 interface Props {
   children?: React.ReactNode;

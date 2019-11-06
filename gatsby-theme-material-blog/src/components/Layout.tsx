@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback, RefObject } from "react";
 import "./style.css";
 
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
@@ -38,7 +38,10 @@ const Layout: React.FC = ({ children }) => {
   const backToTopAnchor = React.createRef<HTMLDivElement>();
   const [headerProps, setHeaderProps] = useState({});
   const [sidenavOpen, setSidenavOpen] = useState(false);
-  const fabSpace = useRef<HTMLDivElement>(null);
+  const [fabSpace, setFabSpace] = useState<React.ReactInstance>();
+  const onFabSpaceRefSet = useCallback(ref => {
+    setFabSpace(ref);
+  }, []);
   const classes = useStyles();
 
   return (
@@ -49,7 +52,7 @@ const Layout: React.FC = ({ children }) => {
           sidenavOpen,
           setHeaderProps,
           setSidenavOpen,
-          fabSpace: fabSpace.current!,
+          fabSpace: fabSpace,
         }}
       >
         <Theme>
@@ -62,7 +65,7 @@ const Layout: React.FC = ({ children }) => {
             </Box>
             <Footer />
           </Box>
-          <div ref={fabSpace} className={classes.fabSpace} />
+          <div ref={onFabSpaceRefSet} className={classes.fabSpace} />
           <ScrollTop anchorRef={backToTopAnchor}>
             <Fab color="secondary" size="small" aria-label="scroll back to top">
               <KeyboardArrowUpIcon />
