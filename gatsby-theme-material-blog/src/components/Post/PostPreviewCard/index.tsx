@@ -57,7 +57,12 @@ const Header = (props: { post: BlogPost & unknown }) => {
       <Box marginBottom={`${theme.spacing(1) / 2}px`}>
         <Title>{post.title}</Title>
       </Box>
-      <Box display="flex" flexDirection="row" alignItems="center">
+      <Box
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+        flexWrap="wrap"
+      >
         <DateCaption date={post.date} />
         <Box flexGrow={1} />
         <Breadcrumbs post={post} />
