@@ -2,13 +2,12 @@ import React from "react";
 import withUtterances from "with-utterances";
 import { Card, CardContent } from "@material-ui/core";
 
-class Placeholder extends React.Component {
-  render() {
-    return <div />;
-  }
-}
+const Placeholder = () => {
+  return <div />;
+};
 
 const Comments = withUtterances(
+  // @ts-ignore
   Placeholder,
   "free-easy/gatsby-theme-material-blog"
 );

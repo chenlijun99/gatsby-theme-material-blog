@@ -19,7 +19,7 @@ import { transparentize } from "polished";
 
 import { PostsQuery } from "../../../generated/graphql";
 
-import Tags from "./Tags";
+import Tags from "../Tags";
 import Breadcrumbs from "../Breadcrumbs";
 import { TypographyProps } from "@material-ui/core/Typography";
 
@@ -122,8 +122,15 @@ const PostPreviewCard: React.FC<PostCardProps> = ({ post }) => {
         <Divider />
         <Box m={2}>
           <Typography variant="body1">{post.excerpt}</Typography>
-          <Tags tags={post.tags} />
         </Box>
+        {post.tags.length > 0 ? (
+          <>
+            <Divider />
+            <Box m={2}>
+              <Tags tags={post.tags} />
+            </Box>
+          </>
+        ) : null}
       </Card>
     </Box>
   );

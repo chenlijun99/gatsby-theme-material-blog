@@ -2,7 +2,7 @@ import React from "react";
 
 import { Box, Chip } from "@material-ui/core";
 
-import { PostsQuery } from "../../../generated/graphql";
+import { PostsQuery } from "../../generated/graphql";
 
 interface TagsProps {
   tags: PostsQuery["allBlogPost"]["nodes"][0]["tags"];
@@ -11,7 +11,7 @@ interface TagsProps {
 const Tags: React.FC<TagsProps> = ({ tags }) => {
   if (tags.length > 0) {
     return (
-      <Box marginTop={2}>
+      <div>
         {tags.map((tag, index) => {
           return (
             <Chip
@@ -20,7 +20,7 @@ const Tags: React.FC<TagsProps> = ({ tags }) => {
             ></Chip>
           );
         })}
-      </Box>
+      </div>
     );
   }
   return <></>;
