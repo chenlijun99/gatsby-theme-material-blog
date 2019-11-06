@@ -1,17 +1,19 @@
 import React, { useEffect, useContext, useState } from "react";
 
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 
 import {
   Box,
   SwipeableDrawer,
   useMediaQuery,
-  Fab,
   Portal,
   Hidden,
+  Fab,
 } from "@material-ui/core";
 import TocIcon from "@material-ui/icons/Toc";
+import PreviousIcon from "@material-ui/icons/ArrowBack";
+import NextIcon from "@material-ui/icons/ArrowForward";
 import Typography from "@material-ui/core/Typography";
 import {
   makeStyles,
@@ -105,6 +107,47 @@ const PostHeader: React.FC<{ post: BlogPost }> = props => {
   );
 };
 
+const PreviousNextPosts: React.FC<{
+  previous?: Pick<BlogPost, "title" | "slug">;
+  next?: Pick<BlogPost, "title" | "slug">;
+}> = props => {
+  const { previous, next } = props;
+  if (previous || next) {
+    return (
+      <Box display="flex" alignItems="center">
+        {previous ? (
+          <Fab
+            component={Link}
+            to={previous.slug}
+            color="primary"
+            aria-label="previous post"
+          >
+            <PreviousIcon />
+          </Fab>
+        ) : null}
+        <div
+          style={{
+            flexGrow: 1,
+          }}
+        />
+        {next ? (
+          <>
+            <Fab
+              component={Link}
+              to={next.slug}
+              color="primary"
+              aria-label="next post"
+            >
+              <NextIcon />
+            </Fab>
+          </>
+        ) : null}
+      </Box>
+    );
+  }
+  return <></>;
+};
+
 const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
   const post = data.blogPost!;
 
@@ -148,6 +191,9 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
           <Box marginBottom={5}>
             <PostCard post={post} />
           </Box>
+          <Box marginBottom={5}>
+            <PreviousNextPosts previous={data.previous} next={data.next} />
+          </Box>
           <CommentsCard />
         </Box>
         <ResponsiveToc />
@@ -159,7 +205,6 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
 export const query = graphql`
   query PostPage($id: String!, $previousId: String, $nextId: String) {
     blogPost(id: { eq: $id }) {
-      id
       excerpt(pruneLength: 200)
       body
       slug
@@ -179,18 +224,12 @@ export const query = graphql`
       }
     }
     previous: blogPost(id: { eq: $previousId }) {
-      id
-      excerpt(pruneLength: 200)
       slug
       title
-      date(formatString: "MMMM DD, YYYY")
     }
     next: blogPost(id: { eq: $nextId }) {
-      id
-      excerpt(pruneLength: 200)
       slug
       title
-      date(formatString: "MMMM DD, YYYY")
     }
   }
 `;

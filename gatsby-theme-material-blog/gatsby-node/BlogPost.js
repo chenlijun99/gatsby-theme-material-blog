@@ -32,7 +32,7 @@ exports.createPages = async ({ graphql, actions, reporter }, aThemeOptions) => {
 
   const result = await graphql(`
     {
-      allBlogPost(sort: { fields: [date, title], order: DESC }) {
+      allBlogPost(sort: { fields: [slug, title, date], order: ASC }) {
         edges {
           node {
             id
@@ -53,8 +53,8 @@ exports.createPages = async ({ graphql, actions, reporter }, aThemeOptions) => {
 
   // Create a page for each Post
   posts.forEach(({ node: post }, index) => {
-    const previous = index === posts.length - 1 ? null : posts[index + 1];
-    const next = index === 0 ? null : posts[index - 1];
+    const previous = index === 0 ? null : posts[index - 1];
+    const next = index === posts.length - 1 ? null : posts[index + 1];
     const { slug } = post;
     createPage({
       path: slug,
