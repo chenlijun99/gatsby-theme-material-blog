@@ -1,5 +1,5 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 
-const muiTheme = createMuiTheme({});
+const muiTheme = {};
 
-export default muiTheme;
+export default muiTheme as ThemeOptions;

@@ -25,12 +25,16 @@ interface LayoutContextType {
   setHeaderProps(props: HeaderProps): void;
   setSidenavOpen(open: boolean): void;
   sidenavOpen: boolean;
+  darkMode: boolean;
+  setDarkMode(dark: boolean): void;
   fabSpace?: React.ReactInstance;
 }
 
 export const LayoutContext = React.createContext<LayoutContextType>({
   setHeaderProps: () => {},
   setSidenavOpen: () => {},
+  darkMode: false,
+  setDarkMode: () => {},
   sidenavOpen: false,
 });
 
@@ -42,20 +46,23 @@ const Layout: React.FC = ({ children }) => {
   const onFabSpaceRefSet = useCallback(ref => {
     setFabSpace(ref);
   }, []);
+  const [darkMode, setDarkMode] = useState(false);
   const classes = useStyles();
 
   return (
     <>
-      <CssBaseline />
       <LayoutContext.Provider
         value={{
-          sidenavOpen,
           setHeaderProps,
+          sidenavOpen,
           setSidenavOpen,
-          fabSpace: fabSpace,
+          darkMode,
+          setDarkMode,
+          fabSpace,
         }}
       >
         <Theme>
+          <CssBaseline />
           <Box display="flex" flexDirection="column" minHeight="100vh">
             <Header {...headerProps} />
             <div ref={backToTopAnchor} />

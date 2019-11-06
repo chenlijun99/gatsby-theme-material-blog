@@ -108,8 +108,8 @@ const PostHeader: React.FC<{ post: BlogPost }> = props => {
 };
 
 const PreviousNextPosts: React.FC<{
-  previous?: Pick<BlogPost, "title" | "slug">;
-  next?: Pick<BlogPost, "title" | "slug">;
+  previous?: Pick<BlogPost, "title" | "slug"> | null;
+  next?: Pick<BlogPost, "title" | "slug"> | null;
 }> = props => {
   const { previous, next } = props;
   if (previous || next) {
