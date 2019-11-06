@@ -11,7 +11,7 @@ import {
   useTheme,
   styled,
 } from "@material-ui/core";
-import CategoryIcon from "@material-ui/icons/Folder";
+import CategoryIcon from "@material-ui/icons/FolderOutlined";
 
 interface CategoriesProps {
   post: PostsQuery["allBlogPost"]["nodes"][0];

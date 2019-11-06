@@ -35,6 +35,8 @@ export type BlogPost = {
   tags: Array<Maybe<Scalars['String']>>,
   keywords: Array<Maybe<Scalars['String']>>,
   excerpt: Scalars['String'],
+  wordCount: Scalars['Int'],
+  timeToRead: Scalars['Int'],
 };
 
 
@@ -380,7 +382,9 @@ export enum BlogPostFieldsEnum {
   date = 'date',
   tags = 'tags',
   keywords = 'keywords',
-  excerpt = 'excerpt'
+  excerpt = 'excerpt',
+  wordCount = 'wordCount',
+  timeToRead = 'timeToRead'
 }
 
 export type BlogPostFilterInput = {
@@ -393,6 +397,8 @@ export type BlogPostFilterInput = {
   tags?: Maybe<StringQueryOperatorInput>,
   keywords?: Maybe<StringQueryOperatorInput>,
   excerpt?: Maybe<StringQueryOperatorInput>,
+  wordCount?: Maybe<IntQueryOperatorInput>,
+  timeToRead?: Maybe<IntQueryOperatorInput>,
 };
 
 export type BlogPostGroupConnection = {
@@ -1268,6 +1274,8 @@ export enum FileFieldsEnum {
   childMdx___childMdxBlogPost___keywords = 'childMdx___childMdxBlogPost___keywords',
   childMdx___childMdxBlogPost___excerpt = 'childMdx___childMdxBlogPost___excerpt',
   childMdx___childMdxBlogPost___body = 'childMdx___childMdxBlogPost___body',
+  childMdx___childMdxBlogPost___timeToRead = 'childMdx___childMdxBlogPost___timeToRead',
+  childMdx___childMdxBlogPost___wordCount = 'childMdx___childMdxBlogPost___wordCount',
   childMdx___childMdxBlogPost___parent___id = 'childMdx___childMdxBlogPost___parent___id',
   childMdx___childMdxBlogPost___parent___children = 'childMdx___childMdxBlogPost___parent___children',
   childMdx___childMdxBlogPost___children = 'childMdx___childMdxBlogPost___children',
@@ -2659,6 +2667,8 @@ export type MdxBlogPost = Node & BlogPost & {
   keywords: Array<Maybe<Scalars['String']>>,
   excerpt: Scalars['String'],
   body: Scalars['String'],
+  timeToRead: Scalars['Int'],
+  wordCount: Scalars['Int'],
   parent?: Maybe<Node>,
   children: Array<Node>,
   internal: Internal,
@@ -2889,6 +2899,8 @@ export enum MdxBlogPostFieldsEnum {
   featuredImage___childMdx___childMdxBlogPost___keywords = 'featuredImage___childMdx___childMdxBlogPost___keywords',
   featuredImage___childMdx___childMdxBlogPost___excerpt = 'featuredImage___childMdx___childMdxBlogPost___excerpt',
   featuredImage___childMdx___childMdxBlogPost___body = 'featuredImage___childMdx___childMdxBlogPost___body',
+  featuredImage___childMdx___childMdxBlogPost___timeToRead = 'featuredImage___childMdx___childMdxBlogPost___timeToRead',
+  featuredImage___childMdx___childMdxBlogPost___wordCount = 'featuredImage___childMdx___childMdxBlogPost___wordCount',
   featuredImage___childMdx___childMdxBlogPost___children = 'featuredImage___childMdx___childMdxBlogPost___children',
   featuredImage___childJavascriptFrontmatter___id = 'featuredImage___childJavascriptFrontmatter___id',
   featuredImage___childJavascriptFrontmatter___parent___id = 'featuredImage___childJavascriptFrontmatter___parent___id',
@@ -2948,6 +2960,8 @@ export enum MdxBlogPostFieldsEnum {
   keywords = 'keywords',
   excerpt = 'excerpt',
   body = 'body',
+  timeToRead = 'timeToRead',
+  wordCount = 'wordCount',
   parent___id = 'parent___id',
   parent___parent___id = 'parent___parent___id',
   parent___parent___parent___id = 'parent___parent___parent___id',
@@ -3045,6 +3059,8 @@ export type MdxBlogPostFilterInput = {
   keywords?: Maybe<StringQueryOperatorInput>,
   excerpt?: Maybe<StringQueryOperatorInput>,
   body?: Maybe<StringQueryOperatorInput>,
+  timeToRead?: Maybe<IntQueryOperatorInput>,
+  wordCount?: Maybe<IntQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
@@ -3336,6 +3352,8 @@ export enum MdxFieldsEnum {
   childMdxBlogPost___keywords = 'childMdxBlogPost___keywords',
   childMdxBlogPost___excerpt = 'childMdxBlogPost___excerpt',
   childMdxBlogPost___body = 'childMdxBlogPost___body',
+  childMdxBlogPost___timeToRead = 'childMdxBlogPost___timeToRead',
+  childMdxBlogPost___wordCount = 'childMdxBlogPost___wordCount',
   childMdxBlogPost___parent___id = 'childMdxBlogPost___parent___id',
   childMdxBlogPost___parent___parent___id = 'childMdxBlogPost___parent___parent___id',
   childMdxBlogPost___parent___parent___children = 'childMdxBlogPost___parent___parent___children',
@@ -3552,7 +3570,9 @@ export type QueryBlogPostArgs = {
   date?: Maybe<DateQueryOperatorInput>,
   tags?: Maybe<StringQueryOperatorInput>,
   keywords?: Maybe<StringQueryOperatorInput>,
-  excerpt?: Maybe<StringQueryOperatorInput>
+  excerpt?: Maybe<StringQueryOperatorInput>,
+  wordCount?: Maybe<IntQueryOperatorInput>,
+  timeToRead?: Maybe<IntQueryOperatorInput>
 };
 
 
@@ -3695,6 +3715,8 @@ export type QueryMdxBlogPostArgs = {
   keywords?: Maybe<StringQueryOperatorInput>,
   excerpt?: Maybe<StringQueryOperatorInput>,
   body?: Maybe<StringQueryOperatorInput>,
+  timeToRead?: Maybe<IntQueryOperatorInput>,
+  wordCount?: Maybe<IntQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>
@@ -4089,8 +4111,6 @@ export type SitePageContext = {
   nextId?: Maybe<Scalars['String']>,
   limit?: Maybe<Scalars['Int']>,
   skip?: Maybe<Scalars['Int']>,
-  numPages?: Maybe<Scalars['Int']>,
-  currentPage?: Maybe<Scalars['Int']>,
 };
 
 export type SitePageContextFilterInput = {
@@ -4099,8 +4119,6 @@ export type SitePageContextFilterInput = {
   nextId?: Maybe<StringQueryOperatorInput>,
   limit?: Maybe<IntQueryOperatorInput>,
   skip?: Maybe<IntQueryOperatorInput>,
-  numPages?: Maybe<IntQueryOperatorInput>,
-  currentPage?: Maybe<IntQueryOperatorInput>,
 };
 
 export type SitePageEdge = {
@@ -4207,8 +4225,6 @@ export enum SitePageFieldsEnum {
   context___nextId = 'context___nextId',
   context___limit = 'context___limit',
   context___skip = 'context___skip',
-  context___numPages = 'context___numPages',
-  context___currentPage = 'context___currentPage',
   pluginCreator___id = 'pluginCreator___id',
   pluginCreator___parent___id = 'pluginCreator___parent___id',
   pluginCreator___parent___parent___id = 'pluginCreator___parent___parent___id',
@@ -4872,7 +4888,7 @@ export type PostPageQuery = (
   { __typename?: 'Query' }
   & { blogPost: Maybe<(
     { __typename?: 'MdxBlogPost' }
-    & Pick<MdxBlogPost, 'id' | 'excerpt' | 'body' | 'slug' | 'title' | 'tags' | 'keywords' | 'date'>
+    & Pick<MdxBlogPost, 'id' | 'excerpt' | 'body' | 'slug' | 'title' | 'tags' | 'keywords' | 'wordCount' | 'timeToRead' | 'date'>
     & { featuredImage: Maybe<(
       { __typename?: 'File' }
       & { childImageSharp: Maybe<(

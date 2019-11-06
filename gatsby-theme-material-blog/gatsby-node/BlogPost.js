@@ -20,7 +20,9 @@ exports.createSchemaCustomization = ({ actions }) => {
       date: Date! @dateformat
       tags: [String]!
       keywords: [String]!
-      excerpt(pruneLength: Int = 100000): String!
+      excerpt(pruneLength: Int = 200): String!
+      wordCount: Int!
+      timeToRead: Int!
   }`);
 };
 

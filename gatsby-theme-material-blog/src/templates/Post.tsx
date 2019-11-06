@@ -4,13 +4,12 @@ import { graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 
 import {
-  Card,
-  Container,
   Box,
   SwipeableDrawer,
   useMediaQuery,
   Fab,
   Portal,
+  Hidden,
 } from "@material-ui/core";
 import TocIcon from "@material-ui/icons/Toc";
 import Typography from "@material-ui/core/Typography";
@@ -24,12 +23,15 @@ import {
 import get from "lodash/get";
 
 import SEO from "../components/SEO";
-import MDXProviderWrapper from "../components/mdx/MDXProviderWrapper";
+import PostCard from "../components/Post/PostCard";
+import CommentsCard from "../components/Post/CommentsCard";
 import { LayoutContext } from "../components/Layout";
 import { PostPageQuery } from "../generated/graphql";
 import CategoriesNavMenu from "../components/CategoriesNavMenu";
 import Toc from "../components/Post/Toc/";
 import { useLocation } from "react-use";
+
+type BlogPost = NonNullable<PostPageQuery["blogPost"]>;
 
 const MobileToc: React.FC = () => {
   const theme = useTheme();
@@ -89,14 +91,22 @@ const ResponsiveToc: React.FC = () => {
   }
 };
 
-const useStyles = makeStyles({
-  postCard: {
-    position: "relative",
-  },
-});
+const PostHeader: React.FC<{ post: BlogPost }> = props => {
+  const { post } = props;
+  return (
+    <Typography
+      variant="h1"
+      style={{
+        color: "white",
+      }}
+    >
+      Hello
+    </Typography>
+  );
+};
 
 const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
-  const post = data.blogPost;
+  const post = data.blogPost!;
 
   const context = useContext(LayoutContext);
   const img = get(
@@ -108,41 +118,37 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
     context.setHeaderProps({
       title: post!.title,
       coverImg: img ? [img] : undefined,
+      children: () => <PostHeader post={post} />,
     });
     return () => {
       context.setHeaderProps({});
     };
   }, []);
 
-  const classes = useStyles();
   const theme = useTheme();
 
   return (
     <React.Fragment>
       <SEO title={post!.title} description={post!.excerpt} />
       <Box display="flex" flexDirection="row">
-        <Box minWidth={["15%"]}>
-          <Box position="sticky" top={theme.mixins.toolbar.minHeight}>
-            <CategoriesNavMenu enableLeafNode={true} />
+        <Hidden mdDown>
+          <Box minWidth={["15%"]}>
+            <Box position="sticky" top={theme.mixins.toolbar.minHeight}>
+              <CategoriesNavMenu enableLeafNode={true} />
+            </Box>
           </Box>
-        </Box>
+        </Hidden>
         <Box
           flexGrow={1}
-          marginTop={["0", "-10vh"]}
+          marginTop={["-5vh", "-10vh"]}
           marginBottom="10vh"
           minHeight="50vh"
-          mx={[0, 2, 4, 5]}
+          mx={[1, 2, 4, 5]}
         >
-          <Card className={classes.postCard} raised={true}>
-            <Container component="article">
-              <Typography variant="body2" noWrap>
-                {post!.date}
-              </Typography>
-              <MDXProviderWrapper>
-                <MDXRenderer>{post!.body}</MDXRenderer>
-              </MDXProviderWrapper>
-            </Container>
-          </Card>
+          <Box marginBottom={5}>
+            <PostCard post={post} />
+          </Box>
+          <CommentsCard />
         </Box>
         <ResponsiveToc />
       </Box>
@@ -161,6 +167,8 @@ export const query = graphql`
       body
       tags
       keywords
+      wordCount
+      timeToRead
       date(formatString: "MMMM DD, YYYY")
       featuredImage {
         childImageSharp {

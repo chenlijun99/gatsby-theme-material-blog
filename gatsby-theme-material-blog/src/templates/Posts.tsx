@@ -13,7 +13,7 @@ import useThemeOptions from "../hooks/useThemeOptions";
 import SEO from "../components/SEO";
 import { PostsQuery } from "../generated/graphql";
 import CategoriesNavMenu from "../components/CategoriesNavMenu";
-import PostCard from "../components/Post/PostCard";
+import PostCard from "../components/Post/PostPreviewCard";
 
 interface PostsPageProps {
   data: PostsQuery;
