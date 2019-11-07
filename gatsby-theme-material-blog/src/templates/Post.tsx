@@ -196,6 +196,7 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
         </Hidden>
         <Box
           flexGrow={1}
+          maxWidth={[`calc(100% - ${theme.spacing(1) * 2}px)`]}
           marginTop="-10vh"
           marginBottom="10vh"
           minHeight="50vh"

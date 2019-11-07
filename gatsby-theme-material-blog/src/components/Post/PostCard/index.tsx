@@ -48,38 +48,49 @@ const PostCard: React.FC<{ post: BlogPost }> = ({ post }) => {
   ];
   return (
     <Card style={{ position: "relative" }}>
-      <CardContent component="article">
-        <Box
-          display="flex"
-          flexDirection="row"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Breadcrumbs post={post} />
-          <Tags tags={post.tags} />
-        </Box>
-        <Box display="flex" justifyContent="center">
+      <article>
+        <CardContent>
           <Box
-            width={["100%", "70%", "50%"]}
-            my={[2]}
             display="flex"
+            flexDirection="row"
             alignItems="center"
             justifyContent="space-between"
           >
-            {metadata.map((item, index) => (
-              <Box key={index}>
-                <Metadata icon={() => <item.Icon />}>{item.data}</Metadata>
-              </Box>
-            ))}
+            <Breadcrumbs post={post} />
+            <Tags tags={post.tags} />
           </Box>
-        </Box>
+          <Box display="flex" justifyContent="center">
+            <Box
+              width={["100%", "70%", "50%"]}
+              my={[2]}
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              {metadata.map((item, index) => (
+                <Box key={index}>
+                  <Metadata icon={() => <item.Icon />}>{item.data}</Metadata>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        </CardContent>
         <Divider />
-        <Box m={[1, 3, 5]}>
-          <MDXProviderWrapper>
-            <MDXRenderer>{post.body}</MDXRenderer>
-          </MDXProviderWrapper>
-        </Box>
-      </CardContent>
+        <div
+          style={{
+            maxWidth: "100%",
+            overflowX: "auto",
+          }}
+        >
+          <CardContent>
+            <Box m={[1, 3, 5]}>
+              <MDXProviderWrapper>
+                <MDXRenderer>{post.body}</MDXRenderer>
+              </MDXProviderWrapper>
+            </Box>
+          </CardContent>
+        </div>
+      </article>
     </Card>
   );
 };

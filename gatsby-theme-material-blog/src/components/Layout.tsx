@@ -80,9 +80,7 @@ const Layout: React.FC = ({ children }) => {
           <SiteAppBar addtionalItems={() => <div ref={onAppBarSpaceSet} />} />
           <div ref={backToTopAnchor} />
           <Sidenav open={sidenavOpen} onOpenStatusChange={setSidenavOpen} />
-          <Box component="main" flexGrow={1}>
-            {children}
-          </Box>
+          <main style={{ maxWidth: "100vw" }}>{children}</main>
           <Footer />
           <TopLevelNavigation />
           <div ref={onFabSpaceRefSet} className={classes.fabSpace} />
