@@ -49,19 +49,10 @@ const DarkModeToogle: React.FC = () => {
   );
 };
 
-/**
- * Check out https://github.com/mui-org/material-ui/issues/15759#issuecomment-493994852
- */
-const NavLinkButton = withStyles(theme => ({
-  root: {
-    color: theme.palette.primary.contrastText,
-    border: 0,
-  },
-}))(Button) as typeof Button;
-
 interface CustomAppBarProps {
   title?: string;
   titleHidden?: boolean;
+  addtionalItems?: (props: unknown) => React.ReactElement;
 }
 
 const SiteAppBar: React.FC<CustomAppBarProps> = props => {
@@ -90,17 +81,7 @@ const SiteAppBar: React.FC<CustomAppBarProps> = props => {
           >
             {!titleHidden ? title : ""}
           </Typography>
-          <ButtonGroup component="nav" size="large">
-            <NavLinkButton component={Link} to="/">
-              Home
-            </NavLinkButton>
-            <NavLinkButton component={Link} to="/archive">
-              Archive
-            </NavLinkButton>
-            <NavLinkButton component={Link} to="/about">
-              About
-            </NavLinkButton>
-          </ButtonGroup>
+          {props.addtionalItems && props.addtionalItems(props)}
           <DarkModeToogle />
         </Toolbar>
       </AppBar>
