@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 
 import { graphql, Link } from "gatsby";
-import { MDXRenderer } from "gatsby-plugin-mdx";
 
 import {
   Box,
@@ -10,28 +9,25 @@ import {
   Portal,
   Hidden,
   Fab,
-} from "@material-ui/core";
-import TocIcon from "@material-ui/icons/Toc";
-import PreviousIcon from "@material-ui/icons/ArrowBack";
-import NextIcon from "@material-ui/icons/ArrowForward";
-import Typography from "@material-ui/core/Typography";
-import {
-  makeStyles,
+  Typography,
   useTheme,
-  createStyles,
-  styled,
-} from "@material-ui/core/styles";
+} from "@material-ui/core";
+import NextIcon from "@material-ui/icons/ArrowForward";
+import PreviousIcon from "@material-ui/icons/ArrowBack";
+import TocIcon from "@material-ui/icons/Toc";
 
 import get from "lodash/get";
+import { useLocation } from "react-use";
 
-import SEO from "../components/SEO";
-import PostCard from "../components/Post/PostCard";
+import CategoriesNavMenu from "../components/CategoriesNavMenu";
 import CommentsCard from "../components/Post/CommentsCard";
+import Header from "../components/Header";
+import PostCard from "../components/Post/PostCard";
+import SEO from "../components/SEO";
+import Toc from "../components/Post/Toc/";
 import { LayoutContext } from "../components/Layout";
 import { PostPageQuery } from "../generated/graphql";
-import CategoriesNavMenu from "../components/CategoriesNavMenu";
-import Toc from "../components/Post/Toc/";
-import { useLocation } from "react-use";
+import useThemedBackgroundImage from "../hooks/useThemedBackgroundImage";
 
 type BlogPost = NonNullable<PostPageQuery["blogPost"]>;
 
@@ -93,20 +89,6 @@ const ResponsiveToc: React.FC = () => {
   }
 };
 
-const PostHeader: React.FC<{ post: BlogPost }> = props => {
-  const { post } = props;
-  return (
-    <Typography
-      variant="h1"
-      style={{
-        color: "white",
-      }}
-    >
-      Hello
-    </Typography>
-  );
-};
-
 const PreviousNextPosts: React.FC<{
   previous?: Pick<BlogPost, "title" | "slug"> | null;
   next?: Pick<BlogPost, "title" | "slug"> | null;
@@ -151,28 +133,20 @@ const PreviousNextPosts: React.FC<{
 const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
   const post = data.blogPost!;
 
-  const context = useContext(LayoutContext);
-  const img = get(
-    data,
-    "blogPost.featuredImage.childImageSharp.fluid",
-    undefined
+  const img = useThemedBackgroundImage(
+    get(data, "blogPost.featuredImage.childImageSharp.fluid", undefined)
   );
-  useEffect(() => {
-    context.setHeaderProps({
-      title: post!.title,
-      coverImg: img ? [img] : undefined,
-      children: () => <PostHeader post={post} />,
-    });
-    return () => {
-      context.setHeaderProps({});
-    };
-  }, []);
 
   const theme = useTheme();
 
   return (
-    <React.Fragment>
+    <>
       <SEO title={post!.title} description={post!.excerpt} />
+      <Box height={["30vh", "40vh"]}>
+        <Header featuredImage={img}>
+          <Typography variant="h2">{post!.title}</Typography>
+        </Header>
+      </Box>
       <Box display="flex" flexDirection="row">
         <Hidden mdDown>
           <Box minWidth={["15%"]}>
@@ -198,7 +172,7 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
         </Box>
         <ResponsiveToc />
       </Box>
-    </React.Fragment>
+    </>
   );
 };
 

@@ -14,7 +14,6 @@ import {
 
 import Footer from "./Footer/";
 import Theme from "./Theme";
-import Header, { HeaderProps } from "./Header";
 import SiteAppBar from "./SiteAppBar";
 import TopLevelNavigation from "./TopLevelNavigation";
 import ScrollTop from "./ScrollTop";
@@ -32,7 +31,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface LayoutContextType {
-  setHeaderProps(props: HeaderProps): void;
   setSidenavOpen(open: boolean): void;
   sidenavOpen: boolean;
   darkMode: boolean;
@@ -42,7 +40,6 @@ interface LayoutContextType {
 }
 
 export const LayoutContext = React.createContext<LayoutContextType>({
-  setHeaderProps: () => {},
   setSidenavOpen: () => {},
   darkMode: false,
   setDarkMode: () => {},
@@ -51,7 +48,6 @@ export const LayoutContext = React.createContext<LayoutContextType>({
 
 const Layout: React.FC = ({ children }) => {
   const backToTopAnchor = React.createRef<HTMLDivElement>();
-  const [headerProps, setHeaderProps] = useState({});
   const [sidenavOpen, setSidenavOpen] = useState(false);
 
   const [fabSpace, setFabSpace] = useState<React.ReactInstance>();
@@ -71,7 +67,6 @@ const Layout: React.FC = ({ children }) => {
     <>
       <LayoutContext.Provider
         value={{
-          setHeaderProps,
           sidenavOpen,
           setSidenavOpen,
           darkMode,

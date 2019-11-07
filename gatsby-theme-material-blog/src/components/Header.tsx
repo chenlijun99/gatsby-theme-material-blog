@@ -1,42 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
+
+import { useStaticQuery, graphql } from "gatsby";
+
+import { useTheme } from "@material-ui/core";
 
 import { transparentize } from "polished";
-
-import Typography from "@material-ui/core/Typography";
-import { useTheme, withStyles, makeStyles } from "@material-ui/core/styles";
-
-import get from "lodash/get";
-
-import { LayoutContext } from "./Layout";
-
-import { useStaticQuery, graphql, Link } from "gatsby";
 import BackgroundImage, {
   IBackgroundImageProps,
+  IFluidObject,
 } from "gatsby-background-image";
+import useThemedBackgroundImage from "../hooks/useThemedBackgroundImage";
 
-import useSiteData from "../hooks/useSiteData";
-import SiteAppBar from "./SiteAppBar";
-
-const useStyles = makeStyles(theme => ({
-  headerContentWrapper: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "60vh",
-  },
-  fallbackHeaderContent: {
-    color: theme.palette.primary.contrastText,
-  },
-}));
-
-interface HeaderContentWrapperProps {
-  coverImg?: IBackgroundImageProps["fluid"];
+interface HeaderProps {
+  featuredImage?: IBackgroundImageProps["fluid"];
 }
 
-const HeaderContentWrapper: React.FC<HeaderContentWrapperProps> = ({
-  children,
-  coverImg,
-}) => {
+const Header: React.FC<HeaderProps> = props => {
   const data = useStaticQuery(
     graphql`
       query CoverImg {
@@ -53,51 +32,29 @@ const HeaderContentWrapper: React.FC<HeaderContentWrapperProps> = ({
 
   const theme = useTheme();
 
-  const backgroundFluidImageStack = [
-    data.file.childImageSharp.fluid,
+  const backgroundFluidImageStack = useThemedBackgroundImage([
     `linear-gradient(to left,
                      ${transparentize(0.5, theme.palette.primary.main)},
                      ${transparentize(0.6, theme.palette.primary.main)}
                     )`,
-  ].reverse();
+    data.file.childImageSharp.fluid as IFluidObject,
+  ]);
 
-  const classes = useStyles();
   return (
     <BackgroundImage
-      className={classes.headerContentWrapper}
-      fluid={coverImg || backgroundFluidImageStack}
+      style={{
+        boxShadow: theme.shadows["2"],
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      preserveStackingContext={true}
+      Tag="header"
+      fluid={props.featuredImage || backgroundFluidImageStack}
     >
-      {children}
+      {props.children}
     </BackgroundImage>
-  );
-};
-
-export interface HeaderProps extends HeaderContentWrapperProps {
-  title?: string;
-  children?: React.ReactNode;
-}
-
-const Header: React.FC<HeaderProps> = props => {
-  const siteData = useSiteData();
-  const classes = useStyles();
-
-  const { title, children, ...forwardProps } = props;
-
-  return (
-    <React.Fragment>
-      <SiteAppBar
-        title={title || get(siteData, "siteMetadata.title", undefined)}
-      />
-      <HeaderContentWrapper {...forwardProps}>
-        {children || (
-          <div className={classes.fallbackHeaderContent}>
-            <Typography variant="h1" component="h1" noWrap>
-              {title || get(siteData, "siteMetadata.title", undefined)}
-            </Typography>
-          </div>
-        )}
-      </HeaderContentWrapper>
-    </React.Fragment>
   );
 };
 

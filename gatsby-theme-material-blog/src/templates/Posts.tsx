@@ -1,11 +1,9 @@
 import React from "react";
 import path from "path";
 
-import BackgroundImage, { IFluidObject } from "gatsby-background-image";
-import Img, { FluidObject } from "gatsby-image";
-import { Link, graphql, navigate } from "gatsby";
+import { graphql, navigate } from "gatsby";
 
-import { useMediaQuery, useTheme, Box } from "@material-ui/core";
+import { useMediaQuery, useTheme, Box, Typography } from "@material-ui/core";
 
 import Pagination from "material-ui-flat-pagination";
 
@@ -14,6 +12,7 @@ import SEO from "../components/SEO";
 import { PostsQuery } from "../generated/graphql";
 import CategoriesNavMenu from "../components/CategoriesNavMenu";
 import PostCard from "../components/Post/PostPreviewCard";
+import Header from "../components/Header";
 
 interface PostsPageProps {
   data: PostsQuery;
@@ -29,8 +28,13 @@ const Posts: React.FC<PostsPageProps> = ({ data, pageContext }) => {
   const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <React.Fragment>
+    <>
       <SEO title="Home" />
+      <Box height={["50vh", "60vh"]}>
+        <Header>
+          <Typography variant="h1">Home page</Typography>
+        </Header>
+      </Box>
       <Box display="flex" flexDirection="row">
         {!smallScreen ? (
           <Box minWidth="20%">
@@ -65,7 +69,7 @@ const Posts: React.FC<PostsPageProps> = ({ data, pageContext }) => {
           />
         </Box>
       </Box>
-    </React.Fragment>
+    </>
   );
 };
 

@@ -11,6 +11,7 @@ import {
   useTheme,
   styled,
 } from "@material-ui/core";
+import { TypographyProps } from "@material-ui/core/Typography";
 
 import BackgroundImage, { IFluidObject } from "gatsby-background-image";
 
@@ -21,7 +22,7 @@ import { PostsQuery } from "../../../generated/graphql";
 
 import Tags from "../Tags";
 import Breadcrumbs from "../Breadcrumbs";
-import { TypographyProps } from "@material-ui/core/Typography";
+import useThemedBackgroundImage from "../../../hooks/useThemedBackgroundImage";
 
 type BlogPost = PostsQuery["allBlogPost"]["nodes"][0];
 
@@ -85,23 +86,31 @@ const HeaderOnBackground = styled(Header)(({ theme }) => ({
 
 const PostPreviewCard: React.FC<PostCardProps> = ({ post }) => {
   const theme = useTheme();
+  let featuredImage = get(
+    post,
+    "featuredImage.childImageSharp.fluid",
+    undefined
+  );
+  if (featuredImage) {
+    featuredImage = useThemedBackgroundImage([
+      //`linear-gradient(to bottom,
+      //${transparentize(0.9, theme.palette.primary.main)},
+      //${transparentize(0.5, theme.palette.primary.main)} 50%,
+      //${transparentize(0.4, theme.palette.primary.main)} 70%,
+      //${transparentize(0.3, theme.palette.primary.main)}
+      //)`,
+      featuredImage,
+    ]);
+  }
   return (
     <Box my={2}>
       <Card>
         <CardActionArea component={Link} to={post.slug}>
           <Box>
-            {get(post, "featuredImage.childImageSharp.fluid", null) ? (
+            {featuredImage ? (
               <BackgroundImage
                 Tag="div"
-                fluid={[
-                  `linear-gradient(to bottom,
-                     ${transparentize(0.9, theme.palette.primary.main)},
-                     ${transparentize(0.5, theme.palette.primary.main)} 50%,
-                     ${transparentize(0.4, theme.palette.primary.main)} 70%,
-                     ${transparentize(0.3, theme.palette.primary.main)}
-                    )`,
-                  post!.featuredImage!.childImageSharp!.fluid! as IFluidObject,
-                ]}
+                fluid={featuredImage}
                 style={{
                   height: post!.featuredImage!.childImageSharp!.fluid!
                     .presentationHeight as number,
