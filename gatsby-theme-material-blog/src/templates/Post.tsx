@@ -29,6 +29,7 @@ import Toc from "../components/Post/Toc/";
 import { LayoutContext } from "../components/Layout";
 import { PostPageQuery } from "../generated/graphql";
 import useThemedBackgroundImage from "../hooks/useThemedBackgroundImage";
+import { IFluidObject } from "gatsby-background-image";
 
 type BlogPost = NonNullable<PostPageQuery["blogPost"]>;
 
@@ -76,7 +77,9 @@ const MobileToc: React.FC = () => {
             Table of Contents
           </Typography>
           <Toc
-            offsetY={theme.mixins.toolbar.minHeight + theme.spacing(5)}
+            offsetY={
+              (theme.mixins.toolbar.minHeight as number) + theme.spacing(5)
+            }
             headingSelectors={markdownHeadingSelectors}
             listItemProps={{ button: true }}
           />
@@ -106,7 +109,7 @@ const ResponsiveToc: React.FC = () => {
       <Box minWidth="15%" marginTop={2}>
         <Box
           position="sticky"
-          top={theme.mixins.toolbar.minHeight + theme.spacing(2)}
+          top={(theme.mixins.toolbar.minHeight as number) + theme.spacing(2)}
         >
           <Box display="flex" alignItems="center" paddingLeft={1}>
             <Typography variant="h6" align="center">
@@ -115,7 +118,9 @@ const ResponsiveToc: React.FC = () => {
           </Box>
           <Toc
             throttleTime={0}
-            offsetY={theme.mixins.toolbar.minHeight + theme.spacing(5)}
+            offsetY={
+              (theme.mixins.toolbar.minHeight as number) + theme.spacing(5)
+            }
             headingSelectors={markdownHeadingSelectors}
             listProps={{ dense: true }}
           />
@@ -171,7 +176,7 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
 
   const img = useThemedBackgroundImage(
     get(data, "blogPost.featuredImage.childImageSharp.fluid", undefined)
-  );
+  ) as IFluidObject | undefined;
 
   const theme = useTheme();
 
@@ -188,7 +193,9 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
           <Box minWidth={["15%"]}>
             <Box
               position="sticky"
-              top={theme.mixins.toolbar.minHeight + theme.spacing(2)}
+              top={
+                (theme.mixins.toolbar.minHeight as number) + theme.spacing(2)
+              }
             >
               <CategoriesNavMenu enableLeafNode={true} />
             </Box>
