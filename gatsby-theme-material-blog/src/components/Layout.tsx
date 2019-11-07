@@ -78,14 +78,12 @@ const Layout: React.FC = ({ children }) => {
         <Theme>
           <CssBaseline />
           <SiteAppBar addtionalItems={() => <div ref={onAppBarSpaceSet} />} />
-          <Box display="flex" flexDirection="column" minHeight="100vh">
-            <div ref={backToTopAnchor} />
-            <Sidenav open={sidenavOpen} onOpenStatusChange={setSidenavOpen} />
-            <Box flexGrow={1}>
-              <main>{children}</main>
-            </Box>
-            <Footer />
+          <div ref={backToTopAnchor} />
+          <Sidenav open={sidenavOpen} onOpenStatusChange={setSidenavOpen} />
+          <Box component="main" flexGrow={1}>
+            {children}
           </Box>
+          <Footer />
           <TopLevelNavigation />
           <div ref={onFabSpaceRefSet} className={classes.fabSpace} />
           <ScrollTop anchorRef={backToTopAnchor}>
