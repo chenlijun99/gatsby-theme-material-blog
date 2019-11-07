@@ -17,6 +17,7 @@ import PreviousIcon from "@material-ui/icons/ArrowBack";
 import TocIcon from "@material-ui/icons/Toc";
 
 import get from "lodash/get";
+import { math } from "polished";
 import { useLocation } from "react-use";
 
 import CategoriesNavMenu from "../components/CategoriesNavMenu";
@@ -30,6 +31,15 @@ import { PostPageQuery } from "../generated/graphql";
 import useThemedBackgroundImage from "../hooks/useThemedBackgroundImage";
 
 type BlogPost = NonNullable<PostPageQuery["blogPost"]>;
+
+const markdownHeadingSelectors = Array.from({
+  length: 6,
+}).map((n, i) => {
+  return {
+    selector: "main article h" + (i + 1),
+    depth: i,
+  };
+});
 
 const MobileToc: React.FC = () => {
   const theme = useTheme();
@@ -56,7 +66,20 @@ const MobileToc: React.FC = () => {
         }}
       >
         <Box width={250}>
-          <Toc listItemProps={{ button: true }} />
+          <Typography
+            variant="h6"
+            align="center"
+            style={{
+              margin: theme.spacing(1, 1, 1, 1),
+            }}
+          >
+            Table of Contents
+          </Typography>
+          <Toc
+            offsetY={theme.mixins.toolbar.minHeight + theme.spacing(5)}
+            headingSelectors={markdownHeadingSelectors}
+            listItemProps={{ button: true }}
+          />
         </Box>
       </SwipeableDrawer>
       <Portal container={layoutContext.fabSpace}>
@@ -80,9 +103,22 @@ const ResponsiveToc: React.FC = () => {
     return <MobileToc />;
   } else {
     return (
-      <Box minWidth="15%">
-        <Box position="sticky" top={theme.mixins.toolbar.minHeight}>
-          <Toc listProps={{ dense: true }} />
+      <Box minWidth="15%" marginTop={2}>
+        <Box
+          position="sticky"
+          top={theme.mixins.toolbar.minHeight + theme.spacing(2)}
+        >
+          <Box display="flex" alignItems="center" paddingLeft={1}>
+            <Typography variant="h6" align="center">
+              Table of Contents
+            </Typography>
+          </Box>
+          <Toc
+            throttleTime={0}
+            offsetY={theme.mixins.toolbar.minHeight + theme.spacing(5)}
+            headingSelectors={markdownHeadingSelectors}
+            listProps={{ dense: true }}
+          />
         </Box>
       </Box>
     );
@@ -150,7 +186,10 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
       <Box display="flex" flexDirection="row">
         <Hidden mdDown>
           <Box minWidth={["15%"]}>
-            <Box position="sticky" top={theme.mixins.toolbar.minHeight}>
+            <Box
+              position="sticky"
+              top={theme.mixins.toolbar.minHeight + theme.spacing(2)}
+            >
               <CategoriesNavMenu enableLeafNode={true} />
             </Box>
           </Box>
@@ -162,7 +201,7 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
           minHeight="50vh"
           mx={[1, 2, 4, 5]}
         >
-          <Box marginBottom={5}>
+          <Box component="article" marginBottom={5}>
             <PostCard post={post} />
           </Box>
           <Box marginBottom={5}>

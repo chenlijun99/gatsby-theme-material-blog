@@ -33,13 +33,17 @@ const tocListItemStyle = (theme: Theme) => {
           : `4px solid transparent`,
       "&:hover": {
         borderLeft: props =>
-          !props.active ? `4px solid ${theme.palette.grey["200"]}` : undefined,
+          !props.active
+            ? `4px solid ${theme.palette.grey["200"]}`
+            : `4px solid ${theme.palette.primary.main}`,
       },
       "& .MuiListItemText-root": {
-        paddingLeft: props => props.depth * theme.spacing(1),
+        paddingLeft: props => props.depth * theme.spacing(2),
         "& .MuiListItemText-primary": {
           fontWeight: props =>
-            props.active ? theme.typography.fontWeightBold : undefined,
+            props.active
+              ? theme.typography.fontWeightBold
+              : theme.typography.fontWeightRegular,
         },
       },
     },
