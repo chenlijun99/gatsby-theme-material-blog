@@ -2,15 +2,7 @@ import React, { useState, useRef, useCallback, RefObject } from "react";
 import "./style.css";
 
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import {
-  CssBaseline,
-  Box,
-  Fab,
-  useTheme,
-  makeStyles,
-  BottomNavigation,
-  BottomNavigationAction,
-} from "@material-ui/core";
+import { CssBaseline, Box, Fab, useTheme, makeStyles } from "@material-ui/core";
 
 import Footer from "./Footer/";
 import Theme from "./Theme";
@@ -80,8 +72,16 @@ const Layout: React.FC = ({ children }) => {
           <SiteAppBar addtionalItems={() => <div ref={onAppBarSpaceSet} />} />
           <div ref={backToTopAnchor} />
           <Sidenav open={sidenavOpen} onOpenStatusChange={setSidenavOpen} />
-          <main style={{ maxWidth: "100vw" }}>{children}</main>
-          <Footer />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
+            }}
+          >
+            <main style={{ maxWidth: "100vw", flexGrow: 1 }}>{children}</main>
+            <Footer />
+          </div>
           <TopLevelNavigation />
           <div ref={onFabSpaceRefSet} className={classes.fabSpace} />
           <ScrollTop anchorRef={backToTopAnchor}>

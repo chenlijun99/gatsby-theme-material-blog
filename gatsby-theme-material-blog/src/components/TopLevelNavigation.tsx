@@ -31,7 +31,7 @@ const NavLinkButton = withStyles(theme => ({
 
 function getActiveLink(): string | undefined {
   const slugs = ["/", "/archive", "/about"];
-  if (window) {
+  if (typeof window !== "undefined") {
     for (let i = 0, length = slugs.length; i < length; ++i) {
       if (
         new RegExp(`^${slugs[i]}/?$`).test(
