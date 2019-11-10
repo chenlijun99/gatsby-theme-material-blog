@@ -38,7 +38,6 @@ module.exports = themeOptions => {
       `gatsby-plugin-sharp`,
       // workaround for https://github.com/gatsbyjs/gatsby/issues/16712
       "gatsby-remark-images",
-      "gatsby-remark-autolink-headers",
       {
         resolve: `gatsby-plugin-mdx`,
         options: {
@@ -52,13 +51,9 @@ module.exports = themeOptions => {
               },
             },
             { resolve: `gatsby-remark-smartypants` },
-            {
-              resolve: `gatsby-remark-autolink-headers`,
-              options: {},
-            },
           ],
           remarkPlugins: [require("remark-math")],
-          rehypePlugins: [require("rehype-katex")],
+          rehypePlugins: [require("rehype-katex"), require("rehype-slug")],
         },
       },
       `gatsby-plugin-typescript`,

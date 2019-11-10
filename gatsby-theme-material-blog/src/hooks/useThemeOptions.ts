@@ -12,6 +12,7 @@ const useThemeOptions = () => {
         basePath
         contentPath
         assetPath
+        postsPerPage
       }
     }
   `);

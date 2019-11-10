@@ -1,7 +1,6 @@
 ---
 title: "Hello World"
 date: 2019-10-30
-featuredImage: ./hello.png
 ---
 
 # Hello World

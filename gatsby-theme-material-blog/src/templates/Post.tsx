@@ -1,35 +1,46 @@
 import React, { useEffect, useContext, useState } from "react";
 
-import { graphql } from "gatsby";
-import { MDXRenderer } from "gatsby-plugin-mdx";
+import { graphql, Link } from "gatsby";
 
 import {
-  Card,
-  Container,
   Box,
   SwipeableDrawer,
   useMediaQuery,
-  Fab,
   Portal,
-} from "@material-ui/core";
-import TocIcon from "@material-ui/icons/Toc";
-import Typography from "@material-ui/core/Typography";
-import {
-  makeStyles,
+  Hidden,
+  Fab,
+  Typography,
   useTheme,
-  createStyles,
-  styled,
-} from "@material-ui/core/styles";
+} from "@material-ui/core";
+import NextIcon from "@material-ui/icons/ArrowForward";
+import PreviousIcon from "@material-ui/icons/ArrowBack";
+import TocIcon from "@material-ui/icons/Toc";
 
 import get from "lodash/get";
+import { math } from "polished";
+import { useLocation } from "react-use";
 
+import CategoriesNavMenu from "../components/CategoriesNavMenu";
+import CommentsCard from "../components/Post/CommentsCard";
+import Header from "../components/Header";
+import PostCard from "../components/Post/PostCard";
 import SEO from "../components/SEO";
-import MDXProviderWrapper from "../components/mdx/MDXProviderWrapper";
+import Toc from "../components/Post/Toc/";
 import { LayoutContext } from "../components/Layout";
 import { PostPageQuery } from "../generated/graphql";
-import CategoriesNavMenu from "../components/CategoriesNavMenu";
-import Toc from "../components/Post/Toc/";
-import { useLocation } from "react-use";
+import useThemedBackgroundImage from "../hooks/useThemedBackgroundImage";
+import { IFluidObject } from "gatsby-background-image";
+
+type BlogPost = NonNullable<PostPageQuery["blogPost"]>;
+
+const markdownHeadingSelectors = Array.from({
+  length: 6,
+}).map((n, i) => {
+  return {
+    selector: "main article h" + (i + 1),
+    depth: i,
+  };
+});
 
 const MobileToc: React.FC = () => {
   const theme = useTheme();
@@ -56,7 +67,22 @@ const MobileToc: React.FC = () => {
         }}
       >
         <Box width={250}>
-          <Toc listItemProps={{ button: true }} />
+          <Typography
+            variant="h6"
+            align="center"
+            style={{
+              margin: theme.spacing(1, 1, 1, 1),
+            }}
+          >
+            Table of Contents
+          </Typography>
+          <Toc
+            offsetY={
+              (theme.mixins.toolbar.minHeight as number) + theme.spacing(5)
+            }
+            headingSelectors={markdownHeadingSelectors}
+            listItemProps={{ button: true }}
+          />
         </Box>
       </SwipeableDrawer>
       <Portal container={layoutContext.fabSpace}>
@@ -80,80 +106,126 @@ const ResponsiveToc: React.FC = () => {
     return <MobileToc />;
   } else {
     return (
-      <Box minWidth="15%">
-        <Box position="sticky" top={theme.mixins.toolbar.minHeight}>
-          <Toc listProps={{ dense: true }} />
+      <Box minWidth="15%" marginTop={2}>
+        <Box
+          position="sticky"
+          top={(theme.mixins.toolbar.minHeight as number) + theme.spacing(2)}
+        >
+          <Box display="flex" alignItems="center" paddingLeft={1}>
+            <Typography variant="h6" align="center">
+              Table of Contents
+            </Typography>
+          </Box>
+          <Toc
+            throttleTime={0}
+            offsetY={
+              (theme.mixins.toolbar.minHeight as number) + theme.spacing(5)
+            }
+            headingSelectors={markdownHeadingSelectors}
+            listProps={{ dense: true }}
+          />
         </Box>
       </Box>
     );
   }
 };
 
-const useStyles = makeStyles({
-  postCard: {
-    position: "relative",
-  },
-});
+const PreviousNextPosts: React.FC<{
+  previous?: Pick<BlogPost, "title" | "slug"> | null;
+  next?: Pick<BlogPost, "title" | "slug"> | null;
+}> = props => {
+  const { previous, next } = props;
+  if (previous || next) {
+    return (
+      <Box display="flex" alignItems="center">
+        {previous ? (
+          <Fab
+            component={Link}
+            to={previous.slug}
+            color="primary"
+            aria-label="previous post"
+          >
+            <PreviousIcon />
+          </Fab>
+        ) : null}
+        <div
+          style={{
+            flexGrow: 1,
+          }}
+        />
+        {next ? (
+          <>
+            <Fab
+              component={Link}
+              to={next.slug}
+              color="primary"
+              aria-label="next post"
+            >
+              <NextIcon />
+            </Fab>
+          </>
+        ) : null}
+      </Box>
+    );
+  }
+  return <></>;
+};
 
 const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
-  const post = data.blogPost;
+  const post = data.blogPost!;
 
-  const context = useContext(LayoutContext);
-  const img = get(
-    data,
-    "blogPost.featuredImage.childImageSharp.fluid",
-    undefined
-  );
-  useEffect(() => {
-    context.setHeaderProps({
-      title: post!.title,
-      coverImg: img ? [img] : undefined,
-    });
-    return () => {
-      context.setHeaderProps({});
-    };
-  }, []);
+  const img = useThemedBackgroundImage(
+    get(data, "blogPost.featuredImage.childImageSharp.fluid", undefined)
+  ) as IFluidObject | undefined;
 
-  const classes = useStyles();
   const theme = useTheme();
 
   return (
-    <React.Fragment>
+    <>
       <SEO title={post!.title} description={post!.excerpt} />
+      <Box height={["30vh", "40vh"]}>
+        <Header featuredImage={img}>
+          <Typography variant="h2">{post!.title}</Typography>
+        </Header>
+      </Box>
       <Box display="flex" flexDirection="row">
-        <Box minWidth={["15%"]}>
-          <Box position="sticky" top={theme.mixins.toolbar.minHeight}>
-            <CategoriesNavMenu enableLeafNode={true} />
+        <Hidden mdDown>
+          <Box minWidth={["15%"]}>
+            <Box
+              position="sticky"
+              top={
+                (theme.mixins.toolbar.minHeight as number) + theme.spacing(2)
+              }
+            >
+              <CategoriesNavMenu enableLeafNode={true} />
+            </Box>
           </Box>
-        </Box>
+        </Hidden>
         <Box
           flexGrow={1}
-          marginTop={["0", "-10vh"]}
+          maxWidth={[`calc(100% - ${theme.spacing(1) * 2}px)`]}
+          marginTop="-10vh"
           marginBottom="10vh"
           minHeight="50vh"
-          mx={[0, 2, 4, 5]}
+          mx={[1, 2, 4, 5]}
         >
-          <Card className={classes.postCard} raised={true}>
-            <Container component="article">
-              <Typography variant="body2" noWrap>
-                {post!.date}
-              </Typography>
-              <MDXProviderWrapper>
-                <MDXRenderer>{post!.body}</MDXRenderer>
-              </MDXProviderWrapper>
-            </Container>
-          </Card>
+          <Box component="article" marginBottom={5}>
+            <PostCard post={post} />
+          </Box>
+          <Box marginBottom={5}>
+            <PreviousNextPosts previous={data.previous} next={data.next} />
+          </Box>
+          <CommentsCard />
         </Box>
         <ResponsiveToc />
       </Box>
-    </React.Fragment>
+    </>
   );
 };
 
 export const query = graphql`
   query PostPage($id: String!, $previousId: String, $nextId: String) {
     blogPost(id: { eq: $id }) {
-      id
       excerpt(pruneLength: 200)
       body
       slug
@@ -161,28 +233,24 @@ export const query = graphql`
       body
       tags
       keywords
+      wordCount
+      timeToRead
       date(formatString: "MMMM DD, YYYY")
       featuredImage {
         childImageSharp {
-          fluid(quality: 50, maxWidth: 600) {
+          fluid(quality: 90, maxWidth: 1200) {
             ...GatsbyImageSharpFluid_withWebp
           }
         }
       }
     }
     previous: blogPost(id: { eq: $previousId }) {
-      id
-      excerpt(pruneLength: 200)
       slug
       title
-      date(formatString: "MMMM DD, YYYY")
     }
     next: blogPost(id: { eq: $nextId }) {
-      id
-      excerpt(pruneLength: 200)
       slug
       title
-      date(formatString: "MMMM DD, YYYY")
     }
   }
 `;

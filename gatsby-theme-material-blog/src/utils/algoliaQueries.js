@@ -1,9 +1,12 @@
 const postsQuery = `{
   posts: allBlogPost {
     nodes {
-      objectID: id
       title
-      excerpt
+      keywords
+      slug
+      date
+      tags
+      excerpt(pruneLength: 100000)
     }
   }
 }`;

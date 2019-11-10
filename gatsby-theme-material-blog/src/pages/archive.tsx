@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useMemo } from "react";
 import { graphql, Link } from "gatsby";
 import { DateTime } from "luxon";
 
@@ -13,14 +13,16 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useMediaQuery } from "@material-ui/core";
 
+import { IFluidObject } from "gatsby-background-image";
 import get from "lodash/get";
 
 import { ArchiveQuery } from "../generated/graphql";
-import { LayoutContext } from "../components/Layout";
 import SEO from "../components/SEO";
 import ActivityCalendar from "../components/ActivityCalendar";
 import TagsWordCloud from "../components/TagsWordCloud";
+import Header from "../components/Header";
 import CategoriesNavMenu from "../components/CategoriesNavMenu";
+import useThemedBackgroundImage from "../hooks/useThemedBackgroundImage";
 
 type BlogPostGroupedByYear = {
   [key in number]: Array<ArchiveQuery["posts"]["nodes"][0]>;
@@ -43,47 +45,40 @@ function groupByYear(
   );
 }
 
-const useStyles = makeStyles(theme => ({
-  activityCaldendarCard: {
-    position: "relative",
-    marginTop: "-10vh",
-    [theme.breakpoints.down("sm")]: {
-      margin: 0,
-      marginBottom: theme.spacing(3),
-    },
-  },
-}));
-
 const ArchivePage: React.FC<{ data: ArchiveQuery }> = ({ data }) => {
-  const context = useContext(LayoutContext);
-  useEffect(() => {
-    const img = get(data, "headerImage.childImageSharp.fluid", undefined);
-    context.setHeaderProps({
-      title: "Archive",
-      coverImg: img ? [img] : undefined,
-    });
-    return () => {
-      context.setHeaderProps({});
-    };
-  }, []);
-
-  const classes = useStyles();
-  const postsGrouopedByYear = groupByYear(data.posts.nodes);
+  const postsGrouopedByYear = useMemo(() => groupByYear(data.posts.nodes), [
+    data.posts.nodes,
+  ]);
 
   const theme = useTheme();
   const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const featuredImage = useThemedBackgroundImage(
+    get(data, "headerImage.childImageSharp.fluid", undefined)
+  );
 
   return (
-    <React.Fragment>
+    <>
       <SEO title="Archive" />
-      <Box display="flex" flexDirection="column" mx={[0, 2, 4]}>
-        <Box>
-          <Card className={classes.activityCaldendarCard}>
-            <CardContent>
-              <ActivityCalendar />
-            </CardContent>
-          </Card>
-        </Box>
+      <Box height={["50vh", "60vh"]}>
+        <Header featuredImage={featuredImage as IFluidObject | undefined}>
+          <Typography variant="h1">Archive</Typography>
+        </Header>
+      </Box>
+      <Box
+        display="flex"
+        flexDirection="column"
+        mx={[0, 2, 4]}
+        marginTop={["-10vh"]}
+      >
+        <Card
+          style={{
+            zIndex: theme.zIndex.mobileStepper - 1,
+          }}
+        >
+          <CardContent>
+            <ActivityCalendar />
+          </CardContent>
+        </Card>
 
         <Box display="flex" flexDirection="row">
           <Box display="flex" flexDirection="column" flexGrow={1} my={2}>
@@ -135,7 +130,7 @@ const ArchivePage: React.FC<{ data: ArchiveQuery }> = ({ data }) => {
           ) : null}
         </Box>
       </Box>
-    </React.Fragment>
+    </>
   );
 };
 

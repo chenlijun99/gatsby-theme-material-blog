@@ -1,8 +1,6 @@
 ---
-title: "Algorithms and Data Structures"
-open: true
-date: 2019-10-30
-featuredImage: ./cover.jpg
+title: "CLRS chapter 1"
+date: 2019-11-06
 ---
 
 From wikipedia

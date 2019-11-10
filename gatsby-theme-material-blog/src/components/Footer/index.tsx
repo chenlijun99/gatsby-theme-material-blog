@@ -12,10 +12,16 @@ import brandIconMap from "./brandIconMap";
 
 const useStyle = makeStyles(theme => ({
   footer: {
-    background: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
-    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.text.primary,
+    boxShadow: theme.shadows["3"],
     "& a": {
       color: "inherit",
+    },
+    [theme.breakpoints.down("sm")]: {
+      color: theme.palette.text.secondary,
+      boxShadow: "initial",
+      backgroundColor: "inherit",
     },
   },
 }));

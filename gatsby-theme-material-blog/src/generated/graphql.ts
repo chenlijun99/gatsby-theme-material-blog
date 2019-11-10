@@ -35,6 +35,8 @@ export type BlogPost = {
   tags: Array<Maybe<Scalars['String']>>,
   keywords: Array<Maybe<Scalars['String']>>,
   excerpt: Scalars['String'],
+  wordCount: Scalars['Int'],
+  timeToRead: Scalars['Int'],
 };
 
 
@@ -380,7 +382,9 @@ export enum BlogPostFieldsEnum {
   date = 'date',
   tags = 'tags',
   keywords = 'keywords',
-  excerpt = 'excerpt'
+  excerpt = 'excerpt',
+  wordCount = 'wordCount',
+  timeToRead = 'timeToRead'
 }
 
 export type BlogPostFilterInput = {
@@ -393,6 +397,8 @@ export type BlogPostFilterInput = {
   tags?: Maybe<StringQueryOperatorInput>,
   keywords?: Maybe<StringQueryOperatorInput>,
   excerpt?: Maybe<StringQueryOperatorInput>,
+  wordCount?: Maybe<IntQueryOperatorInput>,
+  timeToRead?: Maybe<IntQueryOperatorInput>,
 };
 
 export type BlogPostGroupConnection = {
@@ -1135,9 +1141,6 @@ export enum FileFieldsEnum {
   childMdx___fileAbsolutePath = 'childMdx___fileAbsolutePath',
   childMdx___frontmatter___title = 'childMdx___frontmatter___title',
   childMdx___frontmatter___date = 'childMdx___frontmatter___date',
-  childMdx___frontmatter___tags = 'childMdx___frontmatter___tags',
-  childMdx___frontmatter___open = 'childMdx___frontmatter___open',
-  childMdx___frontmatter___name = 'childMdx___frontmatter___name',
   childMdx___frontmatter___featuredImage___birthtime = 'childMdx___frontmatter___featuredImage___birthtime',
   childMdx___frontmatter___featuredImage___birthtimeMs = 'childMdx___frontmatter___featuredImage___birthtimeMs',
   childMdx___frontmatter___featuredImage___sourceInstanceName = 'childMdx___frontmatter___featuredImage___sourceInstanceName',
@@ -1174,6 +1177,9 @@ export enum FileFieldsEnum {
   childMdx___frontmatter___featuredImage___publicURL = 'childMdx___frontmatter___featuredImage___publicURL',
   childMdx___frontmatter___featuredImage___id = 'childMdx___frontmatter___featuredImage___id',
   childMdx___frontmatter___featuredImage___children = 'childMdx___frontmatter___featuredImage___children',
+  childMdx___frontmatter___open = 'childMdx___frontmatter___open',
+  childMdx___frontmatter___tags = 'childMdx___frontmatter___tags',
+  childMdx___frontmatter___name = 'childMdx___frontmatter___name',
   childMdx___body = 'childMdx___body',
   childMdx___excerpt = 'childMdx___excerpt',
   childMdx___headings = 'childMdx___headings',
@@ -1268,6 +1274,8 @@ export enum FileFieldsEnum {
   childMdx___childMdxBlogPost___keywords = 'childMdx___childMdxBlogPost___keywords',
   childMdx___childMdxBlogPost___excerpt = 'childMdx___childMdxBlogPost___excerpt',
   childMdx___childMdxBlogPost___body = 'childMdx___childMdxBlogPost___body',
+  childMdx___childMdxBlogPost___timeToRead = 'childMdx___childMdxBlogPost___timeToRead',
+  childMdx___childMdxBlogPost___wordCount = 'childMdx___childMdxBlogPost___wordCount',
   childMdx___childMdxBlogPost___parent___id = 'childMdx___childMdxBlogPost___parent___id',
   childMdx___childMdxBlogPost___parent___children = 'childMdx___childMdxBlogPost___parent___children',
   childMdx___childMdxBlogPost___children = 'childMdx___childMdxBlogPost___children',
@@ -2458,6 +2466,7 @@ export type MaterialBlogThemeOptions = Node & {
   basePath: Scalars['String'],
   contentPath: Scalars['String'],
   assetPath: Scalars['String'],
+  postsPerPage: Scalars['Int'],
   id: Scalars['ID'],
   parent?: Maybe<Node>,
   children: Array<Node>,
@@ -2497,6 +2506,7 @@ export enum MaterialBlogThemeOptionsFieldsEnum {
   basePath = 'basePath',
   contentPath = 'contentPath',
   assetPath = 'assetPath',
+  postsPerPage = 'postsPerPage',
   id = 'id',
   parent___id = 'parent___id',
   parent___parent___id = 'parent___parent___id',
@@ -2589,6 +2599,7 @@ export type MaterialBlogThemeOptionsFilterInput = {
   basePath?: Maybe<StringQueryOperatorInput>,
   contentPath?: Maybe<StringQueryOperatorInput>,
   assetPath?: Maybe<StringQueryOperatorInput>,
+  postsPerPage?: Maybe<IntQueryOperatorInput>,
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
@@ -2656,6 +2667,8 @@ export type MdxBlogPost = Node & BlogPost & {
   keywords: Array<Maybe<Scalars['String']>>,
   excerpt: Scalars['String'],
   body: Scalars['String'],
+  timeToRead: Scalars['Int'],
+  wordCount: Scalars['Int'],
   parent?: Maybe<Node>,
   children: Array<Node>,
   internal: Internal,
@@ -2849,8 +2862,8 @@ export enum MdxBlogPostFieldsEnum {
   featuredImage___childMdx___fileAbsolutePath = 'featuredImage___childMdx___fileAbsolutePath',
   featuredImage___childMdx___frontmatter___title = 'featuredImage___childMdx___frontmatter___title',
   featuredImage___childMdx___frontmatter___date = 'featuredImage___childMdx___frontmatter___date',
-  featuredImage___childMdx___frontmatter___tags = 'featuredImage___childMdx___frontmatter___tags',
   featuredImage___childMdx___frontmatter___open = 'featuredImage___childMdx___frontmatter___open',
+  featuredImage___childMdx___frontmatter___tags = 'featuredImage___childMdx___frontmatter___tags',
   featuredImage___childMdx___frontmatter___name = 'featuredImage___childMdx___frontmatter___name',
   featuredImage___childMdx___body = 'featuredImage___childMdx___body',
   featuredImage___childMdx___excerpt = 'featuredImage___childMdx___excerpt',
@@ -2886,6 +2899,8 @@ export enum MdxBlogPostFieldsEnum {
   featuredImage___childMdx___childMdxBlogPost___keywords = 'featuredImage___childMdx___childMdxBlogPost___keywords',
   featuredImage___childMdx___childMdxBlogPost___excerpt = 'featuredImage___childMdx___childMdxBlogPost___excerpt',
   featuredImage___childMdx___childMdxBlogPost___body = 'featuredImage___childMdx___childMdxBlogPost___body',
+  featuredImage___childMdx___childMdxBlogPost___timeToRead = 'featuredImage___childMdx___childMdxBlogPost___timeToRead',
+  featuredImage___childMdx___childMdxBlogPost___wordCount = 'featuredImage___childMdx___childMdxBlogPost___wordCount',
   featuredImage___childMdx___childMdxBlogPost___children = 'featuredImage___childMdx___childMdxBlogPost___children',
   featuredImage___childJavascriptFrontmatter___id = 'featuredImage___childJavascriptFrontmatter___id',
   featuredImage___childJavascriptFrontmatter___parent___id = 'featuredImage___childJavascriptFrontmatter___parent___id',
@@ -2945,6 +2960,8 @@ export enum MdxBlogPostFieldsEnum {
   keywords = 'keywords',
   excerpt = 'excerpt',
   body = 'body',
+  timeToRead = 'timeToRead',
+  wordCount = 'wordCount',
   parent___id = 'parent___id',
   parent___parent___id = 'parent___parent___id',
   parent___parent___parent___id = 'parent___parent___parent___id',
@@ -3042,6 +3059,8 @@ export type MdxBlogPostFilterInput = {
   keywords?: Maybe<StringQueryOperatorInput>,
   excerpt?: Maybe<StringQueryOperatorInput>,
   body?: Maybe<StringQueryOperatorInput>,
+  timeToRead?: Maybe<IntQueryOperatorInput>,
+  wordCount?: Maybe<IntQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
@@ -3096,9 +3115,6 @@ export enum MdxFieldsEnum {
   fileAbsolutePath = 'fileAbsolutePath',
   frontmatter___title = 'frontmatter___title',
   frontmatter___date = 'frontmatter___date',
-  frontmatter___tags = 'frontmatter___tags',
-  frontmatter___open = 'frontmatter___open',
-  frontmatter___name = 'frontmatter___name',
   frontmatter___featuredImage___birthtime = 'frontmatter___featuredImage___birthtime',
   frontmatter___featuredImage___birthtimeMs = 'frontmatter___featuredImage___birthtimeMs',
   frontmatter___featuredImage___sourceInstanceName = 'frontmatter___featuredImage___sourceInstanceName',
@@ -3163,6 +3179,9 @@ export enum MdxFieldsEnum {
   frontmatter___featuredImage___childJavascriptFrontmatter___id = 'frontmatter___featuredImage___childJavascriptFrontmatter___id',
   frontmatter___featuredImage___childJavascriptFrontmatter___children = 'frontmatter___featuredImage___childJavascriptFrontmatter___children',
   frontmatter___featuredImage___childJavascriptFrontmatter___fileAbsolutePath = 'frontmatter___featuredImage___childJavascriptFrontmatter___fileAbsolutePath',
+  frontmatter___open = 'frontmatter___open',
+  frontmatter___tags = 'frontmatter___tags',
+  frontmatter___name = 'frontmatter___name',
   body = 'body',
   excerpt = 'excerpt',
   headings = 'headings',
@@ -3333,6 +3352,8 @@ export enum MdxFieldsEnum {
   childMdxBlogPost___keywords = 'childMdxBlogPost___keywords',
   childMdxBlogPost___excerpt = 'childMdxBlogPost___excerpt',
   childMdxBlogPost___body = 'childMdxBlogPost___body',
+  childMdxBlogPost___timeToRead = 'childMdxBlogPost___timeToRead',
+  childMdxBlogPost___wordCount = 'childMdxBlogPost___wordCount',
   childMdxBlogPost___parent___id = 'childMdxBlogPost___parent___id',
   childMdxBlogPost___parent___parent___id = 'childMdxBlogPost___parent___parent___id',
   childMdxBlogPost___parent___parent___children = 'childMdxBlogPost___parent___parent___children',
@@ -3395,10 +3416,10 @@ export type MdxFrontmatter = {
    __typename?: 'MdxFrontmatter',
   title: Scalars['String'],
   date?: Maybe<Scalars['Date']>,
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>,
-  open?: Maybe<Scalars['Boolean']>,
-  name?: Maybe<Scalars['String']>,
   featuredImage?: Maybe<File>,
+  open?: Maybe<Scalars['Boolean']>,
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>,
+  name?: Maybe<Scalars['String']>,
 };
 
 
@@ -3412,10 +3433,10 @@ export type MdxFrontmatterDateArgs = {
 export type MdxFrontmatterFilterInput = {
   title?: Maybe<StringQueryOperatorInput>,
   date?: Maybe<DateQueryOperatorInput>,
-  tags?: Maybe<StringQueryOperatorInput>,
-  open?: Maybe<BooleanQueryOperatorInput>,
-  name?: Maybe<StringQueryOperatorInput>,
   featuredImage?: Maybe<FileFilterInput>,
+  open?: Maybe<BooleanQueryOperatorInput>,
+  tags?: Maybe<StringQueryOperatorInput>,
+  name?: Maybe<StringQueryOperatorInput>,
 };
 
 export type MdxGroupConnection = {
@@ -3549,7 +3570,9 @@ export type QueryBlogPostArgs = {
   date?: Maybe<DateQueryOperatorInput>,
   tags?: Maybe<StringQueryOperatorInput>,
   keywords?: Maybe<StringQueryOperatorInput>,
-  excerpt?: Maybe<StringQueryOperatorInput>
+  excerpt?: Maybe<StringQueryOperatorInput>,
+  wordCount?: Maybe<IntQueryOperatorInput>,
+  timeToRead?: Maybe<IntQueryOperatorInput>
 };
 
 
@@ -3692,6 +3715,8 @@ export type QueryMdxBlogPostArgs = {
   keywords?: Maybe<StringQueryOperatorInput>,
   excerpt?: Maybe<StringQueryOperatorInput>,
   body?: Maybe<StringQueryOperatorInput>,
+  timeToRead?: Maybe<IntQueryOperatorInput>,
+  wordCount?: Maybe<IntQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>
@@ -3710,6 +3735,7 @@ export type QueryMaterialBlogThemeOptionsArgs = {
   basePath?: Maybe<StringQueryOperatorInput>,
   contentPath?: Maybe<StringQueryOperatorInput>,
   assetPath?: Maybe<StringQueryOperatorInput>,
+  postsPerPage?: Maybe<IntQueryOperatorInput>,
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
@@ -4083,12 +4109,16 @@ export type SitePageContext = {
   id?: Maybe<Scalars['String']>,
   previousId?: Maybe<Scalars['String']>,
   nextId?: Maybe<Scalars['String']>,
+  limit?: Maybe<Scalars['Int']>,
+  skip?: Maybe<Scalars['Int']>,
 };
 
 export type SitePageContextFilterInput = {
   id?: Maybe<StringQueryOperatorInput>,
   previousId?: Maybe<StringQueryOperatorInput>,
   nextId?: Maybe<StringQueryOperatorInput>,
+  limit?: Maybe<IntQueryOperatorInput>,
+  skip?: Maybe<IntQueryOperatorInput>,
 };
 
 export type SitePageEdge = {
@@ -4193,6 +4223,8 @@ export enum SitePageFieldsEnum {
   context___id = 'context___id',
   context___previousId = 'context___previousId',
   context___nextId = 'context___nextId',
+  context___limit = 'context___limit',
+  context___skip = 'context___skip',
   pluginCreator___id = 'pluginCreator___id',
   pluginCreator___parent___id = 'pluginCreator___parent___id',
   pluginCreator___parent___parent___id = 'pluginCreator___parent___parent___id',
@@ -4240,18 +4272,13 @@ export enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___gatsbyRemarkPlugins = 'pluginCreator___pluginOptions___gatsbyRemarkPlugins',
   pluginCreator___pluginOptions___gatsbyRemarkPlugins___resolve = 'pluginCreator___pluginOptions___gatsbyRemarkPlugins___resolve',
   pluginCreator___pluginOptions___component = 'pluginCreator___pluginOptions___component',
-  pluginCreator___pluginOptions___appId = 'pluginCreator___pluginOptions___appId',
-  pluginCreator___pluginOptions___apiKey = 'pluginCreator___pluginOptions___apiKey',
-  pluginCreator___pluginOptions___queries = 'pluginCreator___pluginOptions___queries',
-  pluginCreator___pluginOptions___queries___query = 'pluginCreator___pluginOptions___queries___query',
-  pluginCreator___pluginOptions___queries___indexName = 'pluginCreator___pluginOptions___queries___indexName',
-  pluginCreator___pluginOptions___chunkSize = 'pluginCreator___pluginOptions___chunkSize',
   pluginCreator___pluginOptions___short_name = 'pluginCreator___pluginOptions___short_name',
   pluginCreator___pluginOptions___start_url = 'pluginCreator___pluginOptions___start_url',
   pluginCreator___pluginOptions___background_color = 'pluginCreator___pluginOptions___background_color',
   pluginCreator___pluginOptions___theme_color = 'pluginCreator___pluginOptions___theme_color',
   pluginCreator___pluginOptions___display = 'pluginCreator___pluginOptions___display',
   pluginCreator___pluginOptions___icon = 'pluginCreator___pluginOptions___icon',
+  pluginCreator___pluginOptions___disable = 'pluginCreator___pluginOptions___disable',
   pluginCreator___pluginOptions___pathCheck = 'pluginCreator___pluginOptions___pathCheck',
   pluginCreator___nodeAPIs = 'pluginCreator___nodeAPIs',
   pluginCreator___browserAPIs = 'pluginCreator___browserAPIs',
@@ -4461,18 +4488,13 @@ export enum SitePluginFieldsEnum {
   pluginOptions___gatsbyRemarkPlugins___options___loading = 'pluginOptions___gatsbyRemarkPlugins___options___loading',
   pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha = 'pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha',
   pluginOptions___component = 'pluginOptions___component',
-  pluginOptions___appId = 'pluginOptions___appId',
-  pluginOptions___apiKey = 'pluginOptions___apiKey',
-  pluginOptions___queries = 'pluginOptions___queries',
-  pluginOptions___queries___query = 'pluginOptions___queries___query',
-  pluginOptions___queries___indexName = 'pluginOptions___queries___indexName',
-  pluginOptions___chunkSize = 'pluginOptions___chunkSize',
   pluginOptions___short_name = 'pluginOptions___short_name',
   pluginOptions___start_url = 'pluginOptions___start_url',
   pluginOptions___background_color = 'pluginOptions___background_color',
   pluginOptions___theme_color = 'pluginOptions___theme_color',
   pluginOptions___display = 'pluginOptions___display',
   pluginOptions___icon = 'pluginOptions___icon',
+  pluginOptions___disable = 'pluginOptions___disable',
   pluginOptions___pathCheck = 'pluginOptions___pathCheck',
   nodeAPIs = 'nodeAPIs',
   browserAPIs = 'browserAPIs',
@@ -4601,16 +4623,13 @@ export type SitePluginPluginOptions = {
   extensions?: Maybe<Array<Maybe<Scalars['String']>>>,
   gatsbyRemarkPlugins?: Maybe<Array<Maybe<SitePluginPluginOptionsGatsbyRemarkPlugins>>>,
   component?: Maybe<Scalars['String']>,
-  appId?: Maybe<Scalars['String']>,
-  apiKey?: Maybe<Scalars['String']>,
-  queries?: Maybe<Array<Maybe<SitePluginPluginOptionsQueries>>>,
-  chunkSize?: Maybe<Scalars['Int']>,
   short_name?: Maybe<Scalars['String']>,
   start_url?: Maybe<Scalars['String']>,
   background_color?: Maybe<Scalars['String']>,
   theme_color?: Maybe<Scalars['String']>,
   display?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
+  disable?: Maybe<Scalars['Boolean']>,
   pathCheck?: Maybe<Scalars['Boolean']>,
 };
 
@@ -4620,16 +4639,13 @@ export type SitePluginPluginOptionsFilterInput = {
   extensions?: Maybe<StringQueryOperatorInput>,
   gatsbyRemarkPlugins?: Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsFilterListInput>,
   component?: Maybe<StringQueryOperatorInput>,
-  appId?: Maybe<StringQueryOperatorInput>,
-  apiKey?: Maybe<StringQueryOperatorInput>,
-  queries?: Maybe<SitePluginPluginOptionsQueriesFilterListInput>,
-  chunkSize?: Maybe<IntQueryOperatorInput>,
   short_name?: Maybe<StringQueryOperatorInput>,
   start_url?: Maybe<StringQueryOperatorInput>,
   background_color?: Maybe<StringQueryOperatorInput>,
   theme_color?: Maybe<StringQueryOperatorInput>,
   display?: Maybe<StringQueryOperatorInput>,
   icon?: Maybe<StringQueryOperatorInput>,
+  disable?: Maybe<BooleanQueryOperatorInput>,
   pathCheck?: Maybe<BooleanQueryOperatorInput>,
 };
 
@@ -4675,21 +4691,6 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsFilterInput = {
   tracedSVG?: Maybe<BooleanQueryOperatorInput>,
   loading?: Maybe<StringQueryOperatorInput>,
   disableBgImageOnAlpha?: Maybe<BooleanQueryOperatorInput>,
-};
-
-export type SitePluginPluginOptionsQueries = {
-   __typename?: 'SitePluginPluginOptionsQueries',
-  query?: Maybe<Scalars['String']>,
-  indexName?: Maybe<Scalars['String']>,
-};
-
-export type SitePluginPluginOptionsQueriesFilterInput = {
-  query?: Maybe<StringQueryOperatorInput>,
-  indexName?: Maybe<StringQueryOperatorInput>,
-};
-
-export type SitePluginPluginOptionsQueriesFilterListInput = {
-  elemMatch?: Maybe<SitePluginPluginOptionsQueriesFilterInput>,
 };
 
 export type SitePluginSortInput = {
@@ -4850,7 +4851,7 @@ export type ThemeOptionsQuery = (
   { __typename?: 'Query' }
   & { materialBlogThemeOptions: Maybe<(
     { __typename?: 'MaterialBlogThemeOptions' }
-    & Pick<MaterialBlogThemeOptions, 'basePath' | 'contentPath' | 'assetPath'>
+    & Pick<MaterialBlogThemeOptions, 'basePath' | 'contentPath' | 'assetPath' | 'postsPerPage'>
   )> }
 );
 
@@ -4887,7 +4888,7 @@ export type PostPageQuery = (
   { __typename?: 'Query' }
   & { blogPost: Maybe<(
     { __typename?: 'MdxBlogPost' }
-    & Pick<MdxBlogPost, 'id' | 'excerpt' | 'body' | 'slug' | 'title' | 'tags' | 'keywords' | 'date'>
+    & Pick<MdxBlogPost, 'id' | 'excerpt' | 'body' | 'slug' | 'title' | 'tags' | 'keywords' | 'wordCount' | 'timeToRead' | 'date'>
     & { featuredImage: Maybe<(
       { __typename?: 'File' }
       & { childImageSharp: Maybe<(
@@ -4906,13 +4907,17 @@ export type PostPageQuery = (
   )> }
 );
 
-export type PostsQueryVariables = {};
+export type PostsQueryVariables = {
+  skip: Scalars['Int'],
+  limit: Scalars['Int']
+};
 
 
 export type PostsQuery = (
   { __typename?: 'Query' }
   & { allBlogPost: (
     { __typename?: 'BlogPostConnection' }
+    & Pick<BlogPostConnection, 'totalCount'>
     & { nodes: Array<(
       { __typename?: 'MdxBlogPost' }
       & Pick<MdxBlogPost, 'id' | 'excerpt' | 'slug' | 'title' | 'tags' | 'date'>
@@ -4920,7 +4925,10 @@ export type PostsQuery = (
         { __typename?: 'File' }
         & { childImageSharp: Maybe<(
           { __typename?: 'ImageSharp' }
-          & { fluid: Maybe<{ __typename?: 'ImageSharpFluid' }
+          & { fluid: Maybe<(
+            { __typename?: 'ImageSharpFluid' }
+            & Pick<ImageSharpFluid, 'presentationHeight'>
+          )
             & GatsbyImageSharpFluid_WithWebpFragment
           > }
         )> }

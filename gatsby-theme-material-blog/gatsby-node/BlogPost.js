@@ -2,6 +2,7 @@
 const withDefaultsOptions = require(`../src/utils/withDefaultOptions`);
 const PostTemplate = require.resolve(`../src/templates/Post.tsx`);
 const PostsTemplate = require.resolve(`../src/templates/Posts.tsx`);
+const path = require("path");
 
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
@@ -19,17 +20,19 @@ exports.createSchemaCustomization = ({ actions }) => {
       date: Date! @dateformat
       tags: [String]!
       keywords: [String]!
-      excerpt(pruneLength: Int = 100000): String!
+      excerpt(pruneLength: Int = 200): String!
+      wordCount: Int!
+      timeToRead: Int!
   }`);
 };
 
-exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
+exports.createPages = async ({ graphql, actions, reporter }, aThemeOptions) => {
   const { createPage } = actions;
-  const { basePath } = withDefaultsOptions(themeOptions);
+  const themeOptions = withDefaultsOptions(aThemeOptions);
 
   const result = await graphql(`
     {
-      allBlogPost(sort: { fields: [date, title], order: DESC }, limit: 1000) {
+      allBlogPost(sort: { fields: [slug, title, date], order: ASC }) {
         edges {
           node {
             id
@@ -50,8 +53,8 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
 
   // Create a page for each Post
   posts.forEach(({ node: post }, index) => {
-    const previous = index === posts.length - 1 ? null : posts[index + 1];
-    const next = index === 0 ? null : posts[index - 1];
+    const previous = index === 0 ? null : posts[index - 1];
+    const next = index === posts.length - 1 ? null : posts[index + 1];
     const { slug } = post;
     createPage({
       path: slug,
@@ -64,10 +67,18 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
     });
   });
 
-  // Create the Posts page
-  createPage({
-    path: basePath,
-    component: PostsTemplate,
-    context: {},
+  const numPages = Math.ceil(posts.length / themeOptions.postsPerPage);
+  Array.from({ length: numPages }).forEach((_, i) => {
+    createPage({
+      path:
+        i === 0
+          ? themeOptions.basePath
+          : path.posix.join(themeOptions.basePath, `page/${i + 1}`),
+      component: PostsTemplate,
+      context: {
+        limit: themeOptions.postsPerPage,
+        skip: i * themeOptions.postsPerPage,
+      },
+    });
   });
 };

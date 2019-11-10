@@ -89,6 +89,19 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
           type: `String!`,
           resolve: mdxResolverPassthrough(`body`),
         },
+        timeToRead: {
+          type: `Int!`,
+          resolve: mdxResolverPassthrough(`timeToRead`),
+        },
+        wordCount: {
+          type: `Int!`,
+          resolve: async (...args) => {
+            const mdxWordCount = await mdxResolverPassthrough(`wordCount`)(
+              ...args
+            );
+            return mdxWordCount.words;
+          },
+        },
       },
       interfaces: [`Node`, `BlogPost`],
     })

@@ -8,6 +8,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       basePath: String!
       contentPath: String!
       assetPath: String!
+      postsPerPage: Int!
     }
   `);
 };
