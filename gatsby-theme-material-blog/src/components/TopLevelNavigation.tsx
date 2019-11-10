@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useCallback,
-  RefObject,
-  useContext,
-} from "react";
+import React, { useState, useContext } from "react";
 import { Link, navigate } from "gatsby";
 
 import {
@@ -16,6 +10,7 @@ import {
   withStyles,
   useMediaQuery,
   useTheme,
+  Paper,
 } from "@material-ui/core";
 import {
   Home as HomeIcon,
@@ -34,8 +29,23 @@ const NavLinkButton = withStyles(theme => ({
   },
 }))(Button) as typeof Button;
 
+function getActiveLink(): string | undefined {
+  const slugs = ["/", "/archive", "/about"];
+  if (window) {
+    for (let i = 0, length = slugs.length; i < length; ++i) {
+      if (
+        new RegExp(`^${slugs[i]}/?$`).test(
+          decodeURI(window.location.pathname || "")
+        )
+      ) {
+        return slugs[i];
+      }
+    }
+  }
+}
+
 const TopLevelNavigation: React.FC = () => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(getActiveLink());
   const theme = useTheme();
   const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -48,34 +58,39 @@ const TopLevelNavigation: React.FC = () => {
           height: 56,
         }}
       >
-        <BottomNavigation
+        <Paper
+          elevation={24}
           style={{
             position: "fixed",
-            boxShadow: theme.shadows["1"],
             bottom: 0,
             width: "100%",
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
           }}
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue);
-            navigate(newValue);
-          }}
-          showLabels
         >
-          <BottomNavigationAction value="/" label="Home" icon={<HomeIcon />} />
-          <BottomNavigationAction
-            value="/archive"
-            label="Archive"
-            icon={<ArchiveIcon />}
-          />
-          <BottomNavigationAction
-            value="/about"
-            label="About"
-            icon={<AboutIcon />}
-          />
-        </BottomNavigation>
+          <BottomNavigation
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+              navigate(newValue);
+            }}
+            showLabels
+          >
+            <BottomNavigationAction
+              value="/"
+              label="Home"
+              icon={<HomeIcon />}
+            />
+            <BottomNavigationAction
+              value="/archive"
+              label="Archive"
+              icon={<ArchiveIcon />}
+            />
+            <BottomNavigationAction
+              value="/about"
+              label="About"
+              icon={<AboutIcon />}
+            />
+          </BottomNavigation>
+        </Paper>
       </nav>
     );
   }
