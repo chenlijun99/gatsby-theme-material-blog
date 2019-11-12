@@ -4,7 +4,7 @@ import darkTheme from "prism-react-renderer/themes/vsDark";
 import lightTheme from "prism-react-renderer/themes/github";
 
 import merge from "lodash/merge";
-import baseTheme from "gatsby-theme-material-blog/src/theme";
+import baseTheme from "gatsby-theme-material-blog/src/theme/index";
 
 const siteTheme = {
   light: {
@@ -27,4 +27,4 @@ const siteTheme = {
   },
 };
 
-export default merge(siteTheme, baseTheme);
+export default merge(baseTheme, siteTheme);
