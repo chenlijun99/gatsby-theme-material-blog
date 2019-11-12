@@ -6,17 +6,18 @@ import {
   responsiveFontSizes,
   Theme,
 } from "@material-ui/core";
-import muiTheme from "../theme";
+import siteTheme from "../theme";
 
 import { LayoutContext } from "./Layout";
 import { useLocalStorage } from "react-use";
 
 function getTheme(dark: boolean): Theme {
+  const lightDark = dark ? "dark" : "light";
   const theme = createMuiTheme({
-    ...muiTheme,
+    ...siteTheme[lightDark].muiTheme,
     palette: {
       type: dark ? "dark" : "light",
-      ...muiTheme.palette,
+      ...siteTheme[lightDark].muiTheme.palette,
     },
   });
   return responsiveFontSizes(theme);
