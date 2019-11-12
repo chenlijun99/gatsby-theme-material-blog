@@ -33,17 +33,13 @@ const Header: React.FC<HeaderProps> = props => {
   const theme = useTheme();
 
   const backgroundFluidImageStack = useThemedBackgroundImage([
-    `linear-gradient(to left,
-                     ${transparentize(0.5, theme.palette.primary.main)},
-                     ${transparentize(0.6, theme.palette.primary.main)}
-                    )`,
     data.file.childImageSharp.fluid as IFluidObject,
   ]);
 
   return (
     <BackgroundImage
       style={{
-        boxShadow: theme.shadows["2"],
+        boxShadow: theme.shadows["1"],
         height: "100%",
         display: "flex",
         alignItems: "center",

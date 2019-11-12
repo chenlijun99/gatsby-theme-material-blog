@@ -61,7 +61,15 @@ const ArchivePage: React.FC<{ data: ArchiveQuery }> = ({ data }) => {
       <SEO title="Archive" />
       <Box height={["50vh", "60vh"]}>
         <Header featuredImage={featuredImage as IFluidObject | undefined}>
-          <Typography variant="h1">Archive</Typography>
+          <Typography
+            variant="h1"
+            style={{
+              color: theme.palette.primary.contrastText,
+              textShadow: `1px 1px 1px ${theme.palette.grey["500"]}`,
+            }}
+          >
+            Archive
+          </Typography>
         </Header>
       </Box>
       <Box

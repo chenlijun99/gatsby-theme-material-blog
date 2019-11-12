@@ -32,7 +32,15 @@ const Posts: React.FC<PostsPageProps> = ({ data, pageContext }) => {
       <SEO title="Home" />
       <Box height={["50vh", "60vh"]}>
         <Header>
-          <Typography variant="h1">Home page</Typography>
+          <Typography
+            variant="h1"
+            style={{
+              color: theme.palette.primary.contrastText,
+              textShadow: `1px 1px 1px ${theme.palette.grey["500"]}`,
+            }}
+          >
+            Home page
+          </Typography>
         </Header>
       </Box>
       <Box display="flex" flexDirection="row">

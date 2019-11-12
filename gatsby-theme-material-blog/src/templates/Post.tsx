@@ -171,6 +171,8 @@ const PreviousNextPosts: React.FC<{
   return <></>;
 };
 
+const contentResponsiveSpacing = [1, 2, 4, 5];
+
 const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
   const post = data.blogPost!;
 
@@ -183,9 +185,19 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
   return (
     <>
       <SEO title={post!.title} description={post!.excerpt} />
-      <Box height={["30vh", "40vh"]}>
+      <Box height={["40vh", "50vh"]}>
         <Header featuredImage={img}>
-          <Typography variant="h2">{post!.title}</Typography>
+          <Box mx={contentResponsiveSpacing} textAlign="center">
+            <Typography
+              variant="h2"
+              style={{
+                color: theme.palette.primary.contrastText,
+                textShadow: `1px 1px 1px ${theme.palette.grey["500"]}`,
+              }}
+            >
+              {post!.title}
+            </Typography>
+          </Box>
         </Header>
       </Box>
       <Box display="flex" flexDirection="row">
@@ -207,7 +219,7 @@ const Post: React.FC<{ data: PostPageQuery }> = ({ data }) => {
           marginTop="-10vh"
           marginBottom="10vh"
           minHeight="50vh"
-          mx={[1, 2, 4, 5]}
+          mx={contentResponsiveSpacing}
         >
           <Box component="article" marginBottom={5}>
             <PostCard post={post} />
