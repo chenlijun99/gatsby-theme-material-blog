@@ -2,20 +2,15 @@ import React, { useContext } from "react";
 
 import {
   AppBar,
-  Button,
-  ButtonGroup,
   IconButton,
   Toolbar,
   Typography,
   useScrollTrigger,
-  withStyles,
   useTheme,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import DarkModeIcon from "@material-ui/icons/Brightness4";
 import LightModeIcon from "@material-ui/icons/Brightness7";
-
-import { Link } from "gatsby";
 
 import { LayoutContext } from "./Layout";
 
@@ -33,7 +28,6 @@ const TransformOnScroll: React.FC<{ children: React.ReactElement }> = props => {
       backgroundColor: trigger ? theme.palette.primary.main : "transparent",
     },
     elevation: trigger ? 4 : 0,
-    titleHidden: !trigger,
   });
 };
 
@@ -50,13 +44,11 @@ const DarkModeToogle: React.FC = () => {
 };
 
 interface CustomAppBarProps {
-  title?: string;
-  titleHidden?: boolean;
   addtionalItems?: (props: unknown) => React.ReactElement;
 }
 
 const SiteAppBar: React.FC<CustomAppBarProps> = props => {
-  const { title, titleHidden, ...fordwardProps } = props;
+  const { addtionalItems, ...fordwardProps } = props;
   const context = useContext(LayoutContext);
   return (
     <TransformOnScroll>
@@ -78,10 +70,8 @@ const SiteAppBar: React.FC<CustomAppBarProps> = props => {
             }}
             variant="h6"
             noWrap
-          >
-            {!titleHidden ? title : ""}
-          </Typography>
-          {props.addtionalItems && props.addtionalItems(props)}
+          ></Typography>
+          {addtionalItems && addtionalItems(props)}
           <DarkModeToogle />
         </Toolbar>
       </AppBar>
