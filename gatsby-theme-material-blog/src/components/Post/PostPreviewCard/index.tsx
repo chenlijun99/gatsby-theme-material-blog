@@ -56,7 +56,15 @@ const Header = (props: { post: BlogPost & unknown }) => {
   return (
     <Box {...otherProps}>
       <Box marginBottom={`${theme.spacing(1) / 2}px`}>
-        <Title>{post.title}</Title>
+        <Link
+          to={post.slug}
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+        >
+          <Title>{post.title}</Title>
+        </Link>
       </Box>
       <Box
         display="flex"
@@ -92,20 +100,12 @@ const PostPreviewCard: React.FC<PostCardProps> = ({ post }) => {
     undefined
   );
   if (featuredImage) {
-    featuredImage = useThemedBackgroundImage([
-      //`linear-gradient(to bottom,
-      //${transparentize(0.9, theme.palette.primary.main)},
-      //${transparentize(0.5, theme.palette.primary.main)} 50%,
-      //${transparentize(0.4, theme.palette.primary.main)} 70%,
-      //${transparentize(0.3, theme.palette.primary.main)}
-      //)`,
-      featuredImage,
-    ]);
+    featuredImage = useThemedBackgroundImage(featuredImage);
   }
   return (
     <Box my={2}>
       <Card>
-        <CardActionArea component={Link} to={post.slug}>
+        <CardActionArea>
           <Box>
             {featuredImage ? (
               <BackgroundImage
