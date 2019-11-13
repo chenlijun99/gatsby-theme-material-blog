@@ -23,7 +23,8 @@
     "lint": "eslint --ext .tsx gatsby-theme-material-blog/src/",
     "serve": "yarn workspace example serve",
     "start": "yarn run develop",
-    "type-check": "yarn workspace gatsby-theme-material-blog type-check"
+    "type-check": "yarn workspace gatsby-theme-material-blog type-check",
+    "semantic-release": "yarn workspace gatsby-theme-material-blog semantic-release"
   },
   "workspaces": [
     "gatsby-theme-material-blog",
@@ -33,5 +34,9 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/free-easy/gatsby-theme-material-blog.git"
   }
 }

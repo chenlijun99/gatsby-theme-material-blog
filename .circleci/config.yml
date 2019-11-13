@@ -26,13 +26,16 @@ jobs:
         root: ./
         paths:
           - node_modules
+
  type-check:
    executor: node-executor
    steps:
      - checkout
      - attach_workspace:
         at: ./
-     - run: yarn run type-check
+     - run:
+         name: Type check
+         command: yarn run type-check
 
  lint:
    executor: node-executor
@@ -40,7 +43,9 @@ jobs:
      - checkout
      - attach_workspace:
         at: ./
-     - run: yarn run lint
+     - run:
+         name: Lint
+         command: yarn run lint
 
  build:
    executor: node-executor
@@ -73,6 +78,13 @@ jobs:
      - run:
         name: Production deploy
         command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=example/public
+release:
+  executor: node-executor
+  steps:
+    - checkout
+    - run:
+        name: release
+        command: npm run semantic-release || true
 
 workflows:
   version: 2
@@ -116,6 +128,13 @@ workflows:
       - deploy-master:
           requires:
             - build
+          filters:
+            branches:
+             only:
+                - master
+      - release:
+          requires:
+            - deploy-master
           filters:
             branches:
              only:

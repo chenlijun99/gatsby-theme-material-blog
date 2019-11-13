@@ -69,7 +69,8 @@
     "@types/react-helmet": "^5.0.13",
     "@types/react-instantsearch-dom": "^5.2.6",
     "graphql": "^14.5.8",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "semantic-release": "^15.13.30"
   },
   "keywords": [
     "react",
@@ -84,11 +85,12 @@
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
     "type-check": "tsc --noEmit",
-    "generate-graphql-types": "graphql-codegen --config codegen.yml"
+    "generate-graphql-types": "graphql-codegen --config codegen.yml",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/free-easy/gatsby-theme-material-blog"
+    "url": "https://github.com/free-easy/gatsby-theme-material-blog.git"
   },
   "bugs": {
     "url": "https://github.com/free-easy/gatsby-theme-material-blog/issues"
