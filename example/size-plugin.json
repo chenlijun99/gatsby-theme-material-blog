@@ -1,5 +1,70 @@
 [
   {
+    "timestamp": 1573640656164,
+    "files": [
+      {
+        "filename": "commons-********************.js",
+        "previous": 60921,
+        "size": 60921,
+        "diff": 0
+      },
+      {
+        "filename": "app-********************.js",
+        "previous": 114004,
+        "size": 114005,
+        "diff": 1
+      },
+      {
+        "filename": "component---gatsby-theme-material-blog-src-pages-404-tsx-********************.js",
+        "previous": 349,
+        "size": 349,
+        "diff": 0
+      },
+      {
+        "filename": "component---gatsby-theme-material-blog-src-pages-archive-tsx-********************.js",
+        "previous": 204303,
+        "size": 204303,
+        "diff": 0
+      },
+      {
+        "filename": "component---gatsby-theme-material-blog-src-templates-post-tsx-********************.js",
+        "previous": 34512,
+        "size": 34512,
+        "diff": 0
+      },
+      {
+        "filename": "component---gatsby-theme-material-blog-src-templates-posts-tsx-********************.js",
+        "previous": 9117,
+        "size": 9117,
+        "diff": 0
+      },
+      {
+        "filename": "component---node-modules-gatsby-plugin-offline-app-shell-js-********************.js",
+        "previous": 352,
+        "size": 352,
+        "diff": 0
+      },
+      {
+        "filename": "styles-********************.js",
+        "previous": 151,
+        "size": 151,
+        "diff": 0
+      },
+      {
+        "filename": "webpack-runtime-********************.js",
+        "previous": 1386,
+        "size": 1384,
+        "diff": -2
+      },
+      {
+        "filename": "styles.b036f38fc36f8040ffac.css",
+        "previous": 51041,
+        "size": 51041,
+        "diff": 0
+      }
+    ]
+  },
+  {
     "timestamp": 1573566546006,
     "files": [
       {
