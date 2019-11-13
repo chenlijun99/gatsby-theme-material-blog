@@ -82,6 +82,8 @@ jobs:
     executor: node-executor
     steps:
       - checkout
+      - attach_workspace:
+          at: ./
       - run:
           name: release
           command: yarn run semantic-release
@@ -94,21 +96,21 @@ workflows:
           filters:
             branches:
               ignore:
-                - size-plugin-*
+                - /size-plugin-.*/
       - type-check:
           requires:
             - install
           filters:
             branches:
               ignore:
-                - size-plugin-*
+                - /size-plugin-.*/
       - lint:
           requires:
             - install
           filters:
             branches:
               ignore:
-                - size-plugin-*
+                - /size-plugin-.*/
       - build:
           requires:
             - lint
@@ -116,7 +118,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - size-plugin-*
+                - /size-plugin-.*/
       - deploy-pr-preview:
           requires:
             - build
@@ -124,7 +126,7 @@ workflows:
             branches:
               ignore:
                 - master
-                - size-plugin-*
+                - /size-plugin-.*/
       - deploy-master:
           requires:
             - build
