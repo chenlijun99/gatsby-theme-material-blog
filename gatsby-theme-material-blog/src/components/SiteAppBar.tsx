@@ -13,6 +13,7 @@ import DarkModeIcon from "@material-ui/icons/Brightness4";
 import LightModeIcon from "@material-ui/icons/Brightness7";
 
 import { LayoutContext } from "./Layout";
+import AlgoliaSearch from "./AlgoliaSearch";
 
 const TransformOnScroll: React.FC<{ children: React.ReactElement }> = props => {
   const { children } = props;
@@ -73,6 +74,7 @@ const SiteAppBar: React.FC<CustomAppBarProps> = props => {
           ></Typography>
           {addtionalItems && addtionalItems(props)}
           <DarkModeToogle />
+          <AlgoliaSearch />
         </Toolbar>
       </AppBar>
     </TransformOnScroll>
